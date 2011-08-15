@@ -23,7 +23,7 @@ function s3_video_plugin_menu()
 
 	// S3 sidebar child pages
 	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 'plugin-settings', 'plugin_settings');  
-		
+	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 'upload-video', 'upload_video');		
 }
 
 // Default page displaying existing media files
@@ -32,6 +32,15 @@ function s3_video()
 	check_user_access();
 	check_plugin_settings();
 	require_once('existing-videos.php');
+}
+
+// Upload videos to S3
+function upload_video()
+{
+	check_user_access();
+	check_plugin_settings();
+	$tmpDirectory = checkUploadDirectory();
+	require_once('upload-video.php');
 }
 
 // Page to configure plugin settings i.e Amazon access keys etc

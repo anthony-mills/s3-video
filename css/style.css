@@ -1,0 +1,18 @@
+.heading {
+	text-align: right;
+	font-weight: bold;
+}
+
+em {
+	color: red;
+}
+
+#validationError {
+	color: #D8000C;
+	width: 98%;
+	border: dashed 1px #D8000C;
+	background-color: #FFBABA;
+	padding-left: 5px;
+	line-height: 23px;
+	display: none;
+}
