@@ -19,19 +19,6 @@
 <div class="wrap">
 
 
-
-<?php   
-
-if($tokenRead == 'Token Read Goes Here' || $tokenWrite == 'Token Read Goes Here' ){
-		$numVideos = 0;
-		echo '<div id="warning"><span>You need to change your <a href="admin.php?page=bc-settings" ><strong>settings</strong></a>.</span></div>';
-	}else{
-		$showTable = true;
-	}
-
-
-?>
-
  <h2>S3 Videos</h2>
 
 

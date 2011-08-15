@@ -1,29 +1,45 @@
+
 <html>  
 <head>   
     <link rel="stylesheet" href="<?php echo get_option('siteurl').'/wp-content/plugins/s3-video/css/' ;?>style.css" type="text/css" /> 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>   
     <script type="text/javascript" src="<?php echo get_option('siteurl').'/wp-content/plugins/s3-video/js/' ;?>jquery.validate.js"></script>
-    <style>
-    	.heading {
-		text-align: right;
-		font-weight: bold;
-	}
+    <script type="text/javascript" src="<?php echo get_option('siteurl').'/wp-content/plugins/s3-video/js/' ;?>jquery.placeholders.js"></script>
 
-	em {
-		color: red;
-	}
-    </style>
+    <script type="text/javascript">
+	$(document).ready(function() {
+		$("#pluginSettings").validate({
+			errorLabelContainer: $("#validationError"),
+			messages: {
+				amazon_access_key: {
+				    required: 'Please enter an Amazon API access key<br>'
+				},			
+		
+				amazon_secret_access_key: {
+				    required: 'Please enter an Amazon API shared key<br>'
+				},      	        
+
+				amazon_video_bucket: {
+				    required: 'Please enter the bucket your videos are stored in<br>'
+				}, 	        	        
+		 	}
+		});
+
+		$(':input[placeholder]').placeholder();
+	
+	})
+    </script>
 
 </head> 
 
 <body> 
 
 <div class="wrap">
-
 	<h2>Plugin Settings</h2>
 
-	<form method="POST" id="pluginSettings">
-		
+	<div id="validationError"></div>
+
+	<form method="POST" id="pluginSettings">	
 		<table>
 			<tr>
 				<td class="heading">
@@ -32,7 +48,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="access_key" class="required">
+					<input type="text" name="amazon_access_key" class="required" maxlength="21" placeholder="Amazon Access Key" value="<?= $pluginSettings['amazon_access_key']; ?>">
 				</td>
 			</tr>
 
@@ -43,7 +59,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="secret_access_key" class="required">
+					<input type="text" name="amazon_secret_access_key" class="required" maxlength="21" placeholder="Secret Access Key" value="<?= $pluginSettings['amazon_secret_access_key']; ?>">
 				</td>
 			</tr>
 
@@ -54,17 +70,17 @@
 				</td>
 
 				<td>
-					<input type="text" name="amazon_url" class="required">
+					<input type="text" name="amazon_video_bucket" class="required" maxlength="50" placeholder="Amazon Video Bucket" value="<?= $pluginSettings['amazon_video_bucket']; ?>">
 				</td>
 			</tr>
 
 			<tr>
 				<td class="heading">
-					Amazon URL: 
+					S3 Host: 
 				</td>
 
 				<td>
-					<input type="text" name="amazon_url" class="required">
+					<input type="text" name="amazon_url" class="url" placeholder="s3.amazonaws.com"  value="<?= $pluginSettings['amazon_url']; ?>">
 				</td>
 			</tr>
 
