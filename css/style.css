@@ -16,3 +16,12 @@ em {
 	line-height: 23px;
 	display: none;
 }
+
+#successMsg {
+	color: #3207c2;
+	width: 98%;
+	border: dashed 1px #207c29;
+	background-color: #37c944;
+	padding-left: 5px;
+	line-height: 23px;
+}

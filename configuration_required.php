@@ -8,7 +8,7 @@
 
 	<div class="wrap">
 		<h2>Configuration Required</h2>
-		<p>This plugin requires configuration before use, please configure this plugin using the <a href="admin.php?page=plugin-settings">settings page</a>.</p>
+		<p>This plugin requires configuration before use, please configure this plugin using the <a href="admin.php?page=plugin_settings">settings page</a>.</p>
 	</div>
       
 </body>  

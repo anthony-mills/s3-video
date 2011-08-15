@@ -1,6 +1,6 @@
 <?php
 
-function checkPluginSettings()
+function s3_video_checkPluginSettings()
 {
 	$pluginSettings['amazon_access_key'] = get_option('amazon_access_key');
 	$pluginSettings['amazon_secret_access_key'] = get_option('amazon_secret_access_key');
@@ -14,7 +14,7 @@ function checkPluginSettings()
 *
 * Check a directory for the video uploads exists under wp-content/uploads and create 
 */
-function checkUploadDirectory()
+function s3_video_checkUploadDirectory()
 {
 	if ((is_dir(WP_CONTENT_DIR . '/uploads/s3_videos/')) && (is_writable(WP_CONTENT_DIR . '/uploads/s3_videos/'))) {
 		return TRUE;

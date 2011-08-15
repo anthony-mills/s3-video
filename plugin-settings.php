@@ -1,43 +1,37 @@
-
-<html>  
-<head>   
-    <link rel="stylesheet" href="<?php echo get_option('siteurl').'/wp-content/plugins/s3-video/css/' ;?>style.css" type="text/css" /> 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>   
-    <script type="text/javascript" src="<?php echo get_option('siteurl').'/wp-content/plugins/s3-video/js/' ;?>jquery.validate.js"></script>
-    <script type="text/javascript" src="<?php echo get_option('siteurl').'/wp-content/plugins/s3-video/js/' ;?>jquery.placeholders.js"></script>
-
-    <script type="text/javascript">
-	$(document).ready(function() {
-		$("#pluginSettings").validate({
-			errorLabelContainer: $("#validationError"),
-			messages: {
-				amazon_access_key: {
-				    required: 'Please enter an Amazon API access key<br>'
-				},			
-		
-				amazon_secret_access_key: {
-				    required: 'Please enter an Amazon API shared key<br>'
-				},      	        
-
-				amazon_video_bucket: {
-				    required: 'Please enter the bucket your videos are stored in<br>'
-				}, 	        	        
-		 	}
-		});
-
-		$(':input[placeholder]').placeholder();
+<script type="text/javascript">
+	jQuery(function() {
+			jQuery("#pluginSettings").validate({
+				errorLabelContainer: jQuery("#validationError"),
+				messages: {
+					amazon_access_key: {
+					    required: 'Please enter an Amazon API access key<br>'
+					},			
+			
+					amazon_secret_access_key: {
+					    required: 'Please enter an Amazon API shared key<br>'
+					},      	        
 	
-	})
-    </script>
-
-</head> 
-
-<body> 
+					amazon_video_bucket: {
+					    required: 'Please enter the bucket your videos are stored in<br>'
+					}, 	        	        
+			 	}
+			});
+	
+			jQuery(':input[placeholder]').placeholder();
+		
+	});	
+</script>
 
 <div class="wrap">
 	<h2>Plugin Settings</h2>
 
 	<div id="validationError"></div>
+	
+	<?php if (!empty($successMsg)) { ?>
+			<div id="successMsg">
+				<?= $successMsg; ?>
+			</div>
+	<?php } ?>
 
 	<form method="POST" id="pluginSettings">	
 		<table>
@@ -97,7 +91,3 @@
 		</table>
 	</form>
 </div>
-
-      
-</body>  
-</html>  

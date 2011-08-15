@@ -13,6 +13,11 @@ if ('wp-brightcove-video-plugin.php' == basename($_SERVER['SCRIPT_FILENAME'])){
 }
 
 add_action('admin_menu', 's3_video_plugin_menu');
+add_action('wp_head', 'loadStyleSheets');
+
+wp_enqueue_script('jquery');
+wp_enqueue_script('validateJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.validate.js', array('jquery'), '1.0');
+wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
 
 require_once('includes/shared.php');
 
@@ -22,32 +27,32 @@ function s3_video_plugin_menu()
 	add_menu_page('S3 Video', 'S3 Video', 'manage_options', 's3-video', 's3_video');
 
 	// S3 sidebar child pages
-	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 'plugin-settings', 'plugin_settings');  
-	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 'upload-video', 'upload_video');		
+	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  
+	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload-video');		
 }
 
 // Default page displaying existing media files
 function s3_video()
 {
-	check_user_access();
-	check_plugin_settings();
+	s3_video_check_user_access();
+	s3_video_check_plugin_settings();
 	require_once('existing-videos.php');
 }
 
 // Upload videos to S3
-function upload_video()
+function s3_video_upload_video()
 {
-	check_user_access();
-	check_plugin_settings();
+	s3_video_check_user_access();
+	s3_video_check_plugin_settings();
 	$tmpDirectory = checkUploadDirectory();
 	require_once('upload-video.php');
 }
 
 // Page to configure plugin settings i.e Amazon access keys etc
-function plugin_settings()
+function s3_video_plugin_settings()
 {
 	
-	check_user_access();
+	s3_video_check_user_access();
 
 	if (!empty($_POST)) {
 		if ((!empty($_POST['amazon_access_key'])) && (!empty($_POST['amazon_secret_access_key'])) && (!empty($_POST['amazon_video_bucket']))) {
@@ -64,17 +69,21 @@ function plugin_settings()
 			} else {
 				update_option( 'amazon_url', 's3.amazonaws.com');
 			}
+			
+			$successMsg = 'Details saved successfully.';
+			$pluginSettings = s3_video_checkPluginSettings();
 		}
 	} else {
-		$pluginSettings = checkPluginSettings();
+		$pluginSettings = s3_video_checkPluginSettings();
 	}
+
 	require_once('plugin-settings.php');
 }
 
 // Check if the user has configured the plugin
-function check_plugin_settings()
+function s3_video_check_plugin_settings()
 {
-	$pluginSettings = checkPluginSettings();
+	$pluginSettings = s3_video_checkPluginSettings();
 	if ((empty($pluginSettings['amazon_access_key'])) || (empty($pluginSettings['amazon_secret_access_key'])) || (empty($pluginSettings['amazon_secret_access_key']))) {
 		require_once('configuration_required.php');
 		exit;	
@@ -82,11 +91,16 @@ function check_plugin_settings()
 }
 
 // Check if the user can access the page
-function check_user_access()
+function s3_video_check_user_access()
 {
 	if( !current_user_can( 'manage_options' ) ) {
         	wp_die( 'You do not have sufficient permissions to access this page' );
    	}
 }
 
+function loadStyleSheets()
+{
+	echo '<link type="text/css" rel="stylesheet" href="' . WP_PLUGIN_URL . '/S3-Video/css/style.css" />' . "\n";	
+	echo '<link type="text/css" rel="stylesheet" href="' . WP_PLUGIN_URL . '/S3-Video/css/uploadify.css" />' . "\n";		
+}
 
