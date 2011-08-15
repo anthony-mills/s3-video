@@ -12,7 +12,7 @@
 					},      	        
 	
 					amazon_video_bucket: {
-					    required: 'Please enter the bucket your videos are stored in<br>'
+					    required: 'Please enter the name of the bucket your videos are stored in<br>'
 					}, 	        	        
 			 	}
 			});
