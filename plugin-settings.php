@@ -74,7 +74,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="amazon_url" class="url" placeholder="s3.amazonaws.com"  value="<?= $pluginSettings['amazon_url']; ?>">
+					<input type="text" name="amazon_url" placeholder="s3.amazonaws.com"  value="<?= $pluginSettings['amazon_url']; ?>">
 				</td>
 			</tr>
 

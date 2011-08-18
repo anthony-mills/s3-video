@@ -22,7 +22,8 @@ wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeho
 wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
 
 require_once('includes/shared.php');
-
+require_once('includes/s3.php');
+		
 function s3_video_plugin_menu() 
 {
 	// Main side bar entry
@@ -37,7 +38,8 @@ function s3_video_plugin_menu()
 function s3_video()
 {
 	s3_video_check_user_access();
-	s3_video_check_plugin_settings();
+	$pluginSettings = s3_video_check_plugin_settings();
+	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
 	require_once('existing-videos.php');
 }
 
@@ -48,13 +50,11 @@ function s3_video_upload_video()
 	$pluginSettings = s3_video_check_plugin_settings();
 	$tmpDirectory = s3_video_check_upload_directory();
 
-	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {
-		require_once('includes/s3.php');		
+	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {		
 		$videoLocation = $tmpDirectory . basename( $_FILES['upload_video']['name']);
 		if(move_uploaded_file($_FILES['upload_video']['tmp_name'], $videoLocation)) {
-			$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key']);
+			$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
 			$s3Result = $s3Access->putObjectFile($videoLocation, $pluginSettings['amazon_video_bucket'], baseName($_FILES['upload_video']['name']), S3::ACL_PUBLIC_READ);
-			print_r($s3Result);
 			switch ($s3Result) {
 
 				case 0:
