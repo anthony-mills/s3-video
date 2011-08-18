@@ -53,7 +53,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="amazon_secret_access_key" class="required" maxlength="21" placeholder="Secret Access Key" value="<?= $pluginSettings['amazon_secret_access_key']; ?>">
+					<input type="text" name="amazon_secret_access_key" class="required" maxlength="50" placeholder="Secret Access Key" value="<?= $pluginSettings['amazon_secret_access_key']; ?>">
 				</td>
 			</tr>
 

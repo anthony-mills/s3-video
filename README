@@ -1,0 +1,14 @@
+Plugin Name: S3 Video Plugin
+Plugin URI: http://www.development-cycle.com
+Description: Upload and embed videos using your Amazon S3 account
+Version: 0.1 
+Author: Anthony Mills
+Author URI: http://www.development-cycle.com
+
+Installation
+
+To increase the file upload limit with Apache create a .htaccess file in the root of your Wordpress install containing the lines:
+
+php_value upload_max_filesize 200M
+php_value post_max_size 200M
+

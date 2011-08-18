@@ -19,7 +19,7 @@ wp_enqueue_script('jquery');
 wp_enqueue_script('swfobject');
 wp_enqueue_script('validateJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.validate.js', array('jquery'), '1.0');
 wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
-wp_enqueue_script('uploadifyJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.uploadify.js', array('jquery'), '1.0');
+wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
 
 require_once('includes/shared.php');
 
@@ -45,8 +45,31 @@ function s3_video()
 function s3_video_upload_video()
 {
 	s3_video_check_user_access();
-	s3_video_check_plugin_settings();
+	$pluginSettings = s3_video_check_plugin_settings();
 	$tmpDirectory = s3_video_check_upload_directory();
+
+	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {
+		require_once('includes/s3.php');		
+		$videoLocation = $tmpDirectory . basename( $_FILES['upload_video']['name']);
+		if(move_uploaded_file($_FILES['upload_video']['tmp_name'], $videoLocation)) {
+			$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key']);
+			$s3Result = $s3Access->putObjectFile($videoLocation, $pluginSettings['amazon_video_bucket'], baseName($_FILES['upload_video']['name']), S3::ACL_PUBLIC_READ);
+			print_r($s3Result);
+			switch ($s3Result) {
+
+				case 0:
+					$errorMsg = 'Request unsucessful check your S3 access credentials';
+				break;	
+								
+				case 1:
+					$successMsg = 'The video has successfully been uploaded to your S3 account';					
+				break;
+				
+			}
+		} else{
+    		$errorMsg = 'There was an error uploading the video';
+		}
+	}	
 	require_once('upload-video.php');
 }
 
@@ -82,6 +105,15 @@ function s3_video_plugin_settings()
 	require_once('plugin-settings.php');
 }
 
+// Embed video player into page
+function embed_video($embedDetails) {
+	$pluginSettings = s3_video_check_plugin_settings();
+	if ($embedDetails['video']) {
+		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . $embedDetails['video'];	
+	}	
+	require_once('plugin-settings.php');	
+} 
+
 // Check if the user has configured the plugin
 function s3_video_check_plugin_settings()
 {
@@ -112,9 +144,9 @@ function s3_video_check_user_access()
 function s3_video_load_css()
 {
 	wp_register_style('s3_video_default', WP_PLUGIN_URL . '/S3-Video/css/style.css');
-	wp_register_style('s3_video_uploadify', WP_PLUGIN_URL . '/S3-Video/css/uploadify.css');	
 
 	wp_enqueue_style('s3_video_default');
-	wp_enqueue_style('s3_video_uploadify');
 }
 
+// Add shortcodes
+add_shortcode( 'embed-video', 'bartag_func' );
