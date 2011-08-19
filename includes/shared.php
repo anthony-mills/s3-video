@@ -38,7 +38,7 @@ function s3_video_get_all_existing_video($pluginSettings = NULL)
  */
 function humanReadableBytes($bytes)
 {
-   $units = array('B', 'kB', 'MB', 'GB', 'TB'); // ...etc
+   $units = array('B', 'K', 'MB', 'GB', 'TB');
 
     for ($i = 0, $size =$bytes; $size>1024; $size=$size/1024)
     $i++;

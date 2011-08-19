@@ -25,3 +25,13 @@ em {
 	padding-left: 5px;
 	line-height: 23px;
 }
+
+thead th{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+tbody td{
+	padding-left: 15px;
+	padding-right: 15px;
+}

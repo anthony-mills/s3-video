@@ -1857,7 +1857,6 @@ final class S3Request
 
 		// Clean up file resources
 		if ($this->fp !== false && is_resource($this->fp)) fclose($this->fp);
-
 		return $this->response;
 	}
 

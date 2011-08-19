@@ -4,5 +4,7 @@
 	<script>
 		flowplayer("player", "misc/flowplayer-3.2.7.swf");
 	</script>
+<?php } else { ?>
+		<p>Media not found</p>
 <?php } ?>	
 

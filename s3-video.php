@@ -19,7 +19,8 @@ wp_enqueue_script('jquery');
 wp_enqueue_script('swfobject');
 wp_enqueue_script('validateJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.validate.js', array('jquery'), '1.0');
 wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
-wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
+wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
+wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/S3-Video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
 
 require_once('includes/shared.php');
 require_once('includes/s3.php');
@@ -39,6 +40,14 @@ function s3_video()
 {
 	s3_video_check_user_access();
 	$pluginSettings = s3_video_check_plugin_settings();
+	
+	if (!empty($_GET['delete'])) {
+		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
+		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_GET['delete']);
+		if ($result) {
+			$successMsg = $_GET['delete'] . ' was successfully deleted.';
+		}
+	}
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
 	require_once('existing-videos.php');
 }
@@ -106,12 +115,23 @@ function s3_video_plugin_settings()
 }
 
 // Embed video player into page
-function embed_video($embedDetails) {
+function s3_video_embed_video($embedDetails) 
+{
 	$pluginSettings = s3_video_check_plugin_settings();
 	if ($embedDetails['video']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . $embedDetails['video'];	
 	}	
 	require_once('plugin-settings.php');	
+} 
+
+// Preview file in colourBox
+function s3_video_preview_media() 
+{
+	$pluginSettings = s3_video_check_plugin_settings();
+	if ($_GET['media']) {
+		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . $_GET['media'];	
+	}	
+	require_once('preview-media.php');	
 } 
 
 // Check if the user has configured the plugin
@@ -144,8 +164,10 @@ function s3_video_check_user_access()
 function s3_video_load_css()
 {
 	wp_register_style('s3_video_default', WP_PLUGIN_URL . '/S3-Video/css/style.css');
-
 	wp_enqueue_style('s3_video_default');
+	
+	wp_register_style('s3_video_colorbox', WP_PLUGIN_URL . '/S3-Video/css/colorbox.css');
+	wp_enqueue_style('s3_video_colorbox');		
 }
 
 // Add shortcodes
