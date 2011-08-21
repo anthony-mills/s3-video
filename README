@@ -1,10 +1,8 @@
-Plugin Name: S3 Video Plugin
+=== S3 Video Plugin ===
+Contributors: Anthony.Mills
 Plugin URI: https://github.com/anthony-mills/S3-Video
-Description: Upload and embed videos using your Amazon S3 account
-Version: 0.1 
-Author: Anthony Mills
-Author URI: http://www.development-cycle.com
-Tags: 
+Tested up to: 3.2.1
+Tags: S3, Video, Embed
 
 The S3 Video Plugin video allows the ability to store and embed video media using Amazons's S3 storage service.
 
