@@ -182,7 +182,6 @@ function s3_video_load_js()
 	wp_enqueue_script('validateJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.validate.js', array('jquery'), '1.0');
 	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
 	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
-	wp_enqueue_script('zCLip', WP_PLUGIN_URL . '/S3-Video/js/jquery.zclip.js', array('jquery'), '1.0');
 }
 
 // Add shortcodes

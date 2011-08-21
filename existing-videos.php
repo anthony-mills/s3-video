@@ -2,6 +2,14 @@
 	jQuery(function() {
 	  //jQuery('#myTable').paginateTable({ rowsPerPage: 10 });
 	  jQuery(".colorBox").colorbox();
+	  	  
+	  jQuery("a#getShortLink").click(function() {
+		var videoFile = jQuery(this).attr("title"); 
+		var linkText = '<h2>Embed Shotcode</h2><p>Copy and paste the following shortcode into the page or post you would like to embed the file: </p><br>';
+		var shortLink = '<p>[embed-video file=\"' + videoFile + '\"]</p>';
+		jQuery("#videoShortcode").html(linkText + shortLink + '<br>');
+		jQuery().colorbox({width:"50%", inline:true, href:"#videoShortcode"});
+	  });
 	});
 </script>
 
@@ -52,7 +60,11 @@
 							 - 
 							<a href="admin.php?page=s3-video&delete=<?= $existingVideo['name']; ?>">
 								Delete
-							</a>							
+							</a>	
+							 -
+							<a href="#" title="<?= $existingVideo['name']; ?>" id="getShortLink">
+								Get Shortlink
+							</a>
 						</td>
 					</tr>
 				<?php	
@@ -60,6 +72,10 @@
 				?>
 			</tbody>
 		</table>
+		
+		<div style='display:none'>
+			<div id='videoShortcode' style='padding:10px;'></div>
+		</div>
 <?php 	
 	} else {
 ?>
@@ -67,4 +83,5 @@
 <?php		
 	}
 ?>
+
 </div>
