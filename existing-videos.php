@@ -6,7 +6,7 @@
 	  jQuery("a#getShortLink").click(function() {
 		var videoFile = jQuery(this).attr("title"); 
 		var linkText = '<h2>Embed Shotcode</h2><p>Copy and paste the following shortcode into the page or post you would like to embed the file: </p><br>';
-		var shortLink = '<p>[embed-video file=\"' + videoFile + '\"]</p>';
+		var shortLink = '<p>[S3_embed_video file=\"' + videoFile + '\"]</p>';
 		jQuery("#videoShortcode").html(linkText + shortLink + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoShortcode"});
 	  });

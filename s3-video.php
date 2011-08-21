@@ -22,6 +22,9 @@ wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/S3-Video/js/flowplayer-3.2.6.j
 
 require_once('includes/shared.php');
 require_once('includes/s3.php');
+
+// Add shortcodes
+add_shortcode( 'S3_embed_video', 's3_video_embed_video' );
 		
 function s3_video_plugin_menu() 
 {
@@ -122,10 +125,10 @@ function s3_video_plugin_settings()
 function s3_video_embed_video($embedDetails) 
 {
 	$pluginSettings = s3_video_check_plugin_settings();
-	if ($embedDetails['video']) {
-		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . $embedDetails['video'];	
+	if ($embedDetails['file']) {
+		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
 	}	
-	require_once('plugin-settings.php');	
+	require_once('play-video.php');	
 } 
 
 // Preview file in colourBox
@@ -183,6 +186,3 @@ function s3_video_load_js()
 	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
 	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
 }
-
-// Add shortcodes
-add_shortcode( 'embed-video', 'bartag_func' );
