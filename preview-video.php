@@ -5,10 +5,16 @@
 
 <body>
 <?php if (!empty($_GET['media'])) { ?>
-	<a href="<?= $_GET['media']; ?>" style="display:block;width:520px;height:330px"  id="player"></a> 
+	<a href="<?= $_GET['media']; ?>" style="display:block;width:640px;height:380px"  id="player"></a> 
 	
 	<script>
-		flowplayer("player", "<?= $_GET['base']; ?>misc/flowplayer-3.2.7.swf");
+		flowplayer("player", "<?= $_GET['base']; ?>misc/flowplayer-3.2.7.swf", {
+		    clip:  {
+		        autoPlay: false,
+		        autoBuffering: true,
+		        bufferLength: 5
+		    }			
+		});
 	</script>
 <?php } else { ?>
 		<p>Media not found</p>

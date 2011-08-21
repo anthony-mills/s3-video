@@ -59,26 +59,32 @@ function s3_video_upload_video()
 	$pluginSettings = s3_video_check_plugin_settings();
 	$tmpDirectory = s3_video_check_upload_directory();
 
-	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {		
-		$videoLocation = $tmpDirectory . basename( $_FILES['upload_video']['name']);
-		if(move_uploaded_file($_FILES['upload_video']['tmp_name'], $videoLocation)) {
-			$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
-			$s3Result = $s3Access->putObjectFile($videoLocation, $pluginSettings['amazon_video_bucket'], baseName($_FILES['upload_video']['name']), S3::ACL_PUBLIC_READ);
-			switch ($s3Result) {
-
-				case 0:
-					$errorMsg = 'Request unsucessful check your S3 access credentials';
-				break;	
-								
-				case 1:
-					$successMsg = 'The video has successfully been uploaded to your S3 account';					
-				break;
-				
+	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {
+			if (($_FILES['upload_video']['type'] !='video/x-flv') && ($_FILES['upload_video']['type'] !='video/mp4')) {
+				$errorMsg = 'You need to provide an .flv or .mp4 file';
+			} else {
+				$fileName = basename($_FILES['upload_video']['name']);
+				$fileName = preg_replace('/[^A-Za-z0-9_.]+/', '', $fileName);
+				$videoLocation = $tmpDirectory . $fileName;
+				if(move_uploaded_file($_FILES['upload_video']['tmp_name'], $videoLocation)) {
+					$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
+					$s3Result = $s3Access->putObjectFile($videoLocation, $pluginSettings['amazon_video_bucket'], $fileName, S3::ACL_PUBLIC_READ);
+					switch ($s3Result) {
+		
+						case 0:
+							$errorMsg = 'Request unsucessful check your S3 access credentials';
+						break;	
+										
+						case 1:
+							$successMsg = 'The video has successfully been uploaded to your S3 account';					
+						break;
+						
+					}
+				}
 			}
-		} else{
-    		$errorMsg = 'There was an error uploading the video';
-		}
-	}	
+	} else {
+    	$errorMsg = 'There was an error uploading the video';
+	}
 	require_once('upload-video.php');
 }
 
