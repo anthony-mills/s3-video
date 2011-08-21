@@ -1,7 +1,7 @@
 <?php
 /* 
 Plugin Name: S3 Video Plugin
-Plugin URI: http://www.development-cycle.com
+Plugin URI: https://github.com/anthony-mills/S3-Video
 Description: Upload and embed videos using your Amazon S3 account
 Version: 0.1 
 Author: Anthony Mills
