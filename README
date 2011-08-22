@@ -35,5 +35,8 @@ To define the player as 640 pixels wide by 380 pixels high
 
 == Changelog ==
 
+= 0.2 =
+Ability to get standard embed code for a video allowing S3 videos to be embedded in pages outside of wordpress
+
 = 0.1 =
 The initial release, alot of polishing still needs to take place but it works.
