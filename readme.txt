@@ -43,6 +43,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.3 =
+Table displaying existing S3 media is now sortable
+
 = 0.2 =
 Ability to get standard embed code for a video allowing S3 videos to be embedded in pages outside of wordpress
 

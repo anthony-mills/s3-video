@@ -1,6 +1,7 @@
 <script type="text/javascript">
 	jQuery(function() {
 	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
+	  jQuery("#videoListTable").tablesorter();
 	  jQuery(".colorBox").colorbox();
 	  	  
 	  jQuery("a#getShortLink").click(function() {
