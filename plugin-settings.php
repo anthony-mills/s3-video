@@ -32,10 +32,19 @@
 				<?= $successMsg; ?>
 			</div>
 	<?php } ?>
-	<br>
 	<form method="POST" id="pluginSettings">	
-		<p><strong>AWS Details</strong></p>
 		<table>
+			<tr>
+				<td>
+					<p>
+						<strong>AWS Details:</strong>
+					</p>
+				</td>
+
+				<td>
+				</td>
+			</tr>
+						
 			<tr>
 				<td class="heading">
 					<em>*</em>
@@ -79,6 +88,28 @@
 				</td>
 			</tr>
 
+			<tr>
+				<td>
+					<br>
+					<p>
+						<strong>General Settings:</strong>
+					</p>
+				</td>
+
+				<td>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="heading">
+					# Of Video Results Per Page: 
+				</td>
+
+				<td>
+					<input type="text" name="page_result_limit" placeholder="15"  value="<?= $pluginSettings['s3_video_page_result_limit']; ?>">					
+				</td>
+			</tr>
+			
 			<tr>
 				<td> 
 				</td>

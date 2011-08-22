@@ -2,11 +2,12 @@
 	jQuery(function() {
 	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#videoListTable").tablesorter();
+	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?= $pluginSettings['s3_video_page_result_limit']; ?>});	  
 	  jQuery(".colorBox").colorbox();
 	  	  
 	  jQuery("a#getShortLink").click(function() {
 		var videoFile = jQuery(this).attr("title"); 
-		var linkText = '<h2>Embed Shotcode</h2><p>Copy and paste the following shortcode into the page or post you would like to embed the file: </p><br>';
+		var linkText = '<h2>Wordpress Shortcode</h2><p>Copy and paste the following shortcode into the page or post where you would like to embed your video: </p><br>';
 		var shortLink = '<p>[S3_embed_video file=\"' + videoFile + '\"]</p>';
 		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
@@ -90,6 +91,16 @@
 				?>
 			</tbody>
 		</table>
+		
+		<div align="center">
+			<div class='pager'>
+		        <a href='#' alt='Previous' class='prevPage'>Prev</a> - 
+		         Page <span class='currentPage'></span> of <span class='totalPages'></span>
+		         - <a href='#' alt='Next' class='nextPage'>Next</a>
+		        <br>
+		       	<span class='pageNumbers'></span>
+	   		</div>
+		</div>
 		
 		<div style='display:none'>
 			<div id='videoInfo' style='padding:10px;'></div>

@@ -101,17 +101,25 @@ function s3_video_plugin_settings()
 			register_setting( 'amazon-s3-video', 'amazon_secret_access_key' );
 			register_setting( 'amazon-s3-video', 'amazon_video_bucket' );
 			register_setting( 'amazon-s3-video', 'amazon_url' );
+			register_setting( 's3-video-results-limit', 's3_video_page_result_limit' );
 
 			update_option( 'amazon_access_key', $_POST['amazon_access_key']);
 			update_option( 'amazon_secret_access_key', $_POST['amazon_secret_access_key'] );
 			update_option( 'amazon_video_bucket', $_POST['amazon_video_bucket'] );
+			
 			if (!empty($_POST['amazon_url'])) {
 				update_option( 'amazon_url', $_POST['amazon_url']);
 			} else {
 				update_option( 'amazon_url', 's3.amazonaws.com');
 			}
 			
-			$successMsg = 'Details saved successfully.';
+			if (!empty($_POST['page_result_limit'])) {
+				update_option( 's3_video_page_result_limit', $_POST['page_result_limit']);
+			} else {
+				update_option( 's3_video_page_result_limit', 15);
+			}
+			
+			$successMsg = 'Plugin settings saved successfully.';
 			$pluginSettings = s3_video_check_plugin_settings();
 		}
 	} else {
@@ -148,6 +156,9 @@ function s3_video_check_plugin_settings()
 	$pluginSettings['amazon_secret_access_key'] = get_option('amazon_secret_access_key');
 	$pluginSettings['amazon_url'] = get_option('amazon_url');
 	$pluginSettings['amazon_video_bucket'] = get_option('amazon_video_bucket');
+	$pluginSettings['amazon_video_bucket'] = get_option('amazon_video_bucket');
+	$pluginSettings['s3_video_page_result_limit'] = get_option('s3_video_page_result_limit');
+		
 	if ((empty($pluginSettings['amazon_access_key'])) || (empty($pluginSettings['amazon_secret_access_key'])) || (empty($pluginSettings['amazon_secret_access_key']))) {
 		require_once('configuration_required.php');
 		exit;	
@@ -186,4 +197,5 @@ function s3_video_load_js()
 	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
 	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
 	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
+	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/S3-Video/js/jquery.paginator.js', array('jquery'), '1.0');		
 }
