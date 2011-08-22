@@ -1,15 +1,28 @@
 <script type="text/javascript">
 	jQuery(function() {
-	  //jQuery('#myTable').paginateTable({ rowsPerPage: 10 });
+	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery(".colorBox").colorbox();
 	  	  
 	  jQuery("a#getShortLink").click(function() {
 		var videoFile = jQuery(this).attr("title"); 
 		var linkText = '<h2>Embed Shotcode</h2><p>Copy and paste the following shortcode into the page or post you would like to embed the file: </p><br>';
 		var shortLink = '<p>[S3_embed_video file=\"' + videoFile + '\"]</p>';
-		jQuery("#videoShortcode").html(linkText + shortLink + '<br>');
-		jQuery().colorbox({width:"50%", inline:true, href:"#videoShortcode"});
+		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
+		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
 	  });
+	  
+	  jQuery("a#getEmbedCode").click(function() {
+		var videoFile = jQuery(this).attr("title"); 
+		var linkText = '<h2>Video Embed Code</h2><p>Copy and paste the following code to embed the video in pages outside of wordpress: </p><br>';
+		var embedCode = '<object width="640" height="380" id="s3EmbedVideo" name="s3EmbedVideo" data="http://releases.flowplayer.org/swf/flowplayer-3.2.7.swf" type="application/x-shockwave-flash">' +
+						'<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.7.swf" />' +
+						'<param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" />' +
+						'<param name="flashvars" value=\'config={"clip":{"url":"http://' + awsBucket + '.s3.amazonaws.com/' + videoFile + '"},"canvas":{"backgroundColor":"#112233"}}}\' />' +
+						'</object>';
+		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode">' + embedCode + '</textarea></p>';
+		jQuery("#videoInfo").html(linkText + copyEmbedCode + '<br>');
+		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
+	  });	  
 	});
 </script>
 
@@ -65,6 +78,10 @@
 							<a href="#" title="<?= $existingVideo['name']; ?>" id="getShortLink">
 								Get Shortlink
 							</a>
+							 -
+							<a href="#" title="<?= $existingVideo['name']; ?>" id="getEmbedCode">
+								Get Embed Code
+							</a>							
 						</td>
 					</tr>
 				<?php	
@@ -74,7 +91,7 @@
 		</table>
 		
 		<div style='display:none'>
-			<div id='videoShortcode' style='padding:10px;'></div>
+			<div id='videoInfo' style='padding:10px;'></div>
 		</div>
 <?php 	
 	} else {
