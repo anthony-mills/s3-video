@@ -31,6 +31,13 @@ Yes, just add height and width tags to your embed shortcode with the dimensions 
 To define the player as 640 pixels wide by 380 pixels high
 [S3_embed_video file="myVideo.flv" width="640" height="380"]
 
+= Why Amazon S3, Why not just use Youtube? =
+Sure Amazon S3 costs money but the ads and youtube branding is often unacceptable and looks unprofessional when using video for commercial purposes. Amazon S3 offers a medium to deliver 
+unbranded video content with a low entry cost for projects that may not be able to afford a dedicated solution like Brightcove.
+
+= Why Flowplayer? Why Not JwPlayer, [Insert other player name here]? =
+The decision to use Flowplayer basically boiled down to its feature list and its licence. With the GPL 3.0 licence allowing its commercial use. 
+
 == Screenshots == 
 1. A video playing from S3 embedded into a test page
 
