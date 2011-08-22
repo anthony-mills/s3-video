@@ -23,7 +23,7 @@
 			<p>The wp-content/uploads directory does not appear to be writable, please change the permissions and try again.</p>
 	<?php
 		} else {
-	?>		<p>Upload an .flv or mp4 file using the form below to your S3 bucket.</p>
+	?>		<p>Upload an .flv or mp4 file with the form below to your S3 bucket.</p>
 	
 			<form method="POST" id="videoUpload" enctype="multipart/form-data">
 				<?php if (!empty($errorMsg)) { ?>

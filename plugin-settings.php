@@ -32,8 +32,9 @@
 				<?= $successMsg; ?>
 			</div>
 	<?php } ?>
-
+	<br>
 	<form method="POST" id="pluginSettings">	
+		<p><strong>AWS Details</strong></p>
 		<table>
 			<tr>
 				<td class="heading">
