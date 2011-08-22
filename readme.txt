@@ -1,6 +1,7 @@
 === S3 Video Plugin ===
 Contributors: Anthony.Mills
 Plugin URI: https://github.com/anthony-mills/S3-Video
+Author URI: http://www.development-cycle.com
 Tested up to: 3.2.1
 Tags: S3, Video, Embed
 
