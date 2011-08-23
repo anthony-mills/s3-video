@@ -3,7 +3,7 @@
 Plugin Name: S3 Video Plugin
 Plugin URI: https://github.com/anthony-mills/S3-Video
 Description: Upload and embed videos using your Amazon S3 account
-Version: 0.3 
+Version: 0.4
 Author: Anthony Mills
 Author URI: http://www.development-cycle.com
 */
@@ -101,9 +101,6 @@ function s3_video_upload_video()
  */
 function s3_video_plugin_settings()
 {
-	
-	s3_video_check_user_access();
-
 	if (!empty($_POST)) {
 		if ((!empty($_POST['amazon_access_key'])) && (!empty($_POST['amazon_secret_access_key'])) && (!empty($_POST['amazon_video_bucket']))) {
 			register_setting( 'amazon-s3-video', 'amazon_access_key' );
@@ -132,7 +129,7 @@ function s3_video_plugin_settings()
 			$pluginSettings = s3_video_check_plugin_settings();
 		}
 	} else {
-		$pluginSettings = s3_video_check_plugin_settings();
+		$pluginSettings = s3_video_check_plugin_settings(FALSE);
 	}
 
 	require_once('plugin-settings.php');
@@ -146,7 +143,7 @@ function s3_video_embed_video($embedDetails)
 	$pluginSettings = s3_video_check_plugin_settings();
 	if ($embedDetails['file']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
-	}	
+	}
 	require_once('play-video.php');	
 } 
 
@@ -165,7 +162,7 @@ function s3_video_preview_media()
 /*
  * Check if the user has configured the plugin
  */
-function s3_video_check_plugin_settings()
+function s3_video_check_plugin_settings($redirect = TRUE)
 {
 	$pluginSettings['amazon_access_key'] = get_option('amazon_access_key');
 	$pluginSettings['amazon_secret_access_key'] = get_option('amazon_secret_access_key');
@@ -175,8 +172,12 @@ function s3_video_check_plugin_settings()
 	$pluginSettings['s3_video_page_result_limit'] = get_option('s3_video_page_result_limit');
 		
 	if ((empty($pluginSettings['amazon_access_key'])) || (empty($pluginSettings['amazon_secret_access_key'])) || (empty($pluginSettings['amazon_secret_access_key']))) {
-		require_once('configuration_required.php');
-		exit;	
+		if ($redirect) { 
+			require_once('configuration_required.php');
+			exit;
+		} else {
+			return FALSE;	
+		}	
 	} else {
 		return $pluginSettings;
 	}

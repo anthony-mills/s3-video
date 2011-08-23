@@ -45,7 +45,7 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 == Changelog ==
 
 = 0.4 =
-Added hook to delete AWS settings on plugin deactivation.
+Added hook to delete AWS settings on plugin deactivation. Fixed logic bug stopping configuration of plugin.
 
 = 0.3 =
 Table displaying existing S3 media is now sortable.
