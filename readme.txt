@@ -36,18 +36,19 @@ Sure Amazon S3 costs money but the ads and youtube branding is often unacceptabl
 unbranded video content with a low entry cost for projects that may not be able to afford a dedicated solution like Brightcove.
 
 = Why Flowplayer? Why Not JwPlayer, [Insert other player name here]? =
-The decision to use Flowplayer basically boiled down to its feature list and its licence. With the GPL 3.0 licence allowing its commercial use. 
+The decision to use Flowplayer basically boiled down to its feature list and its licence. With the GPL 3.0 licence allowing commercial use. 
 
 == Screenshots == 
 1. A video playing from S3 embedded into a test page
+2. Listing of S3 bucket media
 
 == Changelog ==
 
 = 0.3 =
-Table displaying existing S3 media is now sortable
-Fixed some spelling mistakes
-Added pagination for larger media listings
-Ability to define the amount of videos to display per page on the settings page
+Table displaying existing S3 media is now sortable.
+Fixed some spelling mistakes.
+Added pagination for larger media listings.
+Ability to define the amount of videos to display per page on the settings page.
 
 = 0.2 =
 Ability to get standard embed code for a video allowing S3 videos to be embedded in pages outside of wordpress
