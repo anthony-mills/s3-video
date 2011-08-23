@@ -25,6 +25,9 @@ require_once('includes/s3.php');
 
 // Add shortcodes
 add_shortcode( 'S3_embed_video', 's3_video_embed_video' );
+
+// Add deactivation hook
+register_deactivation_hook( __FILE__, 's3_video_deactivate');
 		
 function s3_video_plugin_menu() 
 {
@@ -36,7 +39,9 @@ function s3_video_plugin_menu()
 	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload_video');		
 }
 
-// Default page displaying existing media files
+/*
+ *  Default plugin page displaying existing media files
+ */
 function s3_video()
 {
 	s3_video_check_user_access();
@@ -53,7 +58,9 @@ function s3_video()
 	require_once('existing-videos.php');
 }
 
-// Upload videos to S3
+/*
+ * Upload videos to S3 bucket
+ */
 function s3_video_upload_video()
 {
 	s3_video_check_user_access();
@@ -89,7 +96,9 @@ function s3_video_upload_video()
 	require_once('upload-video.php');
 }
 
-// Page to configure plugin settings i.e Amazon access keys etc
+/*
+ * Page to configure plugin settings i.e Amazon access keys etc
+ */
 function s3_video_plugin_settings()
 {
 	
@@ -129,7 +138,9 @@ function s3_video_plugin_settings()
 	require_once('plugin-settings.php');
 }
 
-// Embed video player into page
+/*
+ *  Embed video player into page
+ */
 function s3_video_embed_video($embedDetails) 
 {
 	$pluginSettings = s3_video_check_plugin_settings();
@@ -139,7 +150,9 @@ function s3_video_embed_video($embedDetails)
 	require_once('play-video.php');	
 } 
 
-// Preview file in colourBox
+/*
+ *  Preview file in colourBox
+ */
 function s3_video_preview_media() 
 {
 	$pluginSettings = s3_video_check_plugin_settings();
@@ -149,7 +162,9 @@ function s3_video_preview_media()
 	require_once('preview-media.php');	
 } 
 
-// Check if the user has configured the plugin
+/*
+ * Check if the user has configured the plugin
+ */
 function s3_video_check_plugin_settings()
 {
 	$pluginSettings['amazon_access_key'] = get_option('amazon_access_key');
@@ -168,7 +183,9 @@ function s3_video_check_plugin_settings()
 
 }
 
-// Check if the user can access the page
+/*
+* Check if the user can access the page
+*/
 function s3_video_check_user_access()
 {
 	if( !current_user_can( 'manage_options' ) ) {
@@ -198,4 +215,16 @@ function s3_video_load_js()
 	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
 	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
 	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/S3-Video/js/jquery.paginator.js', array('jquery'), '1.0');		
+}
+
+/*
+ * Clear the saved plugin settings on deactivation
+ */
+function s3_video_deactivate()
+{
+	delete_option('amazon_access_key');
+	delete_option('amazon_secret_access_key');	
+	delete_option('amazon_video_bucket');	
+	delete_option('amazon_url');
+	delete_option('s3_video_page_result_limit');			
 }
