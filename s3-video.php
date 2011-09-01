@@ -8,7 +8,7 @@ Author: Anthony Mills
 Author URI: http://www.development-cycle.com
 */
 
-if ('wp-brightcove-video-plugin.php' == basename($_SERVER['SCRIPT_FILENAME'])){
+if ('s3-video.php' == basename($_SERVER['SCRIPT_FILENAME'])){
 	die ('Access denied');
 }
 
