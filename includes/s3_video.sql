@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS `s3_video_playlists` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+{table}
+
 CREATE TABLE IF NOT EXISTS `s3_video_playlist_videos` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `video_file` varchar(200) NOT NULL,

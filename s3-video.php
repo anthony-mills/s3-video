@@ -12,6 +12,9 @@ if ('s3-video.php' == basename($_SERVER['SCRIPT_FILENAME'])){
 	die ('Access denied');
 }
 
+register_activation_hook(__FILE__, 'S3_plugin_activate');
+register_deactivation_hook(__FILE__, 'S3_plugin_deactivate');
+
 add_action('admin_menu', 's3_video_plugin_menu');
 add_action('admin_print_styles', 's3_video_load_css');
 add_action('admin_print_scripts', 's3_video_load_js');
@@ -82,7 +85,7 @@ function s3_video_upload_video()
 						case 0:
 							$errorMsg = 'Request unsucessful check your S3 access credentials';
 						break;	
-										
+		
 						case 1:
 							$successMsg = 'The video has successfully been uploaded to your S3 account';					
 						break;
@@ -211,7 +214,7 @@ function s3_video_load_css()
  */
 function s3_video_load_js()
 {	
-	wp_enqueue_script('validateJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.validate.js', array('jquery'), '1.0');
+	wp_enqueue_script('validateJSs', WP_PLUGIN_URL . '/S3-Video/js/jquery.validate.js', array('jquery'), '1.0');
 	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
 	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
 	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
@@ -229,3 +232,27 @@ function s3_video_deactivate()
 	delete_option('amazon_url');
 	delete_option('s3_video_page_result_limit');			
 }
+
+/*
+ * Install the required database tables for the plugin on activation 
+ */
+function s3_plugin_activate()
+{
+	require_once('includes/plugin_setup.php');
+	$pluginSetup = new s3_video_plugin_setup();
+	$dbVersion = $pluginSetup->activate_plugin();
+	
+	if (!empty($dbVersion))  {
+		add_option("s3_plugin_db_version", $dbVersion);
+	}			
+}
+
+/*
+ * Deactivate the plugin and remove all associate database tables
+ */
+function s3_plugin_deactivate()
+{
+	require_once('includes/plugin_setup.php');	
+	$pluginSetup = new s3_video_plugin_setup();
+	$pluginSetup->deactivate_plugin();
+}	
