@@ -24,7 +24,7 @@ function s3_video_check_upload_directory()
 function s3_video_get_all_existing_video($pluginSettings = NULL) 
 {
 	if (!$pluginSettings) {
-		return FALSE;;
+		return FALSE;
 	}
 	$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
 	$bucketContents = $s3Access->getBucket($pluginSettings['amazon_video_bucket']);

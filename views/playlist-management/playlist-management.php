@@ -1,8 +1,8 @@
 <script type="text/javascript">
 	jQuery(function() {
 	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
-	  jQuery("#videoListTable").tablesorter();
-	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?= $pluginSettings['s3_video_page_result_limit']; ?>});	  
+	  jQuery("#playListTable").tablesorter();
+	  jQuery("#playlistListTable").paginateTable({ rowsPerPage: <?= $pluginSettings['s3_video_page_result_limit']; ?>});	  
 	  jQuery(".colorBox").colorbox();
 	  	  
 	  jQuery("a#getShortLink").click(function() {
@@ -12,25 +12,13 @@
 		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
 	  });
-	  
-	  jQuery("a#getEmbedCode").click(function() {
-		var videoFile = jQuery(this).attr("title"); 
-		var linkText = '<h2>Video Embed Code</h2><p>Copy and paste the following code to embed the video in pages outside of wordpress: </p><br>';
-		var embedCode = '<object width="640" height="380" id="s3EmbedVideo" name="s3EmbedVideo" data="http://releases.flowplayer.org/swf/flowplayer-3.2.7.swf" type="application/x-shockwave-flash">' +
-						'<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.7.swf" />' +
-						'<param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" />' +
-						'<param name="flashvars" value=\'config={"clip":{"url":"http://' + awsBucket + '.s3.amazonaws.com/' + videoFile + '"},"canvas":{"backgroundColor":"#112233"}}}\' />' +
-						'</object>';
-		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode">' + embedCode + '</textarea></p>';
-		jQuery("#videoInfo").html(linkText + copyEmbedCode + '<br>');
-		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
-	  });	  
+	    
 	});
 </script>
 
 <div class="wrap">
 
-<h2>S3 Videos</h2>
+<h2>Playlist Management</h2>
 
 <?php if (!empty($successMsg)) { ?>
 	<div id="successMsg">

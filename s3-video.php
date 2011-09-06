@@ -40,6 +40,7 @@ function s3_video_plugin_menu()
 	// S3 sidebar child pages
 	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  
 	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload_video');		
+	add_submenu_page('s3-video', __('Playlist Management','manage-playlists'), __('Playlist Management','manage_playlists'), 'manage_options', 's3_video_manage_playlist', 's3_video_manage_playlists');		
 }
 
 /*
@@ -58,7 +59,7 @@ function s3_video()
 		}
 	}
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
-	require_once('existing-videos.php');
+	require_once('views/video-management/existing-videos.php');
 }
 
 /*
@@ -96,7 +97,7 @@ function s3_video_upload_video()
 	} else {
     	$errorMsg = 'There was an error uploading the video';
 	}
-	require_once('upload-video.php');
+	require_once('views/video-management/upload-video.php');
 }
 
 /*
@@ -135,9 +136,18 @@ function s3_video_plugin_settings()
 		$pluginSettings = s3_video_check_plugin_settings(FALSE);
 	}
 
-	require_once('plugin-settings.php');
+	require_once('views/settings/plugin-settings.php');
 }
 
+/*
+ *	Create and manage playlists of S3 based media 
+ */
+function s3_video_manage_playlists()
+{
+	$pluginSettings = s3_video_check_plugin_settings();		
+	require_once('views/playlist-management/playlist-management.php');
+}
+ 
 /*
  *  Embed video player into page
  */
@@ -147,7 +157,7 @@ function s3_video_embed_video($embedDetails)
 	if ($embedDetails['file']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
 	}
-	require_once('play-video.php');	
+	require_once('views/video-management/play-video.php');	
 } 
 
 /*
@@ -159,7 +169,7 @@ function s3_video_preview_media()
 	if ($_GET['media']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . $_GET['media'];	
 	}	
-	require_once('preview-media.php');	
+	require_once('views/video-management/preview-video.php');	
 } 
 
 /*
@@ -176,7 +186,7 @@ function s3_video_check_plugin_settings($redirect = TRUE)
 		
 	if ((empty($pluginSettings['amazon_access_key'])) || (empty($pluginSettings['amazon_secret_access_key'])) || (empty($pluginSettings['amazon_secret_access_key']))) {
 		if ($redirect) { 
-			require_once('configuration_required.php');
+			require_once('views/settings/configuration_required.php');
 			exit;
 		} else {
 			return FALSE;	
