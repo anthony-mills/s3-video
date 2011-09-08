@@ -1,10 +1,10 @@
 <script type="text/javascript">
 	jQuery(function() {
-		jQuery("#pluginSettings").validate({
+		jQuery("#createPlaylist").validate({
 			errorLabelContainer: jQuery("#validationError"),
 			messages: {
 				playlist_name: {
-					required: 'Please enter an Amazon API access key<br>'
+					required: 'Please enter a name for the playlist<br>'
 				}
 			}
 		});	
@@ -16,6 +16,8 @@
 <div class="wrap">
 
 <h2>Create New Playlist</h2>
+
+<div id="#validationError"></div>
 
 <?php if (!empty($successMsg)) { ?>
 	<div id="successMsg">
@@ -33,10 +35,8 @@ if (!$existingVideos) {
 <?php 
 	return;
 } 
-
-print_r($existingVideos);
 ?>	 
-	<form method="POST">
+	<form method="POST" id="createPlaylist">
 		<table>
 			<tr>
 				<td>
@@ -44,7 +44,7 @@ print_r($existingVideos);
 				</td>
 				
 				<td>
-					<input type="text" name="playlist_name" placeholder="My playlist name">					
+					<input type="text" name="playlist_name" placeholder="My playlist name" class="required" maxlength="100">					
 				</td>
 			<tr>
 				
@@ -54,10 +54,10 @@ print_r($existingVideos);
 				</td>
 				
 				<td>
-				        <select data-placeholder="videos in playlist" style="width:350px;" multiple class="chzn-select" name="playlist_contents" tabindex="8">
+				        <select data-placeholder="Videos in playlist" style="width:350px;" multiple class="chzn-select" name="playlist_contents[]" tabindex="8">
 				          <option value=""></option>
-				          <?php foreach ($existingVideo as $video) { ?>
-				          			<option value="<?= $video['filename']; ?>">
+				          <?php foreach ($existingVideos as $video) { ?>
+				          			<option value="<?= $video['name']; ?>">
 				          				<?= $video['name']; ?>
 				          			</option>
 				          <?php } ?>
@@ -68,9 +68,7 @@ print_r($existingVideos);
       		
 		<div class="clear"></div>
     		
-		<div align="center">
-			<input type="submit" value="Save">
-		</div>	
+		<input type="submit" value="Save Playlist">
 	
 	</form>
 </div>

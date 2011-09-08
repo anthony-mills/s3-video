@@ -34,9 +34,9 @@ function s3_video_get_all_existing_video($pluginSettings = NULL)
 }
 
 /*
- * Return a dile size in a human readable format 
+ * Return a file size in a human readable format 
  */
-function humanReadableBytes($bytes)
+function s3_humanReadableBytes($bytes)
 {
    $units = array('B', 'K', 'MB', 'GB', 'TB');
 

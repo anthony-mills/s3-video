@@ -145,9 +145,27 @@ function s3_video_plugin_settings()
  */
 function s3_video_create_playlist()
 {
-	$pluginSettings = s3_video_check_plugin_settings();		
+	$pluginSettings = s3_video_check_plugin_settings();	
+		
+	if ((!empty($_POST['playlist_contents'])) && (!empty($_POST['playlist_name']))) {
+		require_once('includes/playlist_management.php');
+		$playlistManagment = new s3_playlist_management();
+		
+		$playlistName = sanitize_title($_POST['playlist_name']);
+		$playlistExists = $playlist->createPlaylist($playlistName);
+		
+		if (!$playlistExists) {
+			$playlistResult = $playlistManagment->createPlaylist($playListName, $_POST['playlist_contents']);
+			if (!$playlistResult) {
+	    		$errorMsg = 'An error occurred whilst creating the play list.';			
+			} else {
+				$successMsg = 'New playlist saved successfully.';			
+			} 
+		} else {
+	    	$errorMsg = 'A playlist with this name already exists.';					
+		}  
+	}
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
-	
 	require_once('views/playlist-management/create-playlist.php');	
 }
  

@@ -61,7 +61,7 @@
 						</td>
 						
 						<td>
-							<?= humanReadableBytes($existingVideo['size']); ?>
+							<?= s3_humanReadableBytes($existingVideo['size']); ?>
 						</td>
 						
 						<td>
