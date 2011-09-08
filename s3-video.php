@@ -40,7 +40,8 @@ function s3_video_plugin_menu()
 	// S3 sidebar child pages
 	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  
 	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload_video');		
-	add_submenu_page('s3-video', __('Playlist Management','manage-playlists'), __('Playlist Management','manage_playlists'), 'manage_options', 's3_video_manage_playlist', 's3_video_manage_playlists');		
+	add_submenu_page('s3-video', __('Playlist Management','manage-playlists'), __('Playlist Management','manage_playlists'), 'manage_options', 's3_video_manage_playlist', 's3_video_manage_playlists');
+	add_submenu_page('s3-video', __('Create Playlist','create-playlist'), __('Create Playlist','create_playlist'), 'manage_options', 's3_video_create_playlist', 's3_video_create_playlist');			
 }
 
 /*
@@ -67,7 +68,7 @@ function s3_video()
  */
 function s3_video_upload_video()
 {
-	s3_video_check_user_access();
+	s3_video_check_user_access(); 
 	$pluginSettings = s3_video_check_plugin_settings();
 	$tmpDirectory = s3_video_check_upload_directory();
 
@@ -140,7 +141,18 @@ function s3_video_plugin_settings()
 }
 
 /*
- *	Create and manage playlists of S3 based media 
+ * Create a new playlist and add videos
+ */
+function s3_video_create_playlist()
+{
+	$pluginSettings = s3_video_check_plugin_settings();		
+	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
+	
+	require_once('views/playlist-management/create-playlist.php');	
+}
+ 
+/*
+ *	Manage existing playlists of S3 based media 
  */
 function s3_video_manage_playlists()
 {
@@ -216,7 +228,10 @@ function s3_video_load_css()
 	wp_enqueue_style('s3_video_default');
 	
 	wp_register_style('s3_video_colorbox', WP_PLUGIN_URL . '/S3-Video/css/colorbox.css');
-	wp_enqueue_style('s3_video_colorbox');		
+	wp_enqueue_style('s3_video_colorbox');	
+	
+	wp_register_style('multiselect_css', WP_PLUGIN_URL . '/S3-Video/css/chosen.css');
+	wp_enqueue_style('multiselect_css');			
 }
 
 /*
@@ -228,7 +243,8 @@ function s3_video_load_js()
 	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
 	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
 	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
-	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/S3-Video/js/jquery.paginator.js', array('jquery'), '1.0');		
+	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/S3-Video/js/jquery.paginator.js', array('jquery'), '1.0');	
+	wp_enqueue_script('multiSelect', WP_PLUGIN_URL . '/S3-Video/js/jquery.multiselect.js', array('jquery'), '1.0');		
 }
 
 /*

@@ -26,6 +26,8 @@
 	</div>
 <?php } ?>
 
+<p><a href="admin.php?page=s3_video_create_playlist">Create new playlist</a></p>
+
 <?php
 	if ((!empty($existingVideos)) && (count($existingVideos) > 0)) {
 ?>
@@ -96,7 +98,7 @@
 <?php 	
 	} else {
 ?>
-		<p>No media found in this bucket.</p>
+		<p>No playlists currently exist.</p>
 <?php		
 	}
 ?>

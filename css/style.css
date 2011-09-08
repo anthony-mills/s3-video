@@ -2,6 +2,12 @@
 	text-align: right;
 }
 
+.clear {
+	clear: both;
+	width: 100%;
+	height: 1px;	
+}
+
 em {
 	color: red;
 }
@@ -66,3 +72,21 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 	background-color: #8dbdd8;
 }
 /* End Table Sorted Styles */
+
+/* Two colum playlists style */
+#S3PlaylistContainer {
+	width: 100%;	
+}
+
+#S3PlaylistTitle {
+	width: 100%;	
+}
+
+#S3PlaylistColumn {
+	padding-top: 5px;
+	padding-left: 10px;
+	width: 49%;
+	float: left;	
+	margin-bottom: 20px;
+}
+
