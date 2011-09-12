@@ -3,16 +3,6 @@
 	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#playListTable").tablesorter();
 	  jQuery("#playlistListTable").paginateTable({ rowsPerPage: <?= $pluginSettings['s3_video_page_result_limit']; ?>});	  
-	  jQuery(".colorBox").colorbox();
-	  	  
-	  jQuery("a#getShortLink").click(function() {
-		var videoFile = jQuery(this).attr("title"); 
-		var linkText = '<h2>Wordpress Shortcode</h2><p>Copy and paste the following shortcode into the page or post where you would like to embed your video: </p><br>';
-		var shortLink = '<p>[S3_embed_video file=\"' + videoFile + '\"]</p>';
-		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
-		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
-	  });
-	    
 	});
 </script>
 
@@ -29,13 +19,12 @@
 <p><a href="admin.php?page=s3_video_create_playlist">Create new playlist</a></p>
 
 <?php
-	if ((!empty($existingVideos)) && (count($existingVideos) > 0)) {
+	if ((!empty($existingPlaylists)) && (count($existingPlaylists) > 0)) {
 ?>
-		<table id="videoListTable" class="tablesorter" cellspacing="0" >
+		<table id="playListTable" class="tablesorter" cellspacing="0" >
 			<thead>
 				<tr>
-					<th>File Name</th>
-					<th>File Size</th>
+					<th>Playlist</th>
 					<th>Created</th>				
 					<th>Actions</th>								
 				</tr>
@@ -43,37 +32,29 @@
 			
 			<tbody>	
 				<?php
-					foreach($existingVideos as $existingVideo) {
+					foreach($existingPlaylists as $existingPlaylist) {
 				?>
 					<tr>
 						<td>
-							<?= $existingVideo['name']; ?>
+							<?= $existingPlaylist['playlist_name']; ?>
 						</td>
 						
 						<td>
-							<?= humanReadableBytes($existingVideo['size']); ?>
-						</td>
-						
-						<td>
-							<?= date('j/n/Y', $existingVideo['time']); ?>
+							<?= date('j/n/Y', $existingPlaylist['created']); ?>
 						</td>
 											
 						<td>
-							<a title="<?= $existingVideo['name']; ?>" href="<?= WP_PLUGIN_URL ?>/S3-Video/preview-video.php?base=<?= WP_PLUGIN_URL ?>/S3-Video/&media=<?= 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
-								Preview
+							<a href="admin.php?page=s3_video_show_playlist&delete=<?= $existingPlaylist['id']; ?>">
+								Delete
 							</a>
 							 - 
-							<a href="admin.php?page=s3-video&delete=<?= $existingVideo['name']; ?>">
-								Delete
+							<a href="admin.php?page=s3_video_show_playlist&edit=<?= $existingPlaylist['id']; ?>">
+								Add / Remove Videos
 							</a>	
-							 -
-							<a href="#" title="<?= $existingVideo['name']; ?>" id="getShortLink">
-								Get Shortlink
-							</a>
-							 -
-							<a href="#" title="<?= $existingVideo['name']; ?>" id="getEmbedCode">
-								Get Embed Code
-							</a>							
+							 - 
+							<a href="admin.php?page=s3_video_show_playlist&reorder=<?= $existingPlaylist['id']; ?>">
+								Reorder Playlist Videos
+							</a>													
 						</td>
 					</tr>
 				<?php	
@@ -81,17 +62,17 @@
 				?>
 			</tbody>
 		</table>
-		
-		<div align="center">
-			<div class='pager'>
-		        <a href='#' alt='Previous' class='prevPage'>Prev</a> - 
-		         Page <span class='currentPage'></span> of <span class='totalPages'></span>
-		         - <a href='#' alt='Next' class='nextPage'>Next</a>
-		        <br>
-		       	<span class='pageNumbers'></span>
-	   		</div>
-		</div>
-		
+		<?php if (count($existingPlaylists) > $pluginSettings['s3_video_page_result_limit']) { ?>
+					<div align="center">
+						<div class='pager'>
+					        <a href='#' alt='Previous' class='prevPage'>Prev</a> - 
+					         Page <span class='currentPage'></span> of <span class='totalPages'></span>
+					         - <a href='#' alt='Next' class='nextPage'>Next</a>
+					        <br>
+					       	<span class='pageNumbers'></span>
+				   		</div>
+					</div>
+		<?php } ?>
 		<div style='display:none'>
 			<div id='videoInfo' style='padding:10px;'></div>
 		</div>

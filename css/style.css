@@ -90,3 +90,12 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 	margin-bottom: 20px;
 }
 
+table#playlistVideos td{
+	border: solid 1px #111111;
+	background-color: #CDCDCD;
+	padding: 5px 10px 5px 10px;
+}
+
+.tdDragClass {
+	background-color: #5897FB;	
+}

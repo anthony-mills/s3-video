@@ -12,7 +12,7 @@ class s3_playlist_management
 	
 	public function createPlaylist($playlistName, $playlistContents)
 	{
-
+		
 		$playlistId = $this->_savePlaylistName($playlistName);
 		if (!$playlistId) {
 			return FALSE;	
@@ -26,14 +26,46 @@ class s3_playlist_management
 		return $playlistId;		
 	}
 	
-	public function deletePlaylist()
+	public function deletePlaylist($playlistId)
 	{
-		
+		mysql_query("DELETE FROM s3_video_playlists WHERE id = '$playlistId'");
 	}
 	
+	public function getAllPlaylists() 
+	{
+		$playlists = mysql_query("SELECT * FROM s3_video_playlists");
+		while($playlist = mysql_fetch_assoc($playlists)) {
+			$existingPlaylists[] = $playlist;	
+		}
+		
+		return $existingPlaylists;	
+	}
+
+	public function getPlaylistsByTitle($playlistName) 
+	{
+		$playlists = mysql_query("SELECT * FROM s3_video_playlists WHERE playlist_name LIKE '$playlistName'");
+		$existingPlaylists = array();
+		while($playlist = mysql_fetch_assoc($playlists)) {
+			$existingPlaylists[] = $playlist;	
+		}
+		
+		return $existingPlaylists;	
+	}
+		
+	public function getPlaylistVideos($playlistId)
+	{
+		$videos = mysql_query("SELECT * FROM s3_video_playlist_videos WHERE video_playlist LIKE '$playlistId'");
+		while($video = mysql_fetch_assoc($videos)) {
+			$playlistVideos[] = $video;	
+		}
+		
+		return $playlistVideos;			
+	}
+		
 	protected function _savePlaylistName($playlistName) 
 	{
-		mysql_query("INSERT INTO s3_video_playlists (playlist_name) VALUES ('$playlistName')");		
+		$time = time();
+		mysql_query("INSERT INTO s3_video_playlists (playlist_name,created) VALUES ('$playlistName', '$time')");		
 		return mysql_insert_id();
 	}
 	

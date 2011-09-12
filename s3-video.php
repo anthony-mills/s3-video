@@ -40,7 +40,7 @@ function s3_video_plugin_menu()
 	// S3 sidebar child pages
 	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  
 	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload_video');		
-	add_submenu_page('s3-video', __('Playlist Management','manage-playlists'), __('Playlist Management','manage_playlists'), 'manage_options', 's3_video_manage_playlist', 's3_video_manage_playlists');
+	add_submenu_page('s3-video', __('Playlist Management','show-playlists'), __('Playlist Management','show_playlists'), 'manage_options', 's3_video_show_playlist', 's3_video_show_playlists');
 	add_submenu_page('s3-video', __('Create Playlist','create-playlist'), __('Create Playlist','create_playlist'), 'manage_options', 's3_video_create_playlist', 's3_video_create_playlist');			
 }
 
@@ -149,13 +149,12 @@ function s3_video_create_playlist()
 		
 	if ((!empty($_POST['playlist_contents'])) && (!empty($_POST['playlist_name']))) {
 		require_once('includes/playlist_management.php');
-		$playlistManagment = new s3_playlist_management();
+		$playlistManagement = new s3_playlist_management();
 		
 		$playlistName = sanitize_title($_POST['playlist_name']);
-		$playlistExists = $playlist->createPlaylist($playlistName);
-		
+		$playlistExists = $playlistManagement->getPlaylistsByTitle($playlistName);
 		if (!$playlistExists) {
-			$playlistResult = $playlistManagment->createPlaylist($playListName, $_POST['playlist_contents']);
+			$playlistResult = $playlistManagement->createPlaylist($playlistName, $_POST['playlist_contents']);
 			if (!$playlistResult) {
 	    		$errorMsg = 'An error occurred whilst creating the play list.';			
 			} else {
@@ -172,10 +171,37 @@ function s3_video_create_playlist()
 /*
  *	Manage existing playlists of S3 based media 
  */
-function s3_video_manage_playlists()
+function s3_video_show_playlists()
 {
-	$pluginSettings = s3_video_check_plugin_settings();		
-	require_once('views/playlist-management/playlist-management.php');
+	$pluginSettings = s3_video_check_plugin_settings();			
+	require_once('includes/playlist_management.php');
+	$playlistManagement = new s3_playlist_management();
+	
+	if (!empty($_GET['delete'])) {
+		$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['delete']);
+		$playlistManagement->deletePlaylist($playlistId);
+	}
+	
+	if (((!empty($_GET['edit'])) && (is_numeric($_GET['edit']))) || ((!empty($_GET['reorder'])) && (is_numeric($_GET['reorder'])))) {
+		
+		if (!empty($_GET['edit'])) {
+			require_once('views/playlist-management/edit-playlist.php');
+		} 
+		
+		if (!empty($_GET['reorder'])) {
+			$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['reorder']);
+			$playlistVideos = $playlistManagement->getPlaylistVideos($playlistId);
+			require_once('views/playlist-management/reorder-playlist.php');	
+		} 	
+		
+	} else {
+		/*
+		 * If we don't have a playlist to display a list of them all  
+		 */
+		$existingPlaylists = $playlistManagement->getAllPlaylists();	
+		require_once('views/playlist-management/playlist-management.php');
+	}
+	
 }
  
 /*
@@ -263,6 +289,7 @@ function s3_video_load_js()
 	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
 	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/S3-Video/js/jquery.paginator.js', array('jquery'), '1.0');	
 	wp_enqueue_script('multiSelect', WP_PLUGIN_URL . '/S3-Video/js/jquery.multiselect.js', array('jquery'), '1.0');		
+	wp_enqueue_script('gragDropTable', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablednd.js', array('jquery'), '1.0');			
 }
 
 /*
