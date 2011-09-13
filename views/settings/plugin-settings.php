@@ -29,7 +29,7 @@
 	
 	<?php if (!empty($successMsg)) { ?>
 			<div id="successMsg">
-				<?= $successMsg; ?>
+				<?php echo $successMsg; ?>
 			</div>
 	<?php } ?>
 	<form method="POST" id="pluginSettings">	
