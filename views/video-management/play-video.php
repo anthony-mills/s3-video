@@ -11,6 +11,10 @@
 		        autoPlay: false,
 		        autoBuffering: true,
 		        bufferLength: 5
+		        onStop: function() {
+	    			$.getJSON("<?= WP_PLUGIN_URL; ?>/S3-Video/tracking.php?id=<?= $videoFile; ?>&action=stop&time="+$f().getTime()+"&jsoncallback=?");
+            		$f().stop();
+				}
 		    }			
 		});
 	</script>

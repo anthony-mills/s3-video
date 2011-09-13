@@ -1,3 +1,9 @@
+<?php 
+if (!$playlistVideos) {
+	echo '<div align="center">Playlist not found</center>';
+	exit;
+}
+?>
 <script>
 jQuery(function() {
 	

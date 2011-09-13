@@ -54,6 +54,8 @@ class s3_playlist_management
 	public function getAllPlaylists() 
 	{
 		$playlists = mysql_query("SELECT * FROM s3_video_playlists");
+		
+		$existingPlaylists = array();
 		while($playlist = mysql_fetch_assoc($playlists)) {
 			$existingPlaylists[] = $playlist;	
 		}
@@ -75,6 +77,7 @@ class s3_playlist_management
 	public function getPlaylistVideos($playlistId)
 	{
 		$videos = mysql_query("SELECT * FROM s3_video_playlist_videos WHERE video_playlist LIKE '$playlistId' ORDER BY video_weight ASC");
+		$playlistVideos = array();
 		while($video = mysql_fetch_assoc($videos)) {
 			$playlistVideos[] = $video;	
 		}

@@ -236,7 +236,6 @@ function s3_video_embed_playlist($embedDetails)
 	require_once('includes/playlist_management.php');
 	$playlistManagement = new s3_playlist_management();
 	$playlistVideos = $playlistManagement->getPlaylistVideos($embedDetails['id']);		
-	
 	$pluginSettings = s3_video_check_plugin_settings();
 	$baseUrl =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/';
 	
