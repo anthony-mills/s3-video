@@ -52,7 +52,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="amazon_access_key" class="required" maxlength="21" placeholder="Amazon Access Key" value="<?= $pluginSettings['amazon_access_key']; ?>">
+					<input type="text" name="amazon_access_key" class="required" maxlength="21" placeholder="Amazon Access Key" value="<?php echo $pluginSettings['amazon_access_key']; ?>">
 				</td>
 			</tr>
 
@@ -63,7 +63,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="amazon_secret_access_key" class="required" maxlength="50" placeholder="Secret Access Key" value="<?= $pluginSettings['amazon_secret_access_key']; ?>">
+					<input type="text" name="amazon_secret_access_key" class="required" maxlength="50" placeholder="Secret Access Key" value="<?php echo $pluginSettings['amazon_secret_access_key']; ?>">
 				</td>
 			</tr>
 
@@ -74,7 +74,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="amazon_video_bucket" class="required" maxlength="50" placeholder="Amazon Video Bucket" value="<?= $pluginSettings['amazon_video_bucket']; ?>">
+					<input type="text" name="amazon_video_bucket" class="required" maxlength="50" placeholder="Amazon Video Bucket" value="<?php echo $pluginSettings['amazon_video_bucket']; ?>">
 				</td>
 			</tr>
 
@@ -84,7 +84,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="amazon_url" placeholder="s3.amazonaws.com"  value="<?= $pluginSettings['amazon_url']; ?>">
+					<input type="text" name="amazon_url" placeholder="s3.amazonaws.com"  value="<?php echo $pluginSettings['amazon_url']; ?>">
 				</td>
 			</tr>
 
@@ -106,7 +106,7 @@
 				</td>
 
 				<td>
-					<input type="text" name="page_result_limit" placeholder="15"  value="<?= $pluginSettings['s3_video_page_result_limit']; ?>">					
+					<input type="text" name="page_result_limit" placeholder="15"  value="<?php echo $pluginSettings['s3_video_page_result_limit']; ?>">					
 				</td>
 			</tr>
 			
