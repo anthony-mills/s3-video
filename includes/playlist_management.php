@@ -26,9 +26,29 @@ class s3_playlist_management
 		return $playlistId;		
 	}
 	
+	public function updatePlaylistVideos($playlistId, $playlistContents)
+	{
+		if (!$playlistId) {
+			return FALSE;	
+		}
+		
+		$x = 1;
+		foreach($playlistContents as $fileName) {
+			$videoId = $this->_addVideoToPlaylist($fileName, $playlistId, $x); 
+			$x++;	
+		}
+		return $playlistId;				
+	}
+	
 	public function deletePlaylist($playlistId)
 	{
 		mysql_query("DELETE FROM s3_video_playlists WHERE id = '$playlistId'");
+		$this->deletePlaylistVideos($playlistId);
+	}
+	
+	public function deletePlaylistVideos($playlistId)
+	{
+		mysql_query("DELETE FROM s3_video_playlist_videos WHERE video_playlist = '$playlistId'");			
 	}
 	
 	public function getAllPlaylists() 

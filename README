@@ -35,6 +35,15 @@ To define the player as 640 pixels wide by 380 pixels high
 
 == Changelog ==
 
+= 0.4 =
+Added hook to delete AWS settings on plugin deactivation. Fixed logic bug stopping configuration of plugin.
+
+= 0.3 =
+Table displaying existing S3 media is now sortable.
+Fixed some spelling mistakes.
+Added pagination for larger media listings.
+Ability to define the amount of videos to display per page on the settings page.
+
 = 0.2 =
 Ability to get standard embed code for a video allowing S3 videos to be embedded in pages outside of wordpress
 

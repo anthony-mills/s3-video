@@ -1,6 +1,6 @@
 <?php
-//ini_set('display_errors', 0);
-//error_reporting(0);
+ini_set('display_errors', 0);
+error_reporting(0);
 
 $playlistId = $_GET['playlist'];
 $playlistContents = $_GET['playlistVideos'];
@@ -22,7 +22,6 @@ if (mysqli_connect_errno()){
 
 $x = 1;
 foreach ($playlistContents as $video) {
-	echo $video . ' , ' ;
 	$data = array('video_weight' => $x);
 	mysql_query("UPDATE s3_video_playlist_videos SET  video_weight = '$x' WHERE id = '$video' AND video_playlist = '$playlistId'");	
 	$x++;

@@ -15,10 +15,9 @@
 		   {
 		      setTimeout( function()
 		      {
-		         jQuery(".notice").fadeOut("fast");
-		      }, 20000);
+		         jQuery(".notice").fadeOut("slow");
+		      }, 1000);
 		});
-
 	}
 </script>
 

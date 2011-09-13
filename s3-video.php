@@ -39,10 +39,10 @@ function s3_video_plugin_menu()
 	add_menu_page('S3 Video', 'S3 Video', 'manage_options', 's3-video', 's3_video');
 
 	// S3 sidebar child pages
-	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  
 	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload_video');		
 	add_submenu_page('s3-video', __('Playlist Management','show-playlists'), __('Playlist Management','show_playlists'), 'manage_options', 's3_video_show_playlist', 's3_video_show_playlists');
-	add_submenu_page('s3-video', __('Create Playlist','create-playlist'), __('Create Playlist','create_playlist'), 'manage_options', 's3_video_create_playlist', 's3_video_create_playlist');			
+	add_submenu_page('s3-video', __('Create Playlist','create-playlist'), __('Create Playlist','create_playlist'), 'manage_options', 's3_video_create_playlist', 's3_video_create_playlist');
+	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  			
 }
 
 /*
@@ -186,6 +186,16 @@ function s3_video_show_playlists()
 	if (((!empty($_GET['edit'])) && (is_numeric($_GET['edit']))) || ((!empty($_GET['reorder'])) && (is_numeric($_GET['reorder'])))) {
 		
 		if (!empty($_GET['edit'])) {
+			$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['edit']);
+			
+			if (!empty($_POST['playlist_contents'])) {
+				$playlistManagement->deletePlaylistVideos($playlistId);
+				$playlistManagement->updatePlaylistVideos($playlistId, $_POST['playlist_contents']);	
+				$playlistUpdated = 1;
+			} 
+			$existingVideos = $playlistManagement->getPlaylistVideos($playlistId);	
+			$s3Videos = s3_video_get_all_existing_video($pluginSettings);
+					
 			require_once('views/playlist-management/edit-playlist.php');
 		} 
 		

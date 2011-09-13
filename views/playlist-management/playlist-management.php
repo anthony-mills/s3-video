@@ -7,7 +7,6 @@
 </script>
 
 <div class="wrap">
-
 <h2>Playlist Management</h2>
 
 <?php if (!empty($successMsg)) { ?>
