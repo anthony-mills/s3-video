@@ -23,12 +23,13 @@ add_action('wp_ajax_my_action', 'my_action_callback');
 wp_enqueue_script('jquery');
 wp_enqueue_script('swfobject');
 wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/S3-Video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
-
+wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/S3-Video/js/jquery.playlist.js', array('jquery'), '1.0');
 require_once('includes/shared.php');
 require_once('includes/s3.php');
 
 // Add shortcodes
 add_shortcode( 'S3_embed_video', 's3_video_embed_video' );
+add_shortcode( 'S3_embed_playlist', 's3_video_embed_playlist' );
 
 // Add deactivation hook
 register_deactivation_hook( __FILE__, 's3_video_deactivate');
@@ -219,12 +220,27 @@ function s3_video_show_playlists()
  *  Embed video player into page
  */
 function s3_video_embed_video($embedDetails) 
-{
+{	
 	$pluginSettings = s3_video_check_plugin_settings();
 	if ($embedDetails['file']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
 	}
 	require_once('views/video-management/play-video.php');	
+} 
+
+/*
+ * Embed video player for playlist into page
+ */
+function s3_video_embed_playlist($embedDetails)
+{
+	require_once('includes/playlist_management.php');
+	$playlistManagement = new s3_playlist_management();
+	$playlistVideos = $playlistManagement->getPlaylistVideos($embedDetails['id']);		
+	
+	$pluginSettings = s3_video_check_plugin_settings();
+	$baseUrl =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/';
+	
+	require_once('views/video-management/play-playlist.php');	
 } 
 
 /*
@@ -300,7 +316,7 @@ function s3_video_load_js()
 	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
 	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/S3-Video/js/jquery.paginator.js', array('jquery'), '1.0');	
 	wp_enqueue_script('multiSelect', WP_PLUGIN_URL . '/S3-Video/js/jquery.multiselect.js', array('jquery'), '1.0');		
-	wp_enqueue_script('gragDropTable', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablednd.js', array('jquery'), '1.0');			
+	wp_enqueue_script('dragDropTable', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablednd.js', array('jquery'), '1.0');			
 }
 
 /*

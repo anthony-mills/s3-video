@@ -24,7 +24,8 @@
 			<thead>
 				<tr>
 					<th>Playlist</th>
-					<th>Created</th>				
+					<th>Created</th>
+					<th>Wordpress Shortcode</th>									
 					<th>Actions</th>								
 				</tr>
 			</thead>
@@ -41,6 +42,10 @@
 						<td>
 							<?= date('j/n/Y', $existingPlaylist['created']); ?>
 						</td>
+						
+						<td>
+							[S3_embed_playlist id="<?= $existingPlaylist['id']; ?>"]
+						</td>
 											
 						<td>
 							<a href="admin.php?page=s3_video_show_playlist&delete=<?= $existingPlaylist['id']; ?>">
@@ -53,7 +58,7 @@
 							 - 
 							<a href="admin.php?page=s3_video_show_playlist&reorder=<?= $existingPlaylist['id']; ?>">
 								Reorder Playlist Videos
-							</a>													
+							</a>		
 						</td>
 					</tr>
 				<?php	
