@@ -40,9 +40,13 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Screenshots == 
 1. A video playing from S3 embedded into a test page
-2. Listing of S3 bucket media
+2. Plugin menu options
+3. Drag and drop ordering of videos in a playlist
 
 == Changelog ==
+
+= 0.5 = 
+Add playlist functionality, playlists of videos can now be created and embedded into Wordpress pages and posts.
 
 = 0.4 =
 Added hook to delete AWS settings on plugin deactivation. Fixed logic bug stopping configuration of plugin.

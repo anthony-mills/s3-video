@@ -35,6 +35,9 @@ To define the player as 640 pixels wide by 380 pixels high
 
 == Changelog ==
 
+= 0.5 = 
+Add playlist functionality, playlists of videos can now be created and embedded into Wordpress pages and posts.
+
 = 0.4 =
 Added hook to delete AWS settings on plugin deactivation. Fixed logic bug stopping configuration of plugin.
 
