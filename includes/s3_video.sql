@@ -14,3 +14,13 @@ CREATE TABLE IF NOT EXISTS `s3_video_playlist_videos` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+{table}
+
+CREATE TABLE IF NOT EXISTS `s3_video_analytics` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `video` varchar(200) NOT NULL,
+  `started` int(30) NOT NULL,
+  `finished` int(30) DEFAULT NULL,
+  `client_ip` varchar(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;

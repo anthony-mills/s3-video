@@ -10,11 +10,15 @@
 		    clip:  {
 		        autoPlay: false,
 		        autoBuffering: true,
-		        bufferLength: 5
-		        onStop: function() {
-	    			$.getJSON("<?= WP_PLUGIN_URL; ?>/S3-Video/tracking.php?id=<?= $videoFile; ?>&action=stop&time="+$f().getTime()+"&jsoncallback=?");
+		        bufferLength: 5,
+		        onStart: function() {
+	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/S3-Video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=start&time="+$f().getTime()+"&jsoncallback=?");
             		$f().stop();
-				}
+				},
+		        onFinish: function() {
+	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/S3-Video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=finish&time="+$f().getTime()+"&jsoncallback=?");
+            		$f().stop();
+				},				
 		    }			
 		});
 	</script>

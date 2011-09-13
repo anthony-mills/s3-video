@@ -42,5 +42,18 @@ function s3_humanReadableBytes($bytes)
 
     for ($i = 0, $size =$bytes; $size>1024; $size=$size/1024)
     $i++;
-    return number_format($size, 2) . ' ' . $units[min($i, count($units) -1 )];
- }
+    return number_format($size, 2) . ' '  . $units[min($i, count($units) -1 )];
+		}
+
+function getClientIp()
+{
+	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+		$clientIp = $_SERVER['HTTP_CLIENT_IP'];
+	} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	} else {
+		$clientIp = $_SERVER['REMOTE_ADDR'];
+	}
+	return $clientIp;
+}
+ 
