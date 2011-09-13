@@ -18,6 +18,7 @@ register_deactivation_hook(__FILE__, 'S3_plugin_deactivate');
 add_action('admin_menu', 's3_video_plugin_menu');
 add_action('admin_print_styles', 's3_video_load_css');
 add_action('admin_print_scripts', 's3_video_load_js');
+add_action('wp_ajax_my_action', 'my_action_callback');
 
 wp_enqueue_script('jquery');
 wp_enqueue_script('swfobject');
@@ -217,7 +218,7 @@ function s3_video_embed_video($embedDetails)
 } 
 
 /*
- *  Preview file in colourBox
+ *  Preview file in colourBoxadmin.php?page=s3_video_show_playlist
  */
 function s3_video_preview_media() 
 {

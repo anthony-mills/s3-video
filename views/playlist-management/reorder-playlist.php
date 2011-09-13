@@ -3,31 +3,36 @@
 		 jQuery("#playlistVideos").tableDnD({
 		    onDragClass: "tdDragClass",
 		    onDrop: function(table, row) {
-	            var rows = table.tBodies[0].rows;
-	            var playlistVids=new Array()
-	            for (var i=0; i<rows.length; i++) {
-	                playlistVids[] = rows[i].id;
-	            }
-		        alert(playlistVids);
-				jQuery.post('admin.php?page=s3_video_show_playlist', function(playlistVids) {
-				  jQuery('#successMsg').html(debugStr);
-				});
-
+             	jQuery.get("<?= WP_PLUGIN_URL; ?>/S3-Video/includes/reorder_playlist.php?playlist=<?= $playlistId; ?>&"+jQuery.tableDnD.serialize(), responseAlert);
 		    },
 		 });		   
 	});
+	
+	function responseAlert(data) {
+		jQuery("#pluginNotification").html(data);
+		jQuery(".notice")
+		   .fadeIn( function() 
+		   {
+		      setTimeout( function()
+		      {
+		         jQuery(".notice").fadeOut("fast");
+		      }, 20000);
+		});
+
+	}
 </script>
 
 <div class="wrap">
 
 	<h2>Reorder Playlist Contents</h2>
 	
-	
-	<div id="successMsg">
-		<?php if (!empty($successMsg)) { ?>
+	<?php if (!empty($successMsg)) { ?>
+		<div id="successMsg">
 			<?= $successMsg; ?>
-		<?php } ?>
-	</div>
+		</div>
+	<?php } ?>
+	
+	<div id="pluginNotification" class="notice"></div>
 	
 	<p><a href="admin.php?page=s3_video_show_playlist">Return to playlist management</a></p>
     <?php if (!empty($playlistVideos)) { ?>
@@ -46,6 +51,7 @@
 			</table>
 		</div>		
 		<strong>End of playlist</strong>
+		<p><a href="admin.php?page=s3_video_show_playlist">Return to playlist management</a></p>
 	<?php } else { ?>
 		<p>This playlist currently contains no videos</p>
 	<?php } ?>
