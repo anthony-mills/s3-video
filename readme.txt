@@ -45,6 +45,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.6 =
+Wordpress plugin repository release
+
 = 0.5 = 
 Add playlist functionality, playlists of videos can now be created and embedded into Wordpress pages and posts.
 
