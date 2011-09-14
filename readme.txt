@@ -49,6 +49,12 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.7 =
+Fixed shorttag issues for added comptability on various installs and lots of miscellanous bug fixes
+
+= 0.6 =
+Wordpress release
+
 = 0.5 = 
 Add playlist functionality, playlists of videos can now be created and embedded into Wordpress pages and posts.
 
