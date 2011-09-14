@@ -2,7 +2,7 @@
 	jQuery(function() {
 	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#videoListTable").tablesorter();
-	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?= $pluginSettings['s3_video_page_result_limit']; ?>});	  
+	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?echo $pluginSettings['s3_video_page_result_limit']; ?>});	  
 	  jQuery(".colorBox").colorbox();
 	  	  
 	  jQuery("a#getShortLink").click(function() {
@@ -34,7 +34,7 @@
 
 <?php if (!empty($successMsg)) { ?>
 	<div id="successMsg">
-		<?= $successMsg; ?>
+		<?php $successMsg; ?>
 	</div>
 <?php } ?>
 
@@ -57,19 +57,19 @@
 				?>
 					<tr>
 						<td>
-							<?= $existingVideo['name']; ?>
+							<?php echo $existingVideo['name']; ?>
 						</td>
 						
 						<td>
-							<?= s3_humanReadableBytes($existingVideo['size']); ?>
+							<?php echo s3_humanReadableBytes($existingVideo['size']); ?>
 						</td>
 						
 						<td>
-							<?= date('j/n/Y', $existingVideo['time']); ?>
+							<?php echo date('j/n/Y', $existingVideo['time']); ?>
 						</td>
 											
 						<td>
-							<a title="<?= $existingVideo['name']; ?>" href="<?= WP_PLUGIN_URL ?>/S3-Video/preview-video.php?base=<?= WP_PLUGIN_URL ?>/S3-Video/&media=<?= 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
+							<a title="<?php echo $existingVideo['name']; ?>" href="<?php echo WP_PLUGIN_URL; ?>/S3-Video/preview-video.php?base=<?php echo WP_PLUGIN_URL; ?>/S3-Video/&media=<?php echo 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
 								Preview
 							</a>
 							 - 
@@ -77,11 +77,11 @@
 								Delete
 							</a>	
 							 -
-							<a href="#" title="<?= $existingVideo['name']; ?>" id="getShortLink">
+							<a href="#" title="<?php echo $existingVideo['name']; ?>" id="getShortLink">
 								Get Shortlink
 							</a>
 							 -
-							<a href="#" title="<?= $existingVideo['name']; ?>" id="getEmbedCode">
+							<a href="#" title="<?php echo $existingVideo['name']; ?>" id="getEmbedCode">
 								Get Embed Code
 							</a>							
 						</td>
@@ -91,16 +91,17 @@
 				?>
 			</tbody>
 		</table>
-		
-		<div align="center">
-			<div class='pager'>
-		        <a href='#' alt='Previous' class='prevPage'>Prev</a> - 
-		         Page <span class='currentPage'></span> of <span class='totalPages'></span>
-		         - <a href='#' alt='Next' class='nextPage'>Next</a>
-		        <br>
-		       	<span class='pageNumbers'></span>
-	   		</div>
-		</div>
+		<?php if (count($existingVideos) > $pluginSettings['s3_video_page_result_limit']) { ?>
+        		<div align="center">
+        			<div class='pager'>
+        		        <a href='#' alt='Previous' class='prevPage'>Prev</a> - 
+        		         Page <span class='currentPage'></span> of <span class='totalPages'></span>
+        		         - <a href='#' alt='Next' class='nextPage'>Next</a>
+        		        <br>
+        		       	<span class='pageNumbers'></span>
+        	   		</div>
+        		</div>
+    <?php } ?>
 		
 		<div style='display:none'>
 			<div id='videoInfo' style='padding:10px;'></div>
