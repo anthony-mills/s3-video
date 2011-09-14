@@ -1,8 +1,8 @@
 <script type="text/javascript">
 	jQuery(function() {
-	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
+	  var awsBucket = '<?php echo $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#playListTable").tablesorter();
-	  jQuery("#playlistListTable").paginateTable({ rowsPerPage: <?= $pluginSettings['s3_video_page_result_limit']; ?>});	  
+	  jQuery("#playlistListTable").paginateTable({ rowsPerPage: <?php echo  $pluginSettings['s3_video_page_result_limit']; ?>});	  
 	});
 </script>
 
@@ -11,7 +11,7 @@
 
 <?php if (!empty($successMsg)) { ?>
 	<div id="successMsg">
-		<?= $successMsg; ?>
+		<?php echo  $successMsg; ?>
 	</div>
 <?php } ?>
 
@@ -36,27 +36,27 @@
 				?>
 					<tr>
 						<td>
-							<?= $existingPlaylist['playlist_name']; ?>
+							<?php echo  $existingPlaylist['playlist_name']; ?>
 						</td>
 						
 						<td>
-							<?= date('j/n/Y', $existingPlaylist['created']); ?>
+							<?php echo  date('j/n/Y', $existingPlaylist['created']); ?>
 						</td>
 						
 						<td>
-							[S3_embed_playlist id="<?= $existingPlaylist['id']; ?>"]
+							[S3_embed_playlist id="<?php echo  $existingPlaylist['id']; ?>"]
 						</td>
 											
 						<td>
-							<a href="admin.php?page=s3_video_show_playlist&delete=<?= $existingPlaylist['id']; ?>">
+							<a href="admin.php?page=s3_video_show_playlist&delete=<?php echo  $existingPlaylist['id']; ?>">
 								Delete
 							</a>
 							 - 
-							<a href="admin.php?page=s3_video_show_playlist&edit=<?= $existingPlaylist['id']; ?>">
+							<a href="admin.php?page=s3_video_show_playlist&edit=<?php echo  $existingPlaylist['id']; ?>">
 								Add / Remove Videos
 							</a>	
 							 - 
-							<a href="admin.php?page=s3_video_show_playlist&reorder=<?= $existingPlaylist['id']; ?>">
+							<a href="admin.php?page=s3_video_show_playlist&reorder=<?php echo  $existingPlaylist['id']; ?>">
 								Reorder Playlist Videos
 							</a>		
 						</td>

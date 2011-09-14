@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS `s3_video_playlists` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `playlist_name` varchar(100) NOT NULL,
+  `created` int(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM;
 
 {table}
 
@@ -12,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `s3_video_playlist_videos` (
   `video_playlist` int(11) NOT NULL,
   `video_weight` int(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM;
 
 {table}
 
@@ -23,4 +24,4 @@ CREATE TABLE IF NOT EXISTS `s3_video_analytics` (
   `finished` int(30) DEFAULT NULL,
   `client_ip` varchar(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM;

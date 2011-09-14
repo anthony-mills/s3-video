@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	jQuery(function() {
-	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
+	  var awsBucket = '<?php echo $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#videoListTable").tablesorter();
 	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?echo $pluginSettings['s3_video_page_result_limit']; ?>});	  
 	  jQuery(".colorBox").colorbox();

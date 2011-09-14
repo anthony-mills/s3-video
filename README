@@ -12,12 +12,16 @@ The S3 Video Plugin allows the embedding of video media stored on Amazon's S3 st
 == Installation ==
 1. Unzip plugin and upload to the wp-content/plugins directory of your Wordpress install.
 2. Make sure your install has a wp-content/uploads directory and that it is writable by the web server user.
-3. Activate the plugin throught the "plugins" menu found in the Wordpress backend.
-4. In order to upload large .flv and .mp4 files to S3 through the backend you will need to increase the PHP upload limit sizes. If you are using Apache as you webserver 
+3. Check that your PHP installation has the CURL extension active and activate the plugin throught the "plugins" menu found in the Wordpress backend.
+4. In order to upload large .flv and .mp4 files to S3 through the backend you will need to increase the PHP upload limit sizes. If you are using Apache as your webserver 
 this can be done by creating a .htaccess file if one doesn't already exist in the root of your Wordpress installation and adding the following lines:
 
 php_value upload_max_filesize 200M
 php_value post_max_size 200M
+
+You may also need to set the maximum file execution time, if you are experiencing errors when uploading videos. This can be set in your .htaccess by adding the line:
+
+php_value max_execution_time 10000
 
 5. Log into your AWS account and create a new bucket to store your video files.
 6. Enter your Amazon access keys and bucket name on the plugin settings page.
@@ -34,9 +38,6 @@ To define the player as 640 pixels wide by 380 pixels high
 1. A video playing from S3 embedded into a test page
 
 == Changelog ==
-
-= 0.6 =
-Wordpress plugin repository release
 
 = 0.5 = 
 Add playlist functionality, playlists of videos can now be created and embedded into Wordpress pages and posts.

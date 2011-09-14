@@ -21,7 +21,7 @@
 
 <?php if (!empty($successMsg)) { ?>
 	<div id="successMsg">
-		<?= $successMsg; ?>
+		<?php echo $successMsg; ?>
 	</div>
 <?php } ?>
 <br>
@@ -57,8 +57,8 @@ if (!$existingVideos) {
 				        <select data-placeholder="Videos in playlist" style="width:350px;" multiple class="chzn-select" name="playlist_contents[]" tabindex="8">
 				          <option value=""></option>
 				          <?php foreach ($existingVideos as $video) { ?>
-				          			<option value="<?= $video['name']; ?>">
-				          				<?= $video['name']; ?>
+				          			<option value="<?php echo  $video['name']; ?>">
+				          				<?php echo  $video['name']; ?>
 				          			</option>
 				          <?php } ?>
 				        </select>

@@ -3,7 +3,7 @@
 		 jQuery("#playlistVideos").tableDnD({
 		    onDragClass: "tdDragClass",
 		    onDrop: function(table, row) {
-             	jQuery.get("<?= WP_PLUGIN_URL; ?>/S3-Video/includes/reorder_playlist.php?playlist=<?= $playlistId; ?>&"+jQuery.tableDnD.serialize(), responseAlert);
+             	jQuery.get("<?php echo WP_PLUGIN_URL; ?>/S3-Video/includes/reorder_playlist.php?playlist=<?php echo $playlistId; ?>&"+jQuery.tableDnD.serialize(), responseAlert);
 		    },
 		 });		   
 	});
@@ -27,7 +27,7 @@
 	
 	<?php if (!empty($successMsg)) { ?>
 		<div id="successMsg">
-			<?= $successMsg; ?>
+			<?php echo  $successMsg; ?>
 		</div>
 	<?php } ?>
 	
@@ -41,9 +41,9 @@
     	<div id="reorderPlaylist">
 			<table id="playlistVideos">
 				<?php foreach($playlistVideos as $playlistVideo) { ?>
-				    <tr id="<?= $playlistVideo['id']; ?>">
+				    <tr id="<?php echo $playlistVideo['id']; ?>">
 				    	<td>
-				    		<?= $playlistVideo['video_file']; ?>
+				    		<?php echo $playlistVideo['video_file']; ?>
 				    	</td>
 				    </tr>
 			    <?php } ?>

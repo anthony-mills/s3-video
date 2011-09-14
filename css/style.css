@@ -22,9 +22,19 @@ em {
 	display: none;
 }
 
+#errorMsg {
+	color: #D8000C;
+	width: 98%;
+	border: dashed 1px #D8000C;
+	background-color: #FFBABA;
+	padding-left: 5px;
+	line-height: 23px;
+}
+
 #successMsg {
 	color: #3207c2;
 	width: 98%;
+	height: auto;
 	border: dashed 1px #207c29;
 	background-color: #37c944;
 	padding-left: 5px;
