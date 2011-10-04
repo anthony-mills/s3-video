@@ -49,6 +49,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.8 =
+Path case changes through the plugin to accomodate the difference between the Github & Wordpress subversion plugin names
+
 = 0.7 =
 Fixed shorttag issues for added comptability on various installs and lots of miscellanous bug fixes
 
