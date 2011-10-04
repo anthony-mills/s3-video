@@ -16,17 +16,26 @@ if ((!$video) && (!$action)) {
 }
 
 $time = time();
-
+$fileName = str_replace('.', '_', array_pop(explode('/', $video)));
+		
 switch ($action) {
 	case 'start':
-		mysql_query("INSERT INTO s3_video_analytics (video, started, client_ip) values ('$video', '$time', '$clientip')");
-		setcookie("$video", mysql_insert_id());
+		mysql_query("INSERT INTO s3_video_analytics (video, started, client_ip) values ('$fileName', '$time', '$clientip')");
+		setcookie("$fileName", mysql_insert_id(), time()+7200);
 	break;
 	
+	case 'paused':
+		$playId = $_COOKIE[$fileName];
+		mysql_query("UPDATE s3_video_analytics SET paused = '$time' WHERE id = '$playId'");			
+	break;	
+	
+	case 'resume':
+		$playId = $_COOKIE[$fileName];
+		mysql_query("UPDATE s3_video_analytics SET resumed = '$time' WHERE id = '$playId'");			
+	break;	
+		
 	case 'finish':
-		if ((!empty($_COOKIE[$video])) && (is_numeric($_COOKIE[$video]))) {
-			$playId = $_COOKIE[$video];
-			mysql_query("UPDATE s3_video_analytics SET finished = '$time' WHERE id = '$playId'");			
-		}
+		$playId = $_COOKIE[$fileName];
+		mysql_query("UPDATE s3_video_analytics SET finished = '$time' WHERE id = '$playId'");			
 	break;
 }

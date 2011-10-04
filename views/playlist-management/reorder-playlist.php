@@ -3,7 +3,7 @@
 		 jQuery("#playlistVideos").tableDnD({
 		    onDragClass: "tdDragClass",
 		    onDrop: function(table, row) {
-             	jQuery.get("<?php echo WP_PLUGIN_URL; ?>/S3-Video/includes/reorder_playlist.php?playlist=<?php echo $playlistId; ?>&"+jQuery.tableDnD.serialize(), responseAlert);
+             	jQuery.get("<?php echo WP_PLUGIN_URL; ?>/s3-video/includes/reorder_playlist.php?playlist=<?php echo $playlistId; ?>&"+jQuery.tableDnD.serialize(), responseAlert);
 		    },
 		 });		   
 	});

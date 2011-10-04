@@ -6,7 +6,7 @@
 	<?php } ?>
 	
 	<script>
-		flowplayer("player", '<?= WP_PLUGIN_URL; ?>/S3-Video/misc/flowplayer-3.2.7.swf', {
+		flowplayer("player", '<?= WP_PLUGIN_URL; ?>/s3-video/misc/flowplayer-3.2.7.swf', {
 		    clip:  {
 		        autoPlay: false,
 		        autoBuffering: true,

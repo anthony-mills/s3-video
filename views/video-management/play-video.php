@@ -6,19 +6,23 @@
 	<?php } ?>
 	
 	<script>
-		flowplayer("player", '<?= WP_PLUGIN_URL; ?>/S3-Video/misc/flowplayer-3.2.7.swf', {
+		flowplayer("player", '<?= WP_PLUGIN_URL; ?>/s3-video/misc/flowplayer-3.2.7.swf', {
 		    clip:  {
 		        autoPlay: false,
 		        autoBuffering: true,
 		        bufferLength: 5,
 		        onStart: function() {
-	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/S3-Video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=start&time="+$f().getTime()+"&jsoncallback=?");
-            		$f().stop();
+	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=start&time="+$f().getTime()+"&jsoncallback=?");
 				},
-		        onFinish: function() {
-	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/S3-Video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=finish&time="+$f().getTime()+"&jsoncallback=?");
-            		$f().stop();
-				},				
+      			onResume: function(){
+	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=resume&time="+$f().getTime()+"&jsoncallback=?");  				
+      			},					
+			    onPause: function () {
+	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=paused&time="+$f().getTime()+"&jsoncallback=?");			    	
+			    },
+			    onFinish: function(){
+	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=finish&time="+$f().getTime()+"&jsoncallback=?");		    	
+			    }					
 		    }			
 		});
 	</script>

@@ -1,7 +1,7 @@
 <?php
 /* 
 Plugin Name: S3 Video Plugin
-Plugin URI: https://github.com/anthony-mills/S3-Video
+Plugin URI: https://github.com/anthony-mills/s3-video
 Description: Upload and embed videos using your Amazon S3 account
 Version: 0.7
 Author: Anthony Mills
@@ -22,10 +22,10 @@ add_action('wp_ajax_my_action', 'my_action_callback');
 
 wp_enqueue_script('jquery');
 wp_enqueue_script('swfobject');
-wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/S3-Video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
-wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/S3-Video/js/jquery.playlist.js', array('jquery'), '1.0');
-require_once(WP_PLUGIN_DIR . '/S3-Video/includes/shared.php');
-require_once(WP_PLUGIN_DIR . '/S3-Video/includes/s3.php');
+wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
+wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');
+require_once(WP_PLUGIN_DIR . '/s3-video/includes/shared.php');
+require_once(WP_PLUGIN_DIR . '/s3-video/includes/s3.php');
 
 // Add shortcodes
 add_shortcode( 'S3_embed_video', 's3_video_embed_video' );
@@ -62,7 +62,7 @@ function s3_video()
 		}
 	}
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
-	require_once(WP_PLUGIN_DIR . '/S3-Video/views/video-management/existing-videos.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/existing-videos.php');
 }
 
 /*
@@ -101,7 +101,7 @@ function s3_video_upload_video()
 	} else {
     	$errorMsg = 'There was an error uploading the video';
 	}
-	require_once(WP_PLUGIN_DIR . '/S3-Video/views/video-management/upload-video.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/upload-video.php');
 }
 
 /*
@@ -140,7 +140,7 @@ function s3_video_plugin_settings()
 		$pluginSettings = s3_video_check_plugin_settings(FALSE);
 	}
 
-	require_once(WP_PLUGIN_DIR . '/S3-Video/views/settings/plugin-settings.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/plugin-settings.php');
 }
 
 /*
@@ -151,7 +151,7 @@ function s3_video_create_playlist()
 	$pluginSettings = s3_video_check_plugin_settings();	
 		
 	if ((!empty($_POST['playlist_contents'])) && (!empty($_POST['playlist_name']))) {
-		require_once(WP_PLUGIN_DIR . '/S3-Video/includes/playlist_management.php');
+		require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
 		$playlistManagement = new s3_playlist_management();
 		
 		$playlistName = sanitize_title($_POST['playlist_name']);
@@ -168,7 +168,7 @@ function s3_video_create_playlist()
 		}  
 	}
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
-	require_once(WP_PLUGIN_DIR . '/S3-Video/views/playlist-management/create-playlist.php');	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/create-playlist.php');	
 }
  
 /*
@@ -177,7 +177,7 @@ function s3_video_create_playlist()
 function s3_video_show_playlists()
 {
 	$pluginSettings = s3_video_check_plugin_settings();			
-	require_once(WP_PLUGIN_DIR . '/S3-Video/includes/playlist_management.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
 	$playlistManagement = new s3_playlist_management();
 	
 	if (!empty($_GET['delete'])) {
@@ -198,13 +198,13 @@ function s3_video_show_playlists()
 			$existingVideos = $playlistManagement->getPlaylistVideos($playlistId);	
 			$s3Videos = s3_video_get_all_existing_video($pluginSettings);
 					
-			require_once(WP_PLUGIN_DIR . '/S3-Video/views/playlist-management/edit-playlist.php');
+			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/edit-playlist.php');
 		} 
 		
 		if (!empty($_GET['reorder'])) {
 			$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['reorder']);
 			$playlistVideos = $playlistManagement->getPlaylistVideos($playlistId);
-			require_once(WP_PLUGIN_DIR . '/S3-Video/views/playlist-management/reorder-playlist.php');	
+			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/reorder-playlist.php');	
 		} 	
 		
 	} else {
@@ -212,7 +212,7 @@ function s3_video_show_playlists()
 		 * If we don't have a playlist to display a list of them all  
 		 */
 		$existingPlaylists = $playlistManagement->getAllPlaylists();	
-		require_once(WP_PLUGIN_DIR . '/S3-Video/views/playlist-management/playlist-management.php');
+		require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/playlist-management.php');
 	}
 	
 }
@@ -226,7 +226,7 @@ function s3_video_embed_video($embedDetails)
 	if ($embedDetails['file']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
 	}
-	require_once(WP_PLUGIN_DIR . '/S3-Video/views/video-management/play-video.php');	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/play-video.php');	
 } 
 
 /*
@@ -234,13 +234,13 @@ function s3_video_embed_video($embedDetails)
  */
 function s3_video_embed_playlist($embedDetails)
 {
-	require_once(WP_PLUGIN_DIR . '/S3-Video/includes/playlist_management.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
 	$playlistManagement = new s3_playlist_management();
 	$playlistVideos = $playlistManagement->getPlaylistVideos($embedDetails['id']);		
 	$pluginSettings = s3_video_check_plugin_settings();
 	$baseUrl =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/';
 	
-	require_once(WP_PLUGIN_DIR . '/S3-Video/views/video-management/play-playlist.php');	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/play-playlist.php');	
 } 
 
 /*
@@ -252,7 +252,7 @@ function s3_video_preview_media()
 	if ($_GET['media']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . $_GET['media'];	
 	}	
-	require_once(WP_PLUGIN_DIR . '/S3-Video/views/video-management/preview-video.php');	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/preview-video.php');	
 } 
 
 /*
@@ -269,7 +269,7 @@ function s3_video_check_plugin_settings($redirect = TRUE)
 		
 	if ((empty($pluginSettings['amazon_access_key'])) || (empty($pluginSettings['amazon_secret_access_key'])) || (empty($pluginSettings['amazon_secret_access_key']))) {
 		if ($redirect) { 
-			require_once(WP_PLUGIN_DIR . '/S3-Video/views/settings/configuration_required.php');
+			require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/configuration_required.php');
 			exit;
 		} else {
 			return FALSE;	
@@ -295,13 +295,13 @@ function s3_video_check_user_access()
  */
 function s3_video_load_css()
 {
-	wp_register_style('s3_video_default', WP_PLUGIN_URL . '/S3-Video/css/style.css');
+	wp_register_style('s3_video_default', WP_PLUGIN_URL . '/s3-video/css/style.css');
 	wp_enqueue_style('s3_video_default');
 	
-	wp_register_style('s3_video_colorbox', WP_PLUGIN_URL . '/S3-Video/css/colorbox.css');
+	wp_register_style('s3_video_colorbox', WP_PLUGIN_URL . '/s3-video/css/colorbox.css');
 	wp_enqueue_style('s3_video_colorbox');	
 	
-	wp_register_style('multiselect_css', WP_PLUGIN_URL . '/S3-Video/css/chosen.css');
+	wp_register_style('multiselect_css', WP_PLUGIN_URL . '/s3-video/css/chosen.css');
 	wp_enqueue_style('multiselect_css');			
 }
 
@@ -310,13 +310,13 @@ function s3_video_load_css()
  */
 function s3_video_load_js()
 {	
-	wp_enqueue_script('validateJSs', WP_PLUGIN_URL . '/S3-Video/js/jquery.validate.js', array('jquery'), '1.0');
-	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/S3-Video/js/jquery.placeholders.js', array('jquery'), '1.0');
-	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/S3-Video/js/jquery.colorbox.js', array('jquery'), '1.0');
-	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
-	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/S3-Video/js/jquery.paginator.js', array('jquery'), '1.0');	
-	wp_enqueue_script('multiSelect', WP_PLUGIN_URL . '/S3-Video/js/jquery.multiselect.js', array('jquery'), '1.0');		
-	wp_enqueue_script('dragDropTable', WP_PLUGIN_URL . '/S3-Video/js/jquery.tablednd.js', array('jquery'), '1.0');			
+	wp_enqueue_script('validateJSs', WP_PLUGIN_URL . '/s3-video/js/jquery.validate.js', array('jquery'), '1.0');
+	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/s3-video/js/jquery.placeholders.js', array('jquery'), '1.0');
+	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/s3-video/js/jquery.colorbox.js', array('jquery'), '1.0');
+	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/s3-video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
+	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/s3-video/js/jquery.paginator.js', array('jquery'), '1.0');	
+	wp_enqueue_script('multiSelect', WP_PLUGIN_URL . '/s3-video/js/jquery.multiselect.js', array('jquery'), '1.0');		
+	wp_enqueue_script('dragDropTable', WP_PLUGIN_URL . '/s3-video/js/jquery.tablednd.js', array('jquery'), '1.0');			
 }
 
 /*
@@ -336,7 +336,7 @@ function s3_video_deactivate()
  */
 function s3_plugin_activate()
 {
-	require_once(WP_PLUGIN_DIR . '/S3-Video/includes/plugin_setup.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/plugin_setup.php');
 	$pluginSetup = new s3_video_plugin_setup();
 	$dbVersion = $pluginSetup->activate_plugin();
 	
@@ -350,7 +350,7 @@ function s3_plugin_activate()
  */
 function s3_plugin_deactivate()
 {
-	require_once(WP_PLUGIN_DIR . '/S3-Video/includes/plugin_setup.php');	
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/plugin_setup.php');	
 	$pluginSetup = new s3_video_plugin_setup();
 	$pluginSetup->deactivate_plugin();
 }	

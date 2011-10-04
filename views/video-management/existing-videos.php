@@ -69,7 +69,7 @@
 						</td>
 											
 						<td>
-							<a title="<?php echo $existingVideo['name']; ?>" href="<?php echo WP_PLUGIN_URL; ?>/S3-Video/preview-video.php?base=<?php echo WP_PLUGIN_URL; ?>/S3-Video/&media=<?php echo 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
+							<a title="<?php echo $existingVideo['name']; ?>" href="<?php echo WP_PLUGIN_URL; ?>/s3-video/preview-video.php?base=<?php echo WP_PLUGIN_URL; ?>/s3-video/&media=<?php echo 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
 								Preview
 							</a>
 							 - 
