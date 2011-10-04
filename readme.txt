@@ -49,8 +49,11 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.92 =
+Purged the Wordpress SVN in hope of retifying issues between GitHub and release code
+
 = 0.9 =
-Retagged as 0.9, error in first commit didn't update Wordpress plugin repository to 0.8
+Retagged as 0.9error in first commit didn't update Wordpress plugin repository to 0.8
 
 = 0.8 =
 Path case changes through the plugin to accomodate the difference between the Github & Wordpress subversion plugin names
