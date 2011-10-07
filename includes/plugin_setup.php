@@ -7,7 +7,7 @@ class s3_video_plugin_setup
 {
 	protected $_databaseDebug = FALSE;
 	protected $_databaseDump = 's3_video.sql';
-	protected $_dbVersion = '0.1';
+	protected $_dbVersion = '0.2';
 	
 	function set_db_dump($databaseDump = NULL)
 	{
@@ -34,6 +34,7 @@ class s3_video_plugin_setup
 	function deactivate_plugin()
 	{
 		mysql_query("DROP TABLE IF EXISTS `s3_video_playlists`") or die(mysql_error());		
-		mysql_query("DROP TABLE IF EXISTS `s3_video_playlist_videos`") or die(mysql_error());		
+		mysql_query("DROP TABLE IF EXISTS `s3_video_playlist_videos`") or die(mysql_error());	
+		mysql_query("DROP TABLE IF EXISTS `s3_video_analytics`") or die(mysql_error());			
 	}
 } 
