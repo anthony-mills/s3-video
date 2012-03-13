@@ -18,7 +18,7 @@ class s3_video_plugin_setup
 	
 	function activate_plugin()
 	{
-		$sql = file_get_contents(__DIR__ . '/' . $this->_databaseDump);
+		$sql = file_get_contents(dirname(__FILE__) . '/' . $this->_databaseDump);
 		
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		
