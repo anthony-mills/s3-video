@@ -49,6 +49,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.94 =
+Fix for missing files from Wordpress plugin repository
+
 = 0.93 =
 The auto buffering and auto play settings controlling the playback of playlists and videos can now be set in the control panel without requiring manual code changes.
 
