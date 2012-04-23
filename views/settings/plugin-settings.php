@@ -110,6 +110,95 @@
 				</td>
 			</tr>
 			
+
+			<tr>
+				<td>
+					<br>
+					<p>
+						<strong>Single Video Playback:</strong>
+					</p>
+				</td>
+
+				<td>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="heading">
+					Autoplay: 
+				</td>
+
+				<td>
+					<?php if ((empty($pluginSettings['amazon_s3_video_autoplay'])) || ($pluginSettings['amazon_s3_video_autoplay'] ==0)) { ?>
+							True<input type="radio" name="video_autoplay" value="1">
+							False<input type="radio" name="video_autoplay" value="0" checked>
+					<?php } else { ?>	
+							True<input type="radio" name="video_autoplay" value="1" checked>
+							False<input type="radio" name="video_autoplay" value="0">
+					<?php } ?>				
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="heading">
+					Autobuffer: 
+				</td>
+
+				<td>
+					<?php if ((empty($pluginSettings['amazon_s3_video_autobuffer'])) || ($pluginSettings['amazon_s3_video_autobuffer'] ==0)) { ?>
+							True<input type="radio" name="video_autobuffer" value="1">
+							False<input type="radio" name="video_autobuffer" value="0" checked>
+					<?php } else { ?>	
+							True<input type="radio" name="video_autobuffer" value="1" checked>
+							False<input type="radio" name="video_autobuffer" value="0">
+					<?php } ?>		
+				</td>
+			</tr>		
+
+			<tr>
+				<td>
+					<br>
+					<p>
+						<strong>Video PLaylist Playback:</strong>
+					</p>
+				</td>
+
+				<td>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="heading">
+					Autoplay: 
+				</td>
+
+				<td>
+					<?php if ((empty($pluginSettings['amazon_s3_playlist_autoplay'])) || ($pluginSettings['amazon_s3_playlist_autoplay'] == 0)) { ?>
+							True<input type="radio" name="playlist_autoplay" value="1">
+							False<input type="radio" name="playlist_autoplay" value="0" checked>
+					<?php } else { ?>	
+							True<input type="radio" name="playlist_autoplay" value="1" checked>
+							False<input type="radio" name="playlist_autoplay" value="0">
+					<?php } ?>				
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="heading">
+					Autobuffer: 
+				</td>
+
+				<td>
+					<?php if ((empty($pluginSettings['amazon_s3_playlist_autobuffer'])) || ($pluginSettings['amazon_s3_playlist_autobuffer'] == 0)) { ?>
+							True<input type="radio" name="playlist_autobuffer" value="1">
+							False<input type="radio" name="playlist_autobuffer" value="0" checked>
+					<?php } else { ?>	
+							True<input type="radio" name="playlist_autobuffer" value="1" checked>
+							False<input type="radio" name="playlist_autobuffer" value="0">
+					<?php } ?>		
+				</td>
+			</tr>	
+								
 			<tr>
 				<td> 
 				</td>
@@ -121,5 +210,6 @@
 				</td>
 			</tr>
 		</table>
+		
 	</form>
 </div>

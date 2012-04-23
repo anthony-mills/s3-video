@@ -90,8 +90,7 @@ class s3_playlist_management
 	{
 	  echo $playlistName;
 		$time = time();
-		mysql_query("INSERT INTO s3_video_playlists (playlist_name,created) VALUES ('$playlistName', '$time')") or die(mysql_error());
-    echo ' Inserted as ' . mysql_insert_id();		
+		mysql_query("INSERT INTO s3_video_playlists (playlist_name,created) VALUES ('$playlistName', '$time')") or die(mysql_error());	
 		return mysql_insert_id();
 	}
 	

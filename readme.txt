@@ -2,7 +2,7 @@
 Contributors: Anthony.Mills
 Plugin URI: https://github.com/anthony-mills/S3-Video
 Author URI: http://www.development-cycle.com
-Tested up to: 3.2.1
+Tested up to: 3.3.2
 Tags: S3, Video, Embed
 
 The S3 Video Plugin video allows the ability to store and embed video media using Amazons's S3 storage service.
@@ -48,6 +48,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 3. Drag and drop ordering of videos in a playlist
 
 == Changelog ==
+
+= 0.93 =
+The auto buffering and auto play settings controlling the playback of playlists and videos can now be set in the control panel without requiring manual code changes.
 
 = 0.92 =
 Purged the Wordpress SVN in hope of retifying issues between GitHub and release code

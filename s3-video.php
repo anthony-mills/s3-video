@@ -111,15 +111,26 @@ function s3_video_plugin_settings()
 {
 	if (!empty($_POST)) {
 		if ((!empty($_POST['amazon_access_key'])) && (!empty($_POST['amazon_secret_access_key'])) && (!empty($_POST['amazon_video_bucket']))) {
-			register_setting( 'amazon-s3-video', 'amazon_access_key' );
-			register_setting( 'amazon-s3-video', 'amazon_secret_access_key' );
-			register_setting( 'amazon-s3-video', 'amazon_video_bucket' );
-			register_setting( 'amazon-s3-video', 'amazon_url' );
+			register_setting( 'amazon_s3_video', 'amazon_access_key' );
+			register_setting( 'amazon_s3_video', 'amazon_secret_access_key' );
+			register_setting( 'amazon_s3_video', 'amazon_video_bucket' );
+			register_setting( 'amazon_s3_video', 'amazon_url' );
 			register_setting( 's3-video-results-limit', 's3_video_page_result_limit' );
+			
+			register_setting( 'amazon_s3_video_autoplay', 'video_autoplay' );
+			register_setting( 'amazon_s3_video_autobuffer', 'video_autobuffer' );
+			register_setting( 'amazon_s3_playlist_autoplay', 'playlist_autoplay' );
+			register_setting( 'amazon_s3_playlist_autobuffer', 'playlist_autobuffer' );			
 
 			update_option( 'amazon_access_key', $_POST['amazon_access_key']);
 			update_option( 'amazon_secret_access_key', $_POST['amazon_secret_access_key'] );
 			update_option( 'amazon_video_bucket', $_POST['amazon_video_bucket'] );
+			
+			update_option( 'amazon_s3_video_autoplay', $_POST['video_autoplay'] );
+			update_option( 'amazon_s3_video_autobuffer', $_POST['video_autobuffer'] );
+			
+			update_option( 'amazon_s3_playlist_autoplay', $_POST['playlist_autoplay'] );
+			update_option( 'amazon_s3_playlist_autobuffer', $_POST['playlist_autobuffer'] );						
 			
 			if (!empty($_POST['amazon_url'])) {
 				update_option( 'amazon_url', $_POST['amazon_url']);
@@ -260,12 +271,16 @@ function s3_video_preview_media()
  */
 function s3_video_check_plugin_settings($redirect = TRUE)
 {
-	$pluginSettings['amazon_access_key'] = get_option('amazon_access_key');
-	$pluginSettings['amazon_secret_access_key'] = get_option('amazon_secret_access_key');
-	$pluginSettings['amazon_url'] = get_option('amazon_url');
-	$pluginSettings['amazon_video_bucket'] = get_option('amazon_video_bucket');
-	$pluginSettings['amazon_video_bucket'] = get_option('amazon_video_bucket');
-	$pluginSettings['s3_video_page_result_limit'] = get_option('s3_video_page_result_limit');
+	$pluginSettings = array('amazon_access_key' => get_option('amazon_access_key'),
+							'amazon_secret_access_key' => get_option('amazon_secret_access_key'),
+							'amazon_url' => get_option('amazon_url'),
+							'amazon_video_bucket' => get_option('amazon_video_bucket'),
+							'amazon_video_bucket' => get_option('amazon_video_bucket'),
+							's3_video_page_result_limit' => get_option('s3_video_page_result_limit'),
+							'amazon_s3_video_autoplay' => get_option('amazon_s3_video_autoplay'),
+							'amazon_s3_video_autobuffer' => get_option('amazon_s3_video_autobuffer'),
+							'amazon_s3_playlist_autoplay' => get_option('amazon_s3_playlist_autoplay'),
+							'amazon_s3_playlist_autobuffer' => get_option('amazon_s3_playlist_autobuffer'));		
 		
 	if ((empty($pluginSettings['amazon_access_key'])) || (empty($pluginSettings['amazon_secret_access_key'])) || (empty($pluginSettings['amazon_secret_access_key']))) {
 		if ($redirect) { 

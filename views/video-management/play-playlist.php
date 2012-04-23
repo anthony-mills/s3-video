@@ -2,6 +2,17 @@
 if (!$playlistVideos) {
 	echo '<div align="center">Playlist not found</center>';
 } else {
+		if ($pluginSettings['amazon_s3_playlist_autobuffer'] == 0) {
+			$autoBuffer = 'autoBuffering: false,' . "\r\n";
+		} else {
+			$autoBuffer = 'autoBuffering: true,' . "\r\n";			
+		}
+		
+		if ($pluginSettings['amazon_s3_playlist_autoplay'] == 0) {
+			$autoPlay = 'autoPlay: false,' . "\r\n";
+		} else {
+			$autoPlay = 'autoPlay: true,' . "\r\n";			
+		}		
 ?>
 	<script>
 	jQuery(function() {
@@ -12,6 +23,8 @@ if (!$playlistVideos) {
 			// clip properties common to all playlist entries
 			clip: {
 				autoPlay: true,
+		        <?= $autoBuffer; ?>
+		        <?= $autoPlay; ?>				
 				autoBuffering: true,
 				bufferLength: 5,
 			 	baseUrl: '<?= $baseUrl;?>'

@@ -3,12 +3,12 @@
 	  var awsBucket = '<?php echo $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#videoListTable").tablesorter();
 	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?echo $pluginSettings['s3_video_page_result_limit']; ?>});	  
-	  jQuery(".colorBox").colorbox();
+	  jQuery(".colorBox").colorbox({width:"700", height:"480"});
 	  	  
 	  jQuery("a#getShortLink").click(function() {
 		var videoFile = jQuery(this).attr("title"); 
 		var linkText = '<h2>Wordpress Shortcode</h2><p>Copy and paste the following shortcode into the page or post where you would like to embed your video: </p><br>';
-		var shortLink = '<p>[S3_embed_video file=\"' + videoFile + '\"]</p>';
+		var shortLink = '<p><input type=\"text\" name=\"shortlink\" value=\"[S3_embed_video file=\'' + videoFile + '\']\" style=\"width: 450px;\"></p>';
 		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
 	  });
@@ -69,7 +69,7 @@
 						</td>
 											
 						<td>
-							<a title="<?php echo $existingVideo['name']; ?>" href="<?php echo WP_PLUGIN_URL; ?>/s3-video/preview-video.php?base=<?php echo WP_PLUGIN_URL; ?>/s3-video/&media=<?php echo 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
+							<a title="<?php echo $existingVideo['name']; ?>" href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/video-management/preview-video.php?base=<?php echo WP_PLUGIN_URL; ?>/s3-video/&media=<?php echo 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
 								Preview
 							</a>
 							 - 

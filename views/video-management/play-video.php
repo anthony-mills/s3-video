@@ -4,12 +4,24 @@
 	<?php } else { ?>
 		<a href="<?= $videoFile; ?>" style="display:block;width:<?= $embedDetails['width']; ?>px;height:<?= $embedDetails['height']; ?>px"  id="player"></a> 		
 	<?php } ?>
-	
+	<?php 
+		if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
+			$autoBuffer = 'autoBuffering: false,' . "\r\n";
+		} else {
+			$autoBuffer = 'autoBuffering: true,' . "\r\n";			
+		}
+		
+		if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
+			$autoPlay = 'autoPlay: false,' . "\r\n";
+		} else {
+			$autoPlay = 'autoPlay: true,' . "\r\n";			
+		}		
+	?>
 	<script>
 		flowplayer("player", '<?= WP_PLUGIN_URL; ?>/s3-video/misc/flowplayer-3.2.7.swf', {
 		    clip:  {
-		        autoPlay: false,
-		        autoBuffering: true,
+		        <?= $autoBuffer; ?>
+		        <?= $autoPlay; ?>
 		        bufferLength: 5,
 		        onStart: function() {
 	    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=start&time="+$f().getTime()+"&jsoncallback=?");
