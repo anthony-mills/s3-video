@@ -3,9 +3,9 @@ Contributors: Anthony.Mills
 Plugin URI: https://github.com/anthony-mills/S3-Video
 Author URI: http://www.development-cycle.com
 Tested up to: 3.3.2
-Tags: S3, Video, Embed
+Tags: S3, Video, Embed, Streaming, Playlists
 
-The S3 Video Plugin video allows the ability to store and embed video media using Amazons's S3 storage service.
+The S3 Video Plugin video allows the embedding and streaming of video files stored on Amazons's S3 storage service. Either as individual videos within pages and posts or playlists created from the plugin.
 
 == Description ==
 The S3 Video Plugin allows the embedding of video media stored on Amazon's S3 storage into a Wordpress blog post or page. 
