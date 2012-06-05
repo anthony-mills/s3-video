@@ -175,7 +175,7 @@ function s3_video_create_playlist()
 				$successMsg = 'New playlist saved successfully.';			
 			} 
 		} else {
-	    	$errorMsg = 'A playlist with this name already exists.';					
+	    		$errorMsg = 'A playlist with this name already exists.';					
 		}  
 	}
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
