@@ -18,12 +18,9 @@ register_deactivation_hook(__FILE__, 'S3_plugin_deactivate');
 add_action('admin_menu', 's3_video_plugin_menu');
 add_action('admin_print_styles', 's3_video_load_css');
 add_action('admin_print_scripts', 's3_video_load_js');
+add_action('wp_enqueue_scripts', 's3_video_load_player_js');
 add_action('wp_ajax_my_action', 'my_action_callback');
 
-wp_enqueue_script('jquery');
-wp_enqueue_script('swfobject');
-wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
-wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');
 require_once(WP_PLUGIN_DIR . '/s3-video/includes/shared.php');
 require_once(WP_PLUGIN_DIR . '/s3-video/includes/s3.php');
 
@@ -334,6 +331,14 @@ function s3_video_load_js()
 	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/s3-video/js/jquery.paginator.js', array('jquery'), '1.0');	
 	wp_enqueue_script('multiSelect', WP_PLUGIN_URL . '/s3-video/js/jquery.multiselect.js', array('jquery'), '1.0');		
 	wp_enqueue_script('dragDropTable', WP_PLUGIN_URL . '/s3-video/js/jquery.tablednd.js', array('jquery'), '1.0');			
+}
+
+function s3_video_load_player_js()
+{
+	wp_enqueue_script('jquery');
+	wp_enqueue_script('swfobject');
+	wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
+	wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');			
 }
 
 /*
