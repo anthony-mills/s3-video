@@ -177,7 +177,7 @@
 				<td>
 					<br>
 					<p>
-						<strong>Video PLaylist Playback:</strong>
+						<strong>Video Playlist Playback:</strong>
 					</p>
 				</td>
 
