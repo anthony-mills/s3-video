@@ -120,7 +120,8 @@ function s3_video_plugin_settings()
 			register_setting( 'amazon_s3_video_autoplay', 'video_autoplay' );
 			register_setting( 'amazon_s3_video_autobuffer', 'video_autobuffer' );
 			register_setting( 'amazon_s3_playlist_autoplay', 'playlist_autoplay' );
-			register_setting( 'amazon_s3_playlist_autobuffer', 'playlist_autobuffer' );			
+			register_setting( 'amazon_s3_playlist_autobuffer', 'playlist_autobuffer' );	
+			register_setting( 'amazon_s3_video_player', 'video_player' );		
 
 			update_option( 'amazon_access_key', trim($_POST['amazon_access_key'] ));
 			update_option( 'amazon_secret_access_key', trim($_POST['amazon_secret_access_key'] ));
@@ -130,7 +131,8 @@ function s3_video_plugin_settings()
 			update_option( 'amazon_s3_video_autobuffer', $_POST['video_autobuffer'] );
 			
 			update_option( 'amazon_s3_playlist_autoplay', $_POST['playlist_autoplay'] );
-			update_option( 'amazon_s3_playlist_autobuffer', $_POST['playlist_autobuffer'] );						
+			update_option( 'amazon_s3_playlist_autobuffer', $_POST['playlist_autobuffer'] );	
+			update_option( 'amazon_s3_video_player', $_POST['video_player'] );					
 			
 			if (!empty($_POST['amazon_url'])) {
 				update_option( 'amazon_url', $_POST['amazon_url']);
