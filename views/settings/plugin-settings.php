@@ -109,7 +109,25 @@
 					<input type="text" name="page_result_limit" placeholder="15"  value="<?php echo $pluginSettings['s3_video_page_result_limit']; ?>">					
 				</td>
 			</tr>
-			
+
+			<tr>
+
+				<td class="heading">
+					Video Player: 
+				</td>
+
+				<td>
+					<?php if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 0)) { ?>
+							<input type="radio" name="video_player" value="jwplayer" checked> JWPlayer - <a href="http://www.longtailvideo.com/players/" target="_blank">More info</a>
+							<br>
+							<input type="radio" name="videoPlayer" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
+					<?php } else { ?>	
+							<input type="radio" name="video_player" value="jwplayer" checked> - <a href="http://www.longtailvideo.com/players/" target="_blank">More info</a>
+							<br>
+							<input type="radio" name="videoPlayer" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
+					<?php } ?>		
+				</td>
+			</tr>			
 
 			<tr>
 				<td>
@@ -197,7 +215,7 @@
 							False<input type="radio" name="playlist_autobuffer" value="0">
 					<?php } ?>		
 				</td>
-			</tr>	
+			</tr>		
 								
 			<tr>
 				<td> 

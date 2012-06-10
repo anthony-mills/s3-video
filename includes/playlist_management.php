@@ -47,8 +47,6 @@ class s3_playlist_management
 	
 	public function deletePlaylistVideos($playlistId)
 	{
-	  print_r($playlistId);
-	  exit;
 		mysql_query("DELETE FROM s3_video_playlist_videos WHERE video_playlist = '$playlistId'")  or die(mysql_error());			
 	}
 	
@@ -88,7 +86,6 @@ class s3_playlist_management
 		
 	protected function _savePlaylistName($playlistName) 
 	{
-	  echo $playlistName;
 		$time = time();
 		mysql_query("INSERT INTO s3_video_playlists (playlist_name,created) VALUES ('$playlistName', '$time')") or die(mysql_error());	
 		return mysql_insert_id();
