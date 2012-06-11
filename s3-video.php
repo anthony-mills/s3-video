@@ -342,8 +342,16 @@ function s3_video_load_player_js()
 {
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('swfobject');
-	wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.10.js', array('jquery'), '1.0');
-	wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');			
+	
+	$pluginSettings = s3_video_check_plugin_settings();
+	if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
+		wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.10.js', array('jquery'), '1.0');
+		wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');	
+	} else {
+		wp_enqueue_script('videoJS', WP_PLUGIN_URL . '/s3-video/js/video.min.js');
+		wp_register_style('s3_video_videoJS_css', WP_PLUGIN_URL . '/s3-video/css/video-js.css');
+		wp_enqueue_style('s3_video_videoJS_css');						
+	}		
 }
 
 /*
