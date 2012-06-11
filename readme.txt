@@ -49,6 +49,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.95 =
+Updated flowplayer to Version 3.2.11
+
 = 0.94 =
 Fix for missing files from Wordpress plugin repository
 

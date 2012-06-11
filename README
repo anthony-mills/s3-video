@@ -39,6 +39,9 @@ To define the player as 640 pixels wide by 380 pixels high
 
 == Changelog ==
 
+= 0.95 =
+Updated flowplayer to Version 3.2.11
+
 = 0.94 =
 Fix for missing files from Wordpress plugin repository
 
