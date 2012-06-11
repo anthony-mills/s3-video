@@ -337,7 +337,7 @@ function s3_video_load_player_js()
 {
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('swfobject');
-	wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.6.js', array('jquery'), '1.0');
+	wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.10.js', array('jquery'), '1.0');
 	wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');			
 }
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <script type="text/javascript" src="<?= $_GET['base']; ?>js/flowplayer-3.2.6.js"></script>
+    <script type="text/javascript" src="<?= $_GET['base']; ?>js/flowplayer-3.2.10.js"></script>
 </head> 
 
 <body>
@@ -9,7 +9,7 @@
 			<a href="<?= $_GET['media']; ?>" style="display:block;width:640px;height:380px"  id="player"></a> 
 			
 			<script>
-				flowplayer("player", "<?= $_GET['base']; ?>misc/flowplayer-3.2.7.swf", {
+				flowplayer("player", "<?= $_GET['base']; ?>misc/flowplayer-3.2.11.swf", {
 				    clip:  {
 				        autoPlay: false,
 				        autoBuffering: true,

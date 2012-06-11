@@ -18,7 +18,7 @@
 		}		
 	?>
 	<script>
-		flowplayer("player", '<?= WP_PLUGIN_URL; ?>/s3-video/misc/flowplayer-3.2.7.swf', {
+		flowplayer("player", '<?= WP_PLUGIN_URL; ?>/s3-video/misc/flowplayer-3.2.11.swf', {
 		    clip:  {
 		        <?= $autoBuffer; ?>
 		        <?= $autoPlay; ?>
