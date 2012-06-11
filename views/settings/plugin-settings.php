@@ -118,11 +118,11 @@
 
 				<td>
 					<?php if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 0)) { ?>
-							<input type="radio" name="video_player" value="jwplayer" checked> JWPlayer - <a href="http://www.longtailvideo.com/players/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="flowplayer" checked> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
 							<br>
 							<input type="radio" name="videoPlayer" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
 					<?php } else { ?>	
-							<input type="radio" name="video_player" value="jwplayer" checked> - <a href="http://www.longtailvideo.com/players/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="flowplayer" checked> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
 							<br>
 							<input type="radio" name="videoPlayer" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
 					<?php } ?>		
