@@ -123,7 +123,8 @@ function s3_video_plugin_settings()
 			update_option( 'amazon_access_key', trim($_POST['amazon_access_key'] ));
 			update_option( 'amazon_secret_access_key', trim($_POST['amazon_secret_access_key'] ));
 			update_option( 'amazon_video_bucket', trim($_POST['amazon_video_bucket'] ));
-			
+			update_option( 'amazon_s3_video_player', trim($_POST['video_player'] ));
+						
 			update_option( 'amazon_s3_video_autoplay', $_POST['video_autoplay'] );
 			update_option( 'amazon_s3_video_autobuffer', $_POST['video_autobuffer'] );
 			
@@ -274,7 +275,7 @@ function s3_video_check_plugin_settings($redirect = TRUE)
 							'amazon_secret_access_key' => get_option('amazon_secret_access_key'),
 							'amazon_url' => get_option('amazon_url'),
 							'amazon_video_bucket' => get_option('amazon_video_bucket'),
-							'amazon_video_bucket' => get_option('amazon_video_bucket'),
+							'amazon_s3_video_player' => get_option('amazon_s3_video_player'),								
 							's3_video_page_result_limit' => get_option('s3_video_page_result_limit'),
 							'amazon_s3_video_autoplay' => get_option('amazon_s3_video_autoplay'),
 							'amazon_s3_video_autobuffer' => get_option('amazon_s3_video_autobuffer'),
@@ -333,6 +334,10 @@ function s3_video_load_js()
 	wp_enqueue_script('dragDropTable', WP_PLUGIN_URL . '/s3-video/js/jquery.tablednd.js', array('jquery'), '1.0');			
 }
 
+/**
+ * 
+ * Load the player dependent Javascript
+ */
 function s3_video_load_player_js()
 {
 	wp_enqueue_script('jquery');

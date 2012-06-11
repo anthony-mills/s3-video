@@ -102,11 +102,12 @@
 			
 			<tr>
 				<td class="heading">
+					<em>*</em>
 					# Of Video Results Per Page: 
 				</td>
 
 				<td>
-					<input type="text" name="page_result_limit" placeholder="15"  value="<?php echo $pluginSettings['s3_video_page_result_limit']; ?>">					
+					<input type="text" name="page_result_limit" placeholder="15"  value="<?php echo $pluginSettings['s3_video_page_result_limit']; ?>" class="required">					
 				</td>
 			</tr>
 
@@ -117,14 +118,14 @@
 				</td>
 
 				<td>
-					<?php if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 0)) { ?>
+					<?php if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) { ?>
 							<input type="radio" name="video_player" value="flowplayer" checked> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
 							<br>
-							<input type="radio" name="videoPlayer" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
 					<?php } else { ?>	
-							<input type="radio" name="video_player" value="flowplayer" checked> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="flowplayer"> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
 							<br>
-							<input type="radio" name="videoPlayer" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="videojs" checked> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
 					<?php } ?>		
 				</td>
 			</tr>			
