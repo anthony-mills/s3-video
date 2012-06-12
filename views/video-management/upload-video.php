@@ -11,6 +11,10 @@
 		
 	  jQuery(':input[placeholder]').placeholder();
 
+	  if (jQuery('#validationError').not(':empty')){
+		jQuery('#validationError').show();
+		jQuery('#validationError').fadeOut(5000);
+	  }
 	});
 </script>
 
