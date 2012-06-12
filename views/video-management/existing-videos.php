@@ -1,3 +1,7 @@
+<?php
+// Sort out auto play and autobeffer settings for flash embedded videos
+$flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBuffering":'. $pluginSettings['amazon_s3_video_autobuffer'];
+?>
 <script type="text/javascript">
 	jQuery(function() {
 	  var awsBucket = '<?php echo $pluginSettings['amazon_video_bucket']; ?>';
@@ -19,7 +23,7 @@
 		var embedCode = '<object width="640" height="380" id="s3EmbedVideo" name="s3EmbedVideo" data="http://releases.flowplayer.org/swf/flowplayer-3.2.11.swf" type="application/x-shockwave-flash">' +
 						'<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.11.swf" />' +
 						'<param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" />' +
-						'<param name="flashvars" value=\'config={"clip":{"url":"http://' + awsBucket + '.s3.amazonaws.com/' + videoFile + '"},"canvas":{"backgroundColor":"#112233"}}}\' />' +
+						'<param name="flashvars" value=\'config={"clip":{"url":"http://' + awsBucket + '.s3.amazonaws.com/' + videoFile + '", <?php echo $flashVars; ?>},"canvas":{"backgroundColor":"#112233"}}}\' />' +
 						'</object>';
 		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode">' + embedCode + '</textarea></p>';
 		jQuery("#videoInfo").html(linkText + copyEmbedCode + '<br>');

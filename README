@@ -45,6 +45,7 @@ Choice of VideoJS of flowplayer as the player used for standar video playback
 Fixed invisible error messages on video upload error
 Fixed missing notices on file deletion
 Added support for wider range of video MIME types on video upload
+Autoplay and autobuffer settings now also affect flash direct embed code
 
 = 0.94 =
 Fix for missing files from Wordpress plugin repository
