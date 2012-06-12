@@ -41,6 +41,8 @@ To define the player as 640 pixels wide by 380 pixels high
 
 = 0.95 =
 Updated flowplayer to Version 3.2.11
+Choice of VideoJS of flowplayer as the player used for standar video playback
+Fixed invisible error messages on video upload error
 
 = 0.94 =
 Fix for missing files from Wordpress plugin repository

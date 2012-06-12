@@ -51,6 +51,8 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 = 0.95 =
 Updated flowplayer to Version 3.2.11
+Choice of JSplayer or Flowplayer for video embed
+Fixed invisible error messages on video upload error
 
 = 0.94 =
 Fix for missing files from Wordpress plugin repository
