@@ -98,7 +98,7 @@ function s3_video_upload_video()
         }
 			}
 	} else {
-		if (isset($_POST)) {
+		if (!empty($_POST)) {
     		$errorMsg = 'There was an error uploading the video';
 		}
 	}

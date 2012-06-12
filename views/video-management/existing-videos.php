@@ -24,7 +24,12 @@
 		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode">' + embedCode + '</textarea></p>';
 		jQuery("#videoInfo").html(linkText + copyEmbedCode + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
-	  });	  
+	  });
+	  	  
+	  if (jQuery('#successMsg').not(':empty')){
+		jQuery('#successMsg').show();
+		jQuery('#successMsg').fadeOut(5000);
+	  }	  
 	});
 </script>
 
@@ -33,9 +38,7 @@
 <h2>Existing S3 Videos</h2>
 
 <?php if (!empty($successMsg)) { ?>
-	<div id="successMsg">
-		<?php $successMsg; ?>
-	</div>
+	<div id="successMsg"><?php echo $successMsg; ?></div>
 <?php } ?>
 
 <?php
