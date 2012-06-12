@@ -54,6 +54,7 @@ Updated flowplayer to Version 3.2.11
 Choice of JSplayer or Flowplayer for video embed
 Fixed invisible error messages on video upload error
 Added support for wider range of video MIME types on video upload
+Fixed missing notices on file deletion
 
 = 0.94 =
 Fix for missing files from Wordpress plugin repository
