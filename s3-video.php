@@ -70,9 +70,11 @@ function s3_video_upload_video()
 	s3_video_check_user_access(); 
 	$pluginSettings = s3_video_check_plugin_settings();
 	$tmpDirectory = s3_video_check_upload_directory();
+	$fileTypes = array('video/x-flv', 'video/x-msvideo', 'video/mp4', 'application/octet-stream', 'video/avi', 'video/x-msvideo', 
+						'video/mpeg');
 	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {
-			if (($_FILES['upload_video']['type'] !='video/x-flv') && ($_FILES['upload_video']['type'] !='video/mp4') && ($_FILES['upload_video']['type'] !='application/octet-stream')) {
-				$errorMsg = 'You need to provide an .flv or .mp4 file';
+			if ((!in_array($_FILES['upload_video']['type'], $fileTypes)) && ($_FILES['upload_video']['type'] !='application/octet-stream')) {					
+					$errorMsg = 'You need to provide an .flv or .mp4 file';
 			} else {
 				$fileName = basename($_FILES['upload_video']['name']);
 				$fileName = preg_replace('/[^A-Za-z0-9_.]+/', '', $fileName);
@@ -96,7 +98,9 @@ function s3_video_upload_video()
         }
 			}
 	} else {
-    	$errorMsg = 'There was an error uploading the video';
+		if (isset($_POST)) {
+    		$errorMsg = 'There was an error uploading the video';
+		}
 	}
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/upload-video.php');
 }

@@ -53,6 +53,7 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 Updated flowplayer to Version 3.2.11
 Choice of JSplayer or Flowplayer for video embed
 Fixed invisible error messages on video upload error
+Added support for wider range of video MIME types on video upload
 
 = 0.94 =
 Fix for missing files from Wordpress plugin repository

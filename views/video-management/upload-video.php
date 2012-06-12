@@ -31,11 +31,7 @@
 	
 			<form method="POST" id="videoUpload" enctype="multipart/form-data">
 				<?php if (!empty($errorMsg)) { ?>
-					<div id="validationError">
-						<?php echo $errorMsg; ?>
-					</div>
-				<?php } else { ?>
-					<div id="validationError"></div>					
+						<div id="validationError"><?php echo $errorMsg; ?></div>
 				<?php } ?>
 				
 				<?php if (!empty($successMsg)) { ?>
