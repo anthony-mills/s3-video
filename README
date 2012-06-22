@@ -41,7 +41,7 @@ To define the player as 640 pixels wide by 380 pixels high
 
 = 0.95 =
 Updated flowplayer to Version 3.2.11
-Choice of VideoJS of flowplayer as the player used for standar video playback
+Choice of VideoJS of flowplayer as the player used for standard video playback
 Fixed invisible error messages on video upload error
 Fixed missing notices on file deletion
 Added support for wider range of video MIME types on video upload
