@@ -12,7 +12,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 	  jQuery("a#getShortLink").click(function() {
 		var videoFile = jQuery(this).attr("title"); 
 		var linkText = '<h2>Wordpress Shortcode</h2><p>Copy and paste the following shortcode into the page or post where you would like to embed your video: </p><br>';
-		var shortLink = '<p><input type=\"text\" name=\"shortlink\" value=\"[S3_embed_video file=\'' + videoFile + '\']\" style=\"width: 450px;\"></p>';
+		var shortLink = '<p><input type=\"text\" readonly=\"readonly\" name=\"shortlink\" value=\"[S3_embed_video file=\'' + videoFile + '\']\" style=\"width: 450px;\"></p>';
 		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
 	  });
@@ -25,7 +25,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 						'<param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" />' +
 						'<param name="flashvars" value=\'config={"clip":{"url":"http://' + awsBucket + '.s3.amazonaws.com/' + videoFile + '", <?php echo $flashVars; ?>},"canvas":{"backgroundColor":"#112233"}}}\' />' +
 						'</object>';
-		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode">' + embedCode + '</textarea></p>';
+		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode" readonly="readonly">' + embedCode + '</textarea></p>';
 		jQuery("#videoInfo").html(linkText + copyEmbedCode + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
 	  });
