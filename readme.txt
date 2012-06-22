@@ -56,6 +56,7 @@ Fixed invisible error messages on video upload error
 Added support for wider range of video MIME types on video upload
 Fixed missing notices on file deletion
 Autoplay and autobuffer settings now also affect flash direct embed code
+Added the readonly attribute to input fields display video embed code to avoid text accidentally being type in with the code
 
 = 0.94 =
 Fix for missing files from Wordpress plugin repository
