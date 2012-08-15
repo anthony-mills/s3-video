@@ -45,9 +45,9 @@ class S3
 	const STORAGE_CLASS_STANDARD = 'STANDARD';
 	const STORAGE_CLASS_RRS = 'REDUCED_REDUNDANCY';
 
-	private static $__accessKey = null; // AWS Access key
-	private static $__secretKey = null; // AWS Secret key
-	private static $__sslKey = null;
+	protected static $__accessKey = null; // AWS Access key
+	protected static $__secretKey = null; // AWS Secret key
+	protected static $__sslKey = null;
 
 	public static $endpoint = 's3.amazonaws.com';
 	public static $proxy = null;
@@ -61,8 +61,8 @@ class S3
 	public static $sslCert = null;
 	public static $sslCACert = null;
 
-	private static $__signingKeyPairId = null; // AWS Key Pair ID
-	private static $__signingKeyResource = false; // Key resource, freeSigningKey() must be called to clear it from memory
+	protected static $__signingKeyPairId = null; // AWS Key Pair ID
+	protected static $__signingKeyResource = false; // Key resource, freeSigningKey() must be called to clear it from memory
 
 
 	/**
@@ -214,7 +214,7 @@ class S3
 	* @param integer $code Error code
 	* @return void
 	*/
-	private static function __triggerError($message, $file, $line, $code = 0)
+	protected static function __triggerError($message, $file, $line, $code = 0)
 	{
 		if (self::$useExceptions)
 			throw new S3Exception($message, $file, $line, $code);
@@ -1391,7 +1391,7 @@ class S3
 	* @param array $paths Paths to objects to invalidateDistribution
 	* @return string
 	*/
-	private static function __getCloudFrontInvalidationBatchXML($paths, $callerReference = '0') {
+	protected static function __getCloudFrontInvalidationBatchXML($paths, $callerReference = '0') {
 		$dom = new DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
 		$invalidationBatch = $dom->createElement('InvalidationBatch');
@@ -1420,7 +1420,7 @@ class S3
 	* @param array $trustedSigners Array of trusted signers
 	* @return string
 	*/
-	private static function __getCloudFrontDistributionConfigXML($bucket, $enabled, $comment, $callerReference = '0', $cnames = array(), $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = array())
+	protected static function __getCloudFrontDistributionConfigXML($bucket, $enabled, $comment, $callerReference = '0', $cnames = array(), $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = array())
 	{
 		$dom = new DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
@@ -1460,7 +1460,7 @@ class S3
 	* @param object &$node DOMNode
 	* @return array
 	*/
-	private static function __parseCloudFrontDistributionConfig(&$node)
+	protected static function __parseCloudFrontDistributionConfig(&$node)
 	{
 		if (isset($node->DistributionConfig))
 			return self::__parseCloudFrontDistributionConfig($node->DistributionConfig);
@@ -1520,7 +1520,7 @@ class S3
 	* @param object &$rest S3Request instance
 	* @return object
 	*/
-	private static function __getCloudFrontResponse(&$rest)
+	protected static function __getCloudFrontResponse(&$rest)
 	{
 		$rest->getResponse();
 		if ($rest->response->error === false && isset($rest->response->body) &&
@@ -1615,7 +1615,7 @@ class S3
 	* @param string $string String to sign
 	* @return string
 	*/
-	private static function __getHash($string)
+	protected static function __getHash($string)
 	{
 		return base64_encode(extension_loaded('hash') ?
 		hash_hmac('sha1', $string, self::$__secretKey, true) : pack('H*', sha1(
@@ -1868,7 +1868,7 @@ final class S3Request
 	* @param string &$data Data
 	* @return integer
 	*/
-	private function __responseWriteCallback(&$curl, &$data)
+	protected function __responseWriteCallback(&$curl, &$data)
 	{
 		if (in_array($this->response->code, array(200, 206)) && $this->fp !== false)
 			return fwrite($this->fp, $data);
@@ -1885,7 +1885,7 @@ final class S3Request
 	* @param string &$data Data
 	* @return integer
 	*/
-	private function __responseHeaderCallback(&$curl, &$data)
+	protected function __responseHeaderCallback(&$curl, &$data)
 	{
 		if (($strlen = strlen($data)) <= 2) return $strlen;
 		if (substr($data, 0, 4) == 'HTTP')
