@@ -15,11 +15,47 @@ class s3_video_management {
 	 * @param string $videoName
 	 * @return string $imageName
 	 */
-	public function getVideoStill($videoName)
+	public function getVideoStillByVideoName($videoName)
 	{
-		$sqlQuery = mysql_query("SELECT image_file FROM s3_video_stills WHERE video_file = '$videName' LIMIT 1");
+		$sqlQuery = mysql_query("SELECT image_file FROM s3_video_stills WHERE video_file = '$videoName' LIMIT 1");
 				
 		$videoStill = mysql_fetch_object($sqlQuery);
-		print_r($videoStill);
+		if (!empty($videoStill->image_file)) {
+			return $videoStill->image_file;	
+		}
 	}
+	
+	/**
+	 * 
+	 * Get video still by its file name
+	 * 
+	 * @param string $imageName
+	 * @return object
+	 */
+	 public function getVideoStillByImageName($imageName)
+	 {
+		$stillsSQL = mysql_query("SELECT * FROM s3_video_stills WHERE image_file = '$imageName'");
+		
+		$existingStills = array();
+		while($videoStill = mysql_fetch_assoc($stillsSQL)) {
+			$existingStills[] = $videoStill;	
+		}
+		
+		return $existingStills;		 	
+	 }
+	 
+	 /**
+	  * 
+	  * Delete video still
+	  * 
+	  * @param string $videoName
+	  * @param string $imageName 
+	  * 
+	  * @return void
+	  */
+	  public function deleteVideoStill($videoName, $imageName)
+	  {
+		mysql_query("DELETE FROM s3_video_stills WHERE video_file = '$videoName' AND image_file = '$imageName'")  or die(mysql_error());	  	
+	  }
+	 
 } 

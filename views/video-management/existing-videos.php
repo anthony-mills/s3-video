@@ -95,7 +95,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 										Get Embed Code
 									</a>	
 									 -
-									<a href="admin.php?page=s3_video_meta_data&video=<?= urlencode($existingVideo['name']); ?>" title="<?php echo $existingVideo['name']; ?>">
+									<a href="admin.php?page=s3_video_meta_data&video=<?php echo $existingVideo['name']; ?>" title="<?php echo $existingVideo['name']; ?>">
 										Create / Edit Meta Data
 									</a>													
 								</td>

@@ -19,7 +19,9 @@ add_action('admin_menu', 's3_video_plugin_menu');
 add_action('admin_print_styles', 's3_video_load_css');
 add_action('admin_print_scripts', 's3_video_load_js');
 add_action('wp_enqueue_scripts', 's3_video_load_player_js');
-add_action('wp_ajax_my_action', 'my_action_callback');
+
+// Add Ajax calls
+add_action('wp_ajax_remove_video_still', 's3_video_remove_video_still');
 
 require_once(WP_PLUGIN_DIR . '/s3-video/includes/shared.php');
 require_once(WP_PLUGIN_DIR . '/s3-video/includes/s3.php');
@@ -284,9 +286,45 @@ function s3_video_meta_data()
 			}
 		}
 	}
+
+	// Check and see if there is a still in the database for this video
+	$videoStill = $videoManagement->getVideoStillByVideoName($videoName);
+	$stillFile = '';
+	if (!empty($videoStill)) {
+		$stillFile = $videoStill;
+		$videoStill = 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' . urlencode($videoStill);
+	}
+	
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/meta-data.php');	
 		
 } 
+
+/**
+ * 
+ * Delete a still thats associated with a video
+ * 
+ */
+function s3_video_remove_video_still()
+{
+	if ((!empty($_POST)) && (!empty($_POST['image_name'])) && (!empty($_POST['video_name']))) {
+		$pluginSettings = s3_video_check_plugin_settings();	
+		
+		require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
+		$videoManagement = new s3_video_management();
+		
+		$videoManagement->deleteVideoStill($_POST['video_name'], $_POST['image_name']);	
+		
+		$usedBy = $videoManagement->getVideoStillByImageName($_POST['image_name']);
+		
+		// If the still is not used by any other videos delete from s3
+		if (empty($usedBy)) {
+			$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
+			$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);			
+		}		
+	}
+	die();
+}
+
 
 /*
  *  Embed video player into page
