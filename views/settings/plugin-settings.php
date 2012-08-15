@@ -107,7 +107,12 @@
 				</td>
 
 				<td>
-					<input type="text" name="page_result_limit" placeholder="15"  value="<?php echo $pluginSettings['s3_video_page_result_limit']; ?>" class="required">					
+					<?php 
+						if (empty($pluginSettings['s3_video_page_result_limit'])) {
+							$pluginSettings['s3_video_page_result_limit'] = 15;
+						}
+					?>
+					<input type="text" name="page_result_limit" value="<?php echo $pluginSettings['s3_video_page_result_limit']; ?>" class="required">					
 				</td>
 			</tr>
 
