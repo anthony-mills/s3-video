@@ -9,7 +9,11 @@ function s3_video_check_upload_directory()
 		return WP_CONTENT_DIR . '/uploads/s3_videos/';
 	} else {
 		if (!is_dir(WP_CONTENT_DIR . '/uploads/')) {
-			mkdir(WP_CONTENT_DIR . '/uploads/', 0755);
+			if (is_writable(WP_CONTENT_DIR)) {
+				mkdir(WP_CONTENT_DIR . '/uploads/', 0755);
+			} else {
+				die('<p><span style="color: red;"><b>ERROR:</b></span> Cannot write to the file uploads directory ( '. WP_CONTENT_DIR . '/uploads/ ), please ensure it exists and is writable by the webserver process.</p>');
+			}
 		}
 		mkdir(WP_CONTENT_DIR . '/uploads/s3_videos/', 0755);
 		if ((is_dir(WP_CONTENT_DIR . '/uploads/s3_videos/')) && (is_writable(WP_CONTENT_DIR . '/uploads/s3_videos/'))) {
