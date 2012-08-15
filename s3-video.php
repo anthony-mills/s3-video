@@ -3,7 +3,7 @@
 Plugin Name: S3 Video Plugin
 Plugin URI: https://github.com/anthony-mills/s3-video
 Description: Upload and embed videos using your Amazon S3 account
-Version: 0.95
+Version: 0.96
 Author: Anthony Mills
 Author URI: http://www.development-cycle.com
 */
@@ -40,7 +40,10 @@ function s3_video_plugin_menu()
 	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload_video');		
 	add_submenu_page('s3-video', __('Playlist Management','show-playlists'), __('Playlist Management','show_playlists'), 'manage_options', 's3_video_show_playlist', 's3_video_show_playlists');
 	add_submenu_page('s3-video', __('Create Playlist','create-playlist'), __('Create Playlist','create_playlist'), 'manage_options', 's3_video_create_playlist', 's3_video_create_playlist');
-	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  			
+	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  		
+
+	// Add page with no parent
+	add_submenu_page(NULL, __('Video Meta','video-meta'), __('Video Meta','video-meta'), 'manage_options', 's3_video_meta_data', 's3_video_meta_data');  		 		
 }
 
 /*
@@ -231,7 +234,60 @@ function s3_video_show_playlists()
 	}
 	
 }
- 
+
+/**
+ * Display a page for handling the meta data belonging to a video
+ */ 
+function s3_video_meta_data()
+{
+	$pluginSettings = s3_video_check_plugin_settings();
+	$videoName = urldecode($_GET['video']);
+	if (empty($videoName)) {
+		die('Video not found..');
+	}
+		
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
+	$videoManagement = new s3_video_management();			
+				
+	s3_video_check_user_access(); 
+	$pluginSettings = s3_video_check_plugin_settings();
+	$tmpDirectory = s3_video_check_upload_directory();	
+	
+	if ((!empty($_FILES)) && ($_FILES['upload_still']['size'] > 0)) {
+			$stillTypes = array('image/gif', 'image/png', 'image/jpeg');
+			if ((!in_array($_FILES['upload_still']['type'], $stillTypes)) || ($_FILES['upload_still']['error'] > 0)) {
+				$errorMsg = 'The uploaded file is not able to be used as a video still.';
+			} else {
+				$imageDimensions = getimagesize($_FILES['upload_still']['tmp_name']);
+				if (($imageDimensions[0] < 200) || ($imageDimensions[1] < 200) || ($imageDimensions[0] > 3000) || ($imageDimensions[1] > 3000)) {
+					$errorMsg = 'Your video still needs to be over 200px x 200px in size and under 3000px x 3000px';
+				} else {				
+					$fileName = basename($_FILES['upload_still']['name']);
+					$fileName = preg_replace('/[^A-Za-z0-9_.]+/', '', $fileName);
+					$imageLocation = $tmpDirectory . $fileName;
+					if(move_uploaded_file($_FILES['upload_still']['tmp_name'], $imageLocation)) {
+						$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
+						$s3Result = $s3Access->putObjectFile($imageLocation, $pluginSettings['amazon_video_bucket'], $fileName, S3::ACL_PUBLIC_READ);
+						switch ($s3Result) {
+							case 0:
+								$errorMsg = 'Request unsucessful check your S3 access credentials';
+							break;	
+			
+							case 1:
+								$successMsg = 'The image has successfully been uploaded to your S3 account';					
+								
+								// Save the image to the database
+								$videoManagement->createVideoStill($fileName, $videoName);
+							break;
+						}
+				}
+			}
+		}
+	}
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/meta-data.php');	
+		
+} 
+
 /*
  *  Embed video player into page
  */

@@ -64,7 +64,7 @@ class s3_playlist_management
 	
 	/**
 	 * 
-	 * Delete a playlist stored in the database
+	 * Delete a play list stored in the database
 	 * 
 	 * @param $playlistId
 	 */
@@ -76,7 +76,7 @@ class s3_playlist_management
 	
 	/**
 	 * 
-	 * Delete all of the videos belonging to a playlist from the database
+	 * Delete all of the videos belonging to a play list from the database
 	 * 
 	 * @param integer $playlistId
 	 */
@@ -87,7 +87,7 @@ class s3_playlist_management
 	
 	/**
 	 * 
-	 * Fetch all of the playlists currently stored in the database
+	 * Fetch all of the play lists currently stored in the database
 	 * 
 	 * @return array
 	 */
@@ -123,7 +123,7 @@ class s3_playlist_management
 		
 	/**
 	 * 
-	 * Fetch the videos that belong to a playlist from the database
+	 * Fetch the videos that belong to a play list from the database
 	 * 
 	 * @param integer $playlistId
 	 * 
@@ -142,7 +142,7 @@ class s3_playlist_management
 		
 	/**
 	 * 
-	 * Save a new playlist to the database
+	 * Save a new play list to the database
 	 * 
 	 * @param string $playlistName
 	 */	
@@ -155,7 +155,7 @@ class s3_playlist_management
 	
 	/**
 	 * 
-	 * Add a video to the playlist
+	 * Add a video to the play list
 	 * 
 	 * @param string $fileName
 	 * @param integer $playlistId

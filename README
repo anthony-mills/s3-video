@@ -39,6 +39,9 @@ To define the player as 640 pixels wide by 380 pixels high
 
 == Changelog ==
 
+= 0.96 =
+Fixed prefill videos per page setting on plugin settings page
+
 = 0.95 =
 Updated flowplayer to Version 3.2.11
 Choice of VideoJS of flowplayer as the player used for standard video playback

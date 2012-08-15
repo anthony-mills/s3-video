@@ -61,39 +61,47 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 			<tbody>	
 				<?php
 					foreach($existingVideos as $existingVideo) {
+						$fileExtension = strtolower(pathinfo($existingVideo['name'], PATHINFO_EXTENSION));
+						$videoExtensions = array('mp4', 'mov', 'avi', 'flv', 'mpeg', 'mpg', 'wmv', '3gp', 'ogm', 'mkv');
+						if (in_array($fileExtension, $videoExtensions)) {
 				?>
-					<tr>
-						<td>
-							<?php echo $existingVideo['name']; ?>
-						</td>
-						
-						<td>
-							<?php echo s3_humanReadableBytes($existingVideo['size']); ?>
-						</td>
-						
-						<td>
-							<?php echo date('j/n/Y', $existingVideo['time']); ?>
-						</td>
-											
-						<td>
-							<a title="<?php echo $existingVideo['name']; ?>" href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/video-management/preview-video.php?base=<?php echo WP_PLUGIN_URL; ?>/s3-video/&player=<?php echo $pluginSettings['amazon_s3_video_player']; ?>&media=<?php echo 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
-								Preview
-							</a>
-							 - 
-							<a href="admin.php?page=s3-video&delete=<?= $existingVideo['name']; ?>">
-								Delete
-							</a>	
-							 -
-							<a href="#" title="<?php echo $existingVideo['name']; ?>" id="getShortLink">
-								Get Shortlink
-							</a>
-							 -
-							<a href="#" title="<?php echo $existingVideo['name']; ?>" id="getEmbedCode">
-								Get Embed Code
-							</a>							
-						</td>
-					</tr>
+							<tr>
+								<td>
+									<?php echo $existingVideo['name'] . ' ' . $fileExtension; ?> 
+								</td>
+								
+								<td>
+									<?php echo s3_humanReadableBytes($existingVideo['size']); ?>
+								</td>
+								
+								<td>
+									<?php echo date('j/n/Y', $existingVideo['time']); ?>
+								</td>
+													
+								<td>
+									<a title="<?php echo $existingVideo['name']; ?>" href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/video-management/preview-video.php?base=<?php echo WP_PLUGIN_URL; ?>/s3-video/&player=<?php echo $pluginSettings['amazon_s3_video_player']; ?>&media=<?php echo 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' .urlencode($existingVideo['name']); ?>" class="colorBox">
+										Preview
+									</a>
+									 - 
+									<a href="admin.php?page=s3-video&delete=<?= $existingVideo['name']; ?>">
+										Delete
+									</a>	
+									 -
+									<a href="#" title="<?php echo $existingVideo['name']; ?>" id="getShortLink">
+										Get Shortlink
+									</a>
+									 -
+									<a href="#" title="<?php echo $existingVideo['name']; ?>" id="getEmbedCode">
+										Get Embed Code
+									</a>	
+									 -
+									<a href="admin.php?page=s3_video_meta_data&video=<?= urlencode($existingVideo['name']); ?>" title="<?php echo $existingVideo['name']; ?>">
+										Create / Edit Meta Data
+									</a>													
+								</td>
+							</tr>
 				<?php	
+						}
 					}
 				?>
 			</tbody>

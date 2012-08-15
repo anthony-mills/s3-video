@@ -49,6 +49,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.96 =
+Fixed prefill videos per page setting on plugin settings page
+
 = 0.95 =
 Updated flowplayer to Version 3.2.11
 Choice of JSplayer or Flowplayer for video embed
