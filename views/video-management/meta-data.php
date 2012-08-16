@@ -47,7 +47,8 @@
 		?>
 			<div id="currentStill"><a href="<?php echo $videoStill; ?>" class="colorBox">Current video still</a> - <a href="#" class="deleteStill">Delete</a></div>
 		<?php
-	}
+	} else {
+		// Only show the upload form if there is no still in the database
 	?>
 	
 	<label for="upload_still">
@@ -57,4 +58,7 @@
 	<input type="file" id="upload_still" name="upload_still" class="required" /> ( JPG / PNG / GIF)
 	<br />
 	<input type="submit" value="Upload" />
+	<?php
+	}
+	?>
 </form>

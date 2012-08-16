@@ -335,6 +335,15 @@ function s3_video_embed_video($embedDetails)
 	if ($embedDetails['file']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
 	}
+	
+	// See if the video has an associated still image
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
+	$videoManagement = new s3_video_management();	
+	$videoStill = $videoManagement->getVideoStillByVideoName($embedDetails['file']);
+	if (!empty($videoStill)) {
+		$videoStill =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $videoStill;			
+	}
+		
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/play-video.php');	
 } 
 

@@ -1,10 +1,10 @@
 <?php if (!empty($videoFile)) { ?>
 	<?php if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) { ?>
-		<?php // embed video woith flowplayer ?>
+		<?php // embed video with flowplayer ?>
 		<?php if ((empty($embedDetails['width'])) && (empty($embedDetails['height']))) { ?>
-			<a href="<?= $videoFile; ?>" style="display:block;width:520px;height:330px"  id="player"></a> 
+			<a href="<?php echo $videoFile; ?>" style="display:block;width:520px;height:330px"  id="player"></a> 
 		<?php } else { ?>
-			<a href="<?= $videoFile; ?>" style="display:block;width:<?= $embedDetails['width']; ?>px;height:<?= $embedDetails['height']; ?>px"  id="player"></a> 		
+			<a href="<?php echo $videoFile; ?>" style="display:block;width:<?php echo $embedDetails['width']; ?>px;height:<?php echo $embedDetails['height']; ?>px"  id="player"></a> 		
 		<?php } ?>
 		<?php 
 			if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
@@ -14,36 +14,49 @@
 			}
 			
 			if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
-				$autoPlay = 'autoPlay: false,' . "\r\n";
+				if (!empty($videoStill)) { 
+					$autoPlay = 'autoPlay: true,' . "\r\n";
+				} else {
+					$autoPlay = 'autoPlay: false,' . "\r\n";					
+				}
 			} else {
 				$autoPlay = 'autoPlay: true,' . "\r\n";			
 			}		
 		?>
 		<script>
-			flowplayer("player", '<?= WP_PLUGIN_URL; ?>/s3-video/misc/flowplayer-3.2.11.swf', {
+			flowplayer("player", '<?php echo WP_PLUGIN_URL; ?>/s3-video/misc/flowplayer-3.2.11.swf', {
 			    clip:  {
-			        <?= $autoBuffer; ?>
-			        <?= $autoPlay; ?>
-			        bufferLength: 5,
-			        onStart: function() {
-		    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=start&time="+$f().getTime()+"&jsoncallback=?");
-					},
-	      			onResume: function(){
-		    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=resume&time="+$f().getTime()+"&jsoncallback=?");  				
-	      			},					
-				    onPause: function () {
-		    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=paused&time="+$f().getTime()+"&jsoncallback=?");			    	
-				    },
-				    onFinish: function(){
-		    			jQuery.getJSON("<?= WP_PLUGIN_URL; ?>/s3-video/includes/video_tracking.php?video=<?= $videoFile; ?>&action=finish&time="+$f().getTime()+"&jsoncallback=?");		    	
-				    }					
-			    }			
+			        <?php echo $autoBuffer; ?>
+			        <?php echo $autoPlay; ?>
+			        bufferLength: 5,				
+			    },
+			    
+			    playlist: [
+					<?php if (!empty($videoStill)) { ?>
+							{
+            					url: '<?php echo $videoStill; ?>', 
+            					scaling: 'fit',
+            					autoPlay: true
+        					},
+					<?php } ?>
+					<?php if ((!empty($videoStill)) && ($pluginSettings['amazon_s3_video_autoplay'] == 0)) { ?>
+							{
+								url: '<?php echo  $videoFile;?>',
+								title: '<?php echo  $videoFile;?>',
+								autoPlay: false
+        					},
+					<?php } else { ?>					
+							{
+								url: '<?php echo  $videoFile;?>',
+								title: '<?php echo  $videoFile;?>'
+        					},
+					<?php } ?>				
+				]
 			});
 		</script>
 	<?php } else { ?>
-			<?php echo substr($videoFile, -3); ?>
     		<script>
-    			_V_.options.flash.swf = "<?= WP_PLUGIN_URL; ?>/s3-video/misc/video-js.swf";
+    			_V_.options.flash.swf = "<?php echo WP_PLUGIN_URL; ?>/s3-video/misc/video-js.swf";
   			</script>  
   					
 			<?php 
@@ -60,16 +73,19 @@
 					$autoBuffer = 'none';
 				} else {
 					$autoBuffer = 'auto';			
-				}				
-			?>
-			<video id="video_preview" class="video-js vjs-default-skin" controls preload="<?php echo $autoBuffer; ?>" width="<?php echo $playerWidth; ?>" height="<?php echo $playerHeight; ?>" data-setup="{}">
-				<?php
+				}
+								
+				if (!empty($videoStill)) {
+					echo '<video id="video_preview" class="video-js vjs-default-skin" controls preload="'.$autoBuffer.'" width="'.$playerWidth.'" height="'.$playerHeight.'" poster="'.$videoStill.'" data-setup="{}">';
+				} else {
+					echo '<video id="video_preview" class="video-js vjs-default-skin" controls preload="'.$autoBuffer.'" width="'.$playerWidth.'" height="'.$playerHeight.'" data-setup="{}">';					
+				}
 				  $fileType = substr($videoFile, -3);
 				  if ($fileType == 'flv') {
 				 ?>
-				  	<source src="<?= $videoFile; ?>" type='video/x-flv'>
+				  	<source src="<?php echo $videoFile; ?>" type='video/x-flv'>
 				<?php } else { ?>
-				  	<source src="<?= $videoFile; ?>" type='video/mp4'>				
+				  	<source src="<?php echo  $videoFile; ?>" type='video/mp4'>				
 				<?php } ?>
 			</video>					
 			

@@ -67,7 +67,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 				?>
 							<tr>
 								<td>
-									<?php echo $existingVideo['name'] . ' ' . $fileExtension; ?> 
+									<?php echo $existingVideo['name']; ?> 
 								</td>
 								
 								<td>

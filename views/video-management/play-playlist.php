@@ -18,24 +18,24 @@ if (!$playlistVideos) {
 	jQuery(function() {
 		
 		// setup player normally
-		$f("player", "<?= WP_PLUGIN_URL;?>/s3-video/misc/flowplayer-3.2.11.swf", {
+		$f("player", "<?php echo WP_PLUGIN_URL;?>/s3-video/misc/flowplayer-3.2.11.swf", {
 		
 			// clip properties common to all playlist entries
 			clip: {
 				autoPlay: true,
-		        <?= $autoBuffer; ?>
-		        <?= $autoPlay; ?>				
+		        <?php echo $autoBuffer; ?>
+		        <?php echo $autoPlay; ?>				
 				autoBuffering: true,
 				bufferLength: 5,
-			 	baseUrl: '<?= $baseUrl;?>'
+			 	baseUrl: '<?php echo $baseUrl;?>'
 			},
 			
 			// our playlist
 			playlist: [
 				<?php foreach($playlistVideos as $video) { ?>
 					{
-						url: '<?= $video['video_file'];?>',
-						title: '<?= $video['video_file'];?>'
+						url: '<?php echo $video['video_file'];?>',
+						title: '<?php echo $video['video_file'];?>'
 					},
 				<?php }?>
 			],
@@ -55,7 +55,7 @@ if (!$playlistVideos) {
 	<?php if ((empty($embedDetails['width'])) && (empty($embedDetails['height']))) { ?>
 		<a style="display:block;width:520px;height:330px"  id="player"></a> 
 	<?php } else { ?>
-		<a style="display:block;width:<?= $embedDetails['width']; ?>px;height:<?= $embedDetails['height']; ?>px"  id="player"></a> 		
+		<a style="display:block;width:<?php echo $embedDetails['width']; ?>px;height:<?php echo $embedDetails['height']; ?>px"  id="player"></a> 		
 	<?php } ?>
 	<br clear="all"/>
 <?php } ?>
