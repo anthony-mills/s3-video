@@ -1,11 +1,12 @@
 <?php
 class s3_video_management {
-	
+
 	public function createVideoStill($imageName, $videoName)
 	{
 		$time = time();
-		mysql_query("INSERT INTO s3_video_stills (video_file, image_file, created) VALUES ('$videoName', '$imageName', '$time')") or die(mysql_error());	
-		return mysql_insert_id();
+		$wpdb->insert('s3_video_stills', array('video_file' => $videoName, 'image_file' => $imageName, 'created' => time()));
+	
+		return $wpdb->insert_id();
 	}
 	
 	/**
@@ -16,12 +17,12 @@ class s3_video_management {
 	 * @return string $imageName
 	 */
 	public function getVideoStillByVideoName($videoName)
-	{
-		$sqlQuery = mysql_query("SELECT image_file FROM s3_video_stills WHERE video_file = '$videoName' LIMIT 1");
+	{		
+		global $wpdb;
+		$videoRow = $wpdb->get_row("SELECT image_file FROM s3_video_stills WHERE video_file = '$videoName' LIMIT 1");
 				
-		$videoStill = mysql_fetch_object($sqlQuery);
-		if (!empty($videoStill->image_file)) {
-			return $videoStill->image_file;	
+		if (!empty($videoRow)) {
+			return $videoRow->image_file;
 		}
 	}
 	
@@ -34,14 +35,12 @@ class s3_video_management {
 	 */
 	 public function getVideoStillByImageName($imageName)
 	 {
-		$stillsSQL = mysql_query("SELECT * FROM s3_video_stills WHERE image_file = '$imageName'");
-		
-		$existingStills = array();
-		while($videoStill = mysql_fetch_assoc($stillsSQL)) {
-			$existingStills[] = $videoStill;	
+		global $wpdb;
+		$videoStill = $wpdb->get_row("SELECT * FROM s3_video_stills WHERE image_file = '$imageName'");
+
+		if (!empty($videoStill)) {
+			return $videoStill;	
 		}
-		
-		return $existingStills;		 	
 	 }
 	 
 	 /**
@@ -55,7 +54,8 @@ class s3_video_management {
 	  */
 	  public function deleteVideoStill($videoName, $imageName)
 	  {
-		mysql_query("DELETE FROM s3_video_stills WHERE video_file = '$videoName' AND image_file = '$imageName'")  or die(mysql_error());	  	
+		global $wpdb;
+		$wpdb->query($wpdb->prepare("DELETE FROM s3_video_stills WHERE video_file = '$videoName' AND image_file = '$imageName'"));	  	
 	  }
 	 
 } 
