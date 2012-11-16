@@ -343,8 +343,104 @@ function s3_video_embed_video($embedDetails)
 	if (!empty($videoStill)) {
 		$videoStill =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $videoStill;			
 	}
-		
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/play-video.php');	
+	
+	if (!empty($videoFile)) {
+
+		// Set up the flowplayer for video playback
+		if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
+			$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-flowplayer.php');
+			$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
+
+			$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.11.swf';		
+			$playerContent = str_replace('{flowplayerLocation}', $flowplayerLocation, $playerContent);
+
+			// Set the player dimensions
+			if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
+				$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
+				$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 
+			} else {
+				$playerContent = str_replace('{videoHeight}', 330, $playerContent);
+				$playerContent = str_replace('{videoWidth}', 520, $playerContent); 
+			}
+
+			// Define the buffering settings
+			if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
+				$playerContent = str_replace('{videoAutoBuffer}', 'false', $playerContent); 
+			} else {
+				$playerContent = str_replace('{videoAutoBuffer}', 'true', $playerContent); 
+			}
+			
+			// Define the autoplay status
+			if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
+				if (!empty($videoStill)) { 
+					$playerContent = str_replace('{videoAutoPlay}', 'false', $playerContent); 
+				} else {
+					$playerContent = str_replace('{videoAutoPlay}', 'true', $playerContent); 
+				}
+			}
+			
+			// Define the playlist to support a video still
+			$playlistHtml = 'playlist: [' . "\r\n";
+			if (!empty($videoStill)) { 
+					$playlistHtml .= '{
+            				url: "' . $videoStill . '", 
+            				scaling: "fit",
+            				autoPlay: true
+        				},'  . "\r\n";
+			}
+
+			if ((!empty($videoStill)) && ($pluginSettings['amazon_s3_video_autoplay'] == 0)) {
+							$playlistHtml .= '{
+								url: "' . $videoFile . '",
+								title: "' . $videoFile . '",
+								autoPlay: false
+							}' . "\r\n";
+			} else {					
+							$playlistHtml .= '{
+								url: "' . $videoFile . '",
+								title: "' . $videoFile . '"
+        					}' . "\r\n";
+			}	
+			$playerContent = str_replace('{videoPlaylist}', $playlistHtml . ']', $playerContent); 			
+			return $playerContent;
+		} else {
+			// prepare a videoJS player for video playback
+			$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-videoJS.php');
+			$swfFile = WP_PLUGIN_URL . '/s3-video/misc/video-js.swf';
+			$playerContent = str_replace('{swfFile}', $swfFile, $playerContent);	
+
+			// Set the player dimensions
+			if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
+				$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
+				$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 
+			} else {
+				$playerContent = str_replace('{videoHeight}', 360, $playerContent);
+				$playerContent = str_replace('{videoWidth}', 640, $playerContent); 
+			}	
+
+			// Define the buffering settings
+			if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
+				$playerContent = str_replace('{videoBuffer}', 'none', $playerContent); 
+			} else {
+				$playerContent = str_replace('{videoBuffer}', 'auto', $playerContent); 
+			}
+			
+			if (!empty($videoStill)) {
+				$playerContent = str_replace('{videoStill}', 'poster="'.$videoStill.'"', $playerContent);
+			} else {
+				$playerContent = str_replace('{videoStill}', '', $playerContent);
+			}	
+	
+			$fileType = substr($videoFile, -3);
+			if ($fileType == 'flv') {
+				 $videoTag = '<source src="' . $videoFile . '" type="video/x-flv">';
+			} else {
+				 $videoTag = '<source src="' . $videoFile . '" type="video/mp4">';				
+			}
+			$playerContent = str_replace('{videoFile}', $videoTag, $playerContent);
+			return $playerContent;			
+		}
+	}
 } 
 
 /*
