@@ -56,11 +56,19 @@ if (!$existingVideos) {
 				<td>
 				        <select data-placeholder="Videos in playlist" style="width:350px;" multiple class="chzn-select" name="playlist_contents[]" tabindex="8">
 				          <option value=""></option>
-				          <?php foreach ($existingVideos as $video) { ?>
-				          			<option value="<?php echo  $video['name']; ?>">
-				          				<?php echo  $video['name']; ?>
-				          			</option>
-				          <?php } ?>
+						  <?php
+							$videoExtensions = array('mp4', 'mov', 'avi', 'flv', 'mpeg', 'mpg', 'wmv', '3gp', 'ogm', 'mkv');
+
+							foreach ($existingVideos as $existingVideo) { 
+
+								$fileExtension = strtolower(pathinfo($existingVideo['name'], PATHINFO_EXTENSION));
+
+								if (in_array($fileExtension, $videoExtensions)) {
+				          			echo '<option value="' . $existingVideo['name'] . '">'.$existingVideo['name'].'</option>';
+								}
+
+							} 
+						  ?>
 				        </select>
 		       </td>
 	        </tr>
