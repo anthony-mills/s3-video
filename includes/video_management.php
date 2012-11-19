@@ -3,6 +3,7 @@ class s3_video_management {
 
 	public function createVideoStill($imageName, $videoName)
 	{
+		global $wpdb;
 		$time = time();
 		$wpdb->insert('s3_video_stills', array('video_file' => $videoName, 'image_file' => $imageName, 'created' => time()));
 	

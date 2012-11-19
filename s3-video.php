@@ -351,7 +351,7 @@ function s3_video_embed_video($embedDetails)
 			$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-flowplayer.php');
 			$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
 
-			$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.11.swf';		
+			$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.15.swf';		
 			$playerContent = str_replace('{flowplayerLocation}', $flowplayerLocation, $playerContent);
 
 			// Set the player dimensions
@@ -370,23 +370,21 @@ function s3_video_embed_video($embedDetails)
 				$playerContent = str_replace('{videoAutoBuffer}', 'true', $playerContent); 
 			}
 			
-			// Define the autoplay status
-			if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
-				if (!empty($videoStill)) { 
-					$playerContent = str_replace('{videoAutoPlay}', 'false', $playerContent); 
-				} else {
-					$playerContent = str_replace('{videoAutoPlay}', 'true', $playerContent); 
-				}
-			}
-			
 			// Define the playlist to support a video still
 			$playlistHtml = 'playlist: [' . "\r\n";
+
 			if (!empty($videoStill)) { 
 					$playlistHtml .= '{
             				url: "' . $videoStill . '", 
             				scaling: "fit",
             				autoPlay: true
         				},'  . "\r\n";
+			} else {
+				if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
+					$playerContent = str_replace('{videoAutoPlay}', 'false', $playerContent); 
+				} else {
+					$playerContent = str_replace('{videoAutoPlay}', 'true', $playerContent); 
+				}			
 			}
 
 			if ((!empty($videoStill)) && ($pluginSettings['amazon_s3_video_autoplay'] == 0)) {
@@ -548,7 +546,7 @@ function s3_video_load_player_js()
 	
 	$pluginSettings = s3_video_check_plugin_settings();
 	if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
-		wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.10.js', array('jquery'), '1.0');
+		wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.11.js', array('jquery'), '1.0');
 		wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');	
 	} else {
 		wp_enqueue_script('videoJS', WP_PLUGIN_URL . '/s3-video/js/video.min.js');
