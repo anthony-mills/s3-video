@@ -3,7 +3,7 @@
 	flowplayer("player", '{flowplayerLocation}', {
 		clip:  {
 			autoBuffering: {videoAutoBuffer},
-			autoPlayer: {videoAutoPlay},
+			autoPlay: {videoAutoPlay},
 			bufferLength: 5,				
 		},
 		{videoPlaylist}

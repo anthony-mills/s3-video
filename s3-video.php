@@ -348,27 +348,8 @@ function s3_video_embed_video($embedDetails)
 
 		// Set up the flowplayer for video playback
 		if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
-			$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-flowplayer.php');
+			$playerContent = s3_video_configure_player();
 			$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
-
-			$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.15.swf';		
-			$playerContent = str_replace('{flowplayerLocation}', $flowplayerLocation, $playerContent);
-
-			// Set the player dimensions
-			if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
-				$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
-				$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 
-			} else {
-				$playerContent = str_replace('{videoHeight}', 330, $playerContent);
-				$playerContent = str_replace('{videoWidth}', 520, $playerContent); 
-			}
-
-			// Define the buffering settings
-			if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
-				$playerContent = str_replace('{videoAutoBuffer}', 'false', $playerContent); 
-			} else {
-				$playerContent = str_replace('{videoAutoBuffer}', 'true', $playerContent); 
-			}
 			
 			// Define the playlist to support a video still
 			$playlistHtml = 'playlist: [' . "\r\n";
@@ -448,12 +429,72 @@ function s3_video_embed_playlist($embedDetails)
 {
 	require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
 	$playlistManagement = new s3_playlist_management();
-	$playlistVideos = $playlistManagement->getPlaylistVideos($embedDetails['id']);		
+	$playlistVideos = $playlistManagement->getPlaylistVideos($embedDetails['id']);	
 	$pluginSettings = s3_video_check_plugin_settings();
+	$playerContent = s3_video_configure_player();
+
 	$baseUrl =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/';
 	
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/play-playlist.php');	
+	// Define the playlist to support a video still
+	$playlistHtml = 'playlist: [' . "\r\n";
+
+	$x = 0;
+	foreach($playlistVideos as $playlistVideo) {					
+		$playlistHtml .= '{
+					url: "' . $baseUrl . $playlistVideo['video_file'] . '", ' . "\r\n" .
+					'title: "' . $playlistVideo['video_file'] . '",' . "\r\n";
+		if (($x == 0) && ($pluginSettings['amazon_s3_video_autoplay'] == 0)) {
+			$playlistHtml .= 'autoPlay: false' . "\r\n";				
+		} else {
+			$x++;
+			$playlistHtml .= 'autoPlay: true'. "\r\n";
+		}
+        $playlistHtml .= '},' . "\r\n";
+	}
+	$playlistHtml = substr($playlistHtml, 0, -1);
+	$playerContent = str_replace('{videoPlaylist}', $playlistHtml . ']', $playerContent);
+ 			
+	return $playerContent;
 } 
+
+/*
+ * Configure the player for play back with flowplay and playlist functionality
+ */
+function s3_video_configure_player() 
+{
+	$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-flowplayer.php');
+	$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
+
+	$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.15.swf';		
+	$playerContent = str_replace('{flowplayerLocation}', $flowplayerLocation, $playerContent);
+
+	$pluginSettings = s3_video_check_plugin_settings();
+
+	// Set the player dimensions
+	if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
+		$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
+		$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 
+	} else {
+		$playerContent = str_replace('{videoHeight}', 330, $playerContent);
+		$playerContent = str_replace('{videoWidth}', 520, $playerContent); 
+	}
+
+	// Define the buffering settings
+	if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
+		$playerContent = str_replace('{videoAutoPlay}', 'false', $playerContent); 
+	} else {
+		$playerContent = str_replace('{videoAutoPlay}', 'true', $playerContent); 
+	}
+
+	// Define the buffering settings
+	if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
+		$playerContent = str_replace('{videoAutoBuffer}', '"none"', $playerContent); 
+	} else {
+		$playerContent = str_replace('{videoAutoBuffer}', '"auto"', $playerContent); 
+	}	
+
+	return $playerContent;
+}
 
 /*
  *  Preview file in colourBoxadmin.php?page=s3_video_show_playlist
