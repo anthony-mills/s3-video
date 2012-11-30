@@ -25,3 +25,13 @@ CREATE TABLE IF NOT EXISTS `s3_video_playlist_videos` (
   `video_weight` int(5) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+{table}
+
+CREATE TABLE IF NOT EXISTS `s3_video_stills` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `video_file` varchar(200) NOT NULL,
+  `image_file` varchar(200) NOT NULL,
+  `created` bigint(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

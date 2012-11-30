@@ -55,16 +55,29 @@ function s3_video()
 {
 	s3_video_check_user_access();
 	$pluginSettings = s3_video_check_plugin_settings();
-	
+
+		
 	if (!empty($_GET['delete'])) {
-		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
+		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);		
+		require_once('includes/video_managment.php');
+
+		// Delete the video from S3
 		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_GET['delete']);
+		
+		// Delete any stills that are associated with the video
+		
+
+		// Delete the video from any playlists
+		$videoManagment = new s3_video_management();		
+
 		if ($result) {
 			$successMsg = $_GET['delete'] . ' was successfully deleted.';
 		}
 	}
-	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/existing-videos.php');
+
+	$existingVideos= s3_video_get_all_existing_video($pluginSettings);		
+	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/existing-videos.php');		
 }
 
 /*

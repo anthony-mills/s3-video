@@ -58,5 +58,17 @@ class s3_video_management {
 		global $wpdb;
 		$wpdb->query($wpdb->prepare("DELETE FROM s3_video_stills WHERE video_file = '$videoName' AND image_file = '$imageName'"));	  	
 	  }
+
+	 /**
+	 *
+	 * Delete video from all playlists	 
+	 *
+	 * @param string $videoName 
+	 */ 
+	 public function removeVideoFromPlaylists($videoName)
+	 {
+		global $wpdb;
+		$wpdb->query($wpdb->query($wpdb->prepare("DELETE FROM s3_video_playlist_videos WHERE video_file = '$videoName'"));	 
+	 }
 	 
 } 
