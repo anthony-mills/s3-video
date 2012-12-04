@@ -15,50 +15,57 @@
 				cache:  'false'
 			},
 			success: function(data) {
-				jQuery('#currentStill').html('<div id="successMsg">Video still successfully deleted.</div>');
-				jQuery('#currentStill').fadeOut(7000);
+				jQuery('#successMsg').html('Video still successfully deleted.');
+				jQuery('#successMsg').fadeOut(7000);
 			}
 		});
 	  });
+	  
+	  <?php if (!empty($successMsg)) { ?>
+	  			jQuery('#successMsg').html('<?php echo $successMsg; ?>');
+				jQuery('#successMsg').fadeOut(7000);
+	  <?php } ?>
 	});
 </script>
 
 <h2>Manage Video MetaData</h2>
 
-<form method="POST" enctype="multipart/form-data" id="manageMeta">
-	<b>Video Still</b>
-	<p>
-		A video still is a normal image file that is displayed in the player until the video starts to display. 
-		Video stills only show before when a video embedded into a page using a single shortcode embed.
-	</p>
-	
-	<?php if (!empty($errorMsg)) { ?>
-			<div id="validationError"><?php echo $errorMsg; ?></div>
-	<?php } ?>
-				
-	<?php if (!empty($successMsg)) { ?>
-			<div id="successMsg">
-				<?php echo $successMsg; ?>
-			</div>
-	<?php } ?>
-	
-	<?php 
-	if (!empty($videoStill)) {
-		?>
-			<div id="currentStill"><a href="<?php echo $videoStill; ?>" class="colorBox">Current video still</a> - <a href="#" class="deleteStill">Delete</a></div>
-		<?php
-	} else {
-		// Only show the upload form if there is no still in the database
-	?>
-	
-	<label for="upload_still">
-		Upload Still
-	</label>
-	
-	<input type="file" id="upload_still" name="upload_still" class="required" /> ( JPG / PNG / GIF)
+<hr />
+
+	<form method="POST" enctype="multipart/form-data" id="manageMeta">
+		<b>Video Still</b>
+		<p>
+			A video still is a normal image file that is displayed in the player until the video starts to display. 
+			Video stills only show before when a video embedded into a page using a single shortcode embed.
+		</p>
+		
+		<p>
+			<b>Note:</b> 
+			<em>Uploading a video still when one already exists will replace the current one.</em>
+		</p>
+		
+		<?php if (!empty($errorMsg)) { ?>
+				<div id="validationError"><?php echo $errorMsg; ?></div>
+		<?php } ?>
+					
+		<?php if (!empty($successMsg)) { ?>
+			<div id="successMsg"></div>
+		<?php } ?>
+		
+		<?php if (!empty($videoStill)) { ?>
+			<div id="currentStill"><a href="<?php echo $videoStill; ?>" class="colorBox">Current video still</a> - <a class="deleteStill">Delete</a></div>
+			<br />
+		<?php } ?>
+		
+		<label for="upload_still">
+			Upload Still
+		</label>
+		
+		<input type="file" id="upload_still" name="upload_still" class="required" /> ( JPG / PNG / GIF)
+		<br />
+		<input type="submit" value="Upload" />
+	</form>
+
 	<br />
-	<input type="submit" value="Upload" />
-	<?php
-	}
-	?>
-</form>
+	
+<hr />

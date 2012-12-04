@@ -277,7 +277,7 @@ function s3_video_meta_data()
 				if (($imageDimensions[0] < 200) || ($imageDimensions[1] < 200) || ($imageDimensions[0] > 3000) || ($imageDimensions[1] > 3000)) {
 					$errorMsg = 'Your video still needs to be over 200px x 200px in size and under 3000px x 3000px';
 				} else {				
-					$fileName = basename($_FILES['upload_still']['name']);
+					$fileName = time() . '_' . basename($_FILES['upload_still']['name']);
 					$fileName = preg_replace('/[^A-Za-z0-9_.]+/', '', $fileName);
 					$imageLocation = $tmpDirectory . $fileName;
 					if(move_uploaded_file($_FILES['upload_still']['tmp_name'], $imageLocation)) {
@@ -292,6 +292,10 @@ function s3_video_meta_data()
 								$successMsg = 'The image has successfully been uploaded to your S3 account';					
 								
 								// Save the image to the database
+								$videoManagement->deleteVideoStill($videoName);
+								$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
+								$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);
+								
 								$videoManagement->createVideoStill($fileName, $videoName);
 							break;
 						}
@@ -325,15 +329,10 @@ function s3_video_remove_video_still()
 		require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
 		$videoManagement = new s3_video_management();
 		
-		$videoManagement->deleteVideoStill($_POST['video_name'], $_POST['image_name']);	
+		$videoManagement->deleteVideoStill($_POST['video_name']);	
 		
-		$usedBy = $videoManagement->getVideoStillByImageName($_POST['image_name']);
-		
-		// If the still is not used by any other videos delete from s3
-		if (empty($usedBy)) {
-			$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
-			$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);			
-		}		
+		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
+		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);					
 	}
 	die();
 }

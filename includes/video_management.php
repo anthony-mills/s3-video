@@ -53,10 +53,10 @@ class s3_video_management {
 	  * 
 	  * @return void
 	  */
-	  public function deleteVideoStill($videoName, $imageName)
+	  public function deleteVideoStill($videoName)
 	  {
 		global $wpdb;
-		$wpdb->query($wpdb->prepare("DELETE FROM s3_video_stills WHERE video_file = '$videoName' AND image_file = '$imageName'"));	  	
+		$wpdb->query($wpdb->prepare("DELETE FROM s3_video_stills WHERE video_file = '$videoName'"));	  	
 	  }
 
 	 /**
@@ -68,7 +68,7 @@ class s3_video_management {
 	 public function removeVideoFromPlaylists($videoName)
 	 {
 		global $wpdb;
-		$wpdb->query($wpdb->query($wpdb->prepare("DELETE FROM s3_video_playlist_videos WHERE video_file = '$videoName'"));	 
+		$wpdb->query($wpdb->query($wpdb->prepare("DELETE FROM s3_video_playlist_videos WHERE video_file = '$videoName'")));	 
 	 }
 	 
 } 
