@@ -56,20 +56,24 @@ function s3_video()
 	s3_video_check_user_access();
 	$pluginSettings = s3_video_check_plugin_settings();
 
-		
-	if (!empty($_GET['delete'])) {
+	$videoName = $_GET['delete'];
+	if (!empty($videoName)) {
 		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);		
-		require_once('includes/video_managment.php');
+		require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
+		$videoManagement = new s3_video_management();
 
 		// Delete the video from S3
-		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_GET['delete']);
+		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $videoName);
 		
 		// Delete any stills that are associated with the video
-		
+		$videoStill = $videoManagement->getVideoStillByVideoName($videoName);
+		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $videoStill);						
+		$videoManagement->deleteVideoStill($videoName);		
 
 		// Delete the video from any playlists
-		$videoManagment = new s3_video_management();		
 
+		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $videoName);			
+	
 		if ($result) {
 			$successMsg = $_GET['delete'] . ' was successfully deleted.';
 		}

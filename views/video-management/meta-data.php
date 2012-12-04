@@ -69,3 +69,5 @@
 	<br />
 	
 <hr />
+
+<p>Return to <a href="admin.php?page=s3-video">page existing S3 videos</a>.</p>

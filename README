@@ -43,7 +43,7 @@ To define the player as 640 pixels wide by 380 pixels high
 Fixed prefill videos per page setting on plugin settings page
 Updated Flowplayer to V3.2.15
 Restructured player views so the video will embed where placed in a page or post rather than rising to the top
-Ability to set a still for a video
+Ability to set a still image for a video
 
 
 = 0.95 =
