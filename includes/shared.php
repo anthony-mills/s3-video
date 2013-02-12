@@ -31,7 +31,11 @@ function s3_video_get_all_existing_video($pluginSettings = NULL)
 		return FALSE;
 	}
 	$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
-	$bucketContents = $s3Access->getBucket($pluginSettings['amazon_video_bucket']);
+	if (!empty($pluginSettings['amazon_prefix'])) {
+		$bucketContents = $s3Access->getBucket($pluginSettings['amazon_video_bucket'], $pluginSettings['amazon_prefix']);		
+	} else {
+		$bucketContents = $s3Access->getBucket($pluginSettings['amazon_video_bucket']);
+	}
 	if ((is_array($bucketContents)) && (!empty($bucketContents))) {
 		return $bucketContents;
 	}

@@ -138,6 +138,7 @@ function s3_video_plugin_settings()
 			register_setting( 'amazon_s3_video', 'amazon_secret_access_key' );
 			register_setting( 'amazon_s3_video', 'amazon_video_bucket' );
 			register_setting( 'amazon_s3_video', 'amazon_url' );
+			register_setting( 'amazon_s3_video', 'amazon_prefix' );			
 			register_setting( 's3-video-results-limit', 's3_video_page_result_limit' );
 			
 			register_setting( 'amazon_s3_video_autoplay', 'video_autoplay' );
@@ -155,7 +156,8 @@ function s3_video_plugin_settings()
 			update_option( 'amazon_s3_video_autobuffer', $_POST['video_autobuffer'] );
 			
 			update_option( 'amazon_s3_playlist_autoplay', $_POST['playlist_autoplay'] );
-			update_option( 'amazon_s3_playlist_autobuffer', $_POST['playlist_autobuffer'] );	
+			update_option( 'amazon_s3_playlist_autobuffer', $_POST['playlist_autobuffer'] );
+			update_option( 'amazon_prefix', trim($_POST['amazon_prefix'] ));
 			update_option( 'amazon_s3_video_player', $_POST['video_player'] );					
 			
 			if (!empty($_POST['amazon_url'])) {
@@ -532,6 +534,7 @@ function s3_video_check_plugin_settings($redirect = TRUE)
 	$pluginSettings = array('amazon_access_key' => get_option('amazon_access_key'),
 							'amazon_secret_access_key' => get_option('amazon_secret_access_key'),
 							'amazon_url' => get_option('amazon_url'),
+							'amazon_prefix' => get_option('amazon_prefix'),
 							'amazon_video_bucket' => get_option('amazon_video_bucket'),
 							'amazon_s3_video_player' => get_option('amazon_s3_video_player'),								
 							's3_video_page_result_limit' => get_option('s3_video_page_result_limit'),

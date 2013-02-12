@@ -49,6 +49,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.97 =
+Added support for Amazon S3 prefixes allowing faster traversal of buckets containing alot of files
+
 = 0.96 =
 Fixed prefill videos per page setting on plugin settings page
 Ability to set a still for a video

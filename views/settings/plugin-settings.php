@@ -77,7 +77,17 @@
 					<input type="text" name="amazon_video_bucket" class="required" maxlength="50" placeholder="Amazon Video Bucket" value="<?php echo $pluginSettings['amazon_video_bucket']; ?>">
 				</td>
 			</tr>
+			
+            <tr>
+                <td class="heading">
+                   Fetch prefix:
+                </td>
 
+                <td>
+                    <input type="text" name="amazon_prefix" placeholder="Prefix"  value="<?php echo $pluginSettings['amazon_prefix']; ?>">
+                </td>
+            </tr>
+            
 			<tr>
 				<td class="heading">
 					S3 Host: 
