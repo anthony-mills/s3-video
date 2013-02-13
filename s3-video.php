@@ -421,7 +421,13 @@ function s3_video_embed_video($embedDetails)
 			} else {
 				$playerContent = str_replace('{videoBuffer}', 'auto', $playerContent); 
 			}
-			
+
+			if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
+				$playerContent = str_replace('{videoAutoPlay}', '', $playerContent); 
+			} else {
+				$playerContent = str_replace('{videoAutoPlay}', 'autoplay="true"', $playerContent); 
+			}
+						
 			if (!empty($videoStill)) {
 				$playerContent = str_replace('{videoStill}', 'poster="'.$videoStill.'"', $playerContent);
 			} else {

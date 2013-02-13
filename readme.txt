@@ -52,6 +52,7 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 = 0.97 =
 Added support for Amazon S3 prefixes allowing faster traversal of buckets containing alot of files
 The addition of simple tool tips to help explain plugin functionality
+Fixed issue with autoplay setting not working correctly with the videoJS player
 
 = 0.96 =
 Fixed prefill videos per page setting on plugin settings page
