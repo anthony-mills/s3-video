@@ -2,7 +2,7 @@
 <head>
 	<?php if ((empty($_GET['player'])) || ($_GET['player'] == 'flowplayer')) { ?>
 			<?php $player = 'flowplayer'; ?>
-    		<script type="text/javascript" src="<?= $_GET['base']; ?>js/flowplayer-3.2.10.js"></script>
+    		<script type="text/javascript" src="<?= $_GET['base']; ?>js/flowplayer-3.2.11.js"></script>
     <?php } else { ?>
     		<?php $player = 'videojs'; ?>
     		<link href="<?= $_GET['base']; ?>css/video-js.css" rel="stylesheet">
@@ -20,7 +20,7 @@
 						<a href="<?= $_GET['media']; ?>" style="display:block;width:640px;height:360px"  id="player"></a> 
 						
 						<script>
-							flowplayer("player", "<?= $_GET['base']; ?>misc/flowplayer-3.2.11.swf", {
+							flowplayer("player", "<?= $_GET['base']; ?>misc/flowplayer-3.2.15.swf", {
 							    clip:  {
 							        autoPlay: false,
 							        autoBuffering: true,

@@ -16,8 +16,8 @@ register_activation_hook(__FILE__, 'S3_plugin_activate');
 register_deactivation_hook(__FILE__, 'S3_plugin_deactivate');
 
 add_action('admin_menu', 's3_video_plugin_menu');
-add_action('admin_print_styles', 's3_video_load_css');
-add_action('admin_print_scripts', 's3_video_load_js');
+add_action('admin_enqueue_scripts', 's3_video_load_css');
+add_action('admin_enqueue_scripts', 's3_video_load_js');
 add_action('wp_enqueue_scripts', 's3_video_load_player_js');
 
 // Add Ajax calls
