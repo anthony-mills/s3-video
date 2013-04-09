@@ -459,7 +459,8 @@ function s3_video_embed_playlist($embedDetails)
 	$playlistVideos = $playlistManagement->getPlaylistVideos($embedDetails['id']);	
 	$pluginSettings = s3_video_check_plugin_settings();
 	$playerContent = s3_video_configure_player();
-
+	$playerContent = str_replace('{playerId}', s3_plugin_player_id(), $playerContent);
+	
 	$baseUrl =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/';
 	
 	// Define the playlist to support a video still
