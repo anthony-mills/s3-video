@@ -54,6 +54,7 @@ Added support for Amazon S3 prefixes allowing faster traversal of buckets contai
 The addition of simple tool tips to help explain plugin functionality
 Fixed issue with autoplay setting not working correctly with the videoJS player
 Fixed broken preview functionality in the admin section
+Fixed issue preventing the embedding of multiple videos or playlists in the same page or post
 
 = 0.96 =
 Fixed prefill videos per page setting on plugin settings page
