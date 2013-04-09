@@ -407,6 +407,8 @@ function s3_video_embed_video($embedDetails)
 			$swfFile = WP_PLUGIN_URL . '/s3-video/misc/video-js.swf';
 			$playerContent = str_replace('{swfFile}', $swfFile, $playerContent);	
 
+			$playerContent = str_replace('{playerId}', s3_plugin_player_id(), $playerContent);
+			
 			// Set the player dimensions
 			if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
 				$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
