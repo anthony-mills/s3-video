@@ -56,8 +56,7 @@ function s3_video()
 	s3_video_check_user_access();
 	$pluginSettings = s3_video_check_plugin_settings();
 
-	$videoName = $_GET['delete'];
-	if (!empty($videoName)) {
+	if ((isset($_GET['delete'])) && (!empty($_GET['delete']))) {
 		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);		
 		require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
 		$videoManagement = new s3_video_management();
@@ -352,6 +351,8 @@ function s3_video_embed_video($embedDetails)
 	$pluginSettings = s3_video_check_plugin_settings();
 	if ($embedDetails['file']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
+	} else {
+		return;
 	}
 	
 	// See if the video has an associated still image
@@ -367,8 +368,8 @@ function s3_video_embed_video($embedDetails)
 		// Set up the flowplayer for video playback
 		if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
 			$playerContent = s3_video_configure_player();
-			$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
-			
+			$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);
+
 			// Define the playlist to support a video still
 			$playlistHtml = 'playlist: [' . "\r\n";
 
@@ -487,11 +488,11 @@ function s3_video_embed_playlist($embedDetails)
 function s3_video_configure_player() 
 {
 	$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-flowplayer.php');
-	$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
+	// $playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
 
 	$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.15.swf';		
 	$playerContent = str_replace('{flowplayerLocation}', $flowplayerLocation, $playerContent);
-
+	$playerContent = str_replace('{playerId}', s3_plugin_player_id(), $playerContent);
 	$pluginSettings = s3_video_check_plugin_settings();
 
 	// Set the player dimensions
@@ -657,3 +658,12 @@ function s3_plugin_deactivate()
 	$pluginSetup = new s3_video_plugin_setup();
 	$pluginSetup->deactivate_plugin();
 }	
+
+/**
+ * Generate a quasi random number for the player embed to allow multiple videos in the same page or post
+ */
+function s3_plugin_player_id()
+{
+	return sha1(rand(1, 9999999) . microtime(true));
+}
+ 

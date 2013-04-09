@@ -18,7 +18,7 @@ if (!$playlistVideos) {
 	jQuery(function() {
 		
 		// setup player normally
-		$f("player", "<?php echo WP_PLUGIN_URL;?>/s3-video/misc/flowplayer-3.2.11.swf", {
+		$f("player{playerId}", "<?php echo WP_PLUGIN_URL;?>/s3-video/misc/flowplayer-3.2.11.swf", {
 		
 			// clip properties common to all playlist entries
 			clip: {
@@ -55,7 +55,7 @@ if (!$playlistVideos) {
 	<?php if ((empty($embedDetails['width'])) && (empty($embedDetails['height']))) { ?>
 		<a style="display:block;width:520px;height:330px"  id="player"></a> 
 	<?php } else { ?>
-		<a style="display:block;width:<?php echo $embedDetails['width']; ?>px;height:<?php echo $embedDetails['height']; ?>px"  id="player"></a> 		
+		<a style="display:block;width:<?php echo $embedDetails['width']; ?>px;height:<?php echo $embedDetails['height']; ?>px"  id="player{playerId}"></a> 		
 	<?php } ?>
 	<br clear="all"/>
 <?php } ?>
