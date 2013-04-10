@@ -57,6 +57,7 @@ function s3_video()
 	$pluginSettings = s3_video_check_plugin_settings();
 
 	if ((isset($_GET['delete'])) && (!empty($_GET['delete']))) {
+		$videoName = $_GET['delete'];
 		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);		
 		require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
 		$videoManagement = new s3_video_management();
