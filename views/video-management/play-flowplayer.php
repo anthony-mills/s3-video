@@ -1,7 +1,7 @@
 <a href="{videoFile}" style="display:block;width:{videoWidth}px;height:{videoHeight}px"  id="player{playerId}"></a> 		
 <script>
 	flowplayer("player{playerId}", '{flowplayerLocation}', {
-		log: { level: 'debug' },
+		log: { level: 'warn' },
 		clip:  {
 			autoBuffering: {videoAutoBuffer},
 			autoPlay: {videoAutoPlay},
