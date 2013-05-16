@@ -51,6 +51,7 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 = 0.98 =
 Updated the videoJS swf player file to fix security vulnerabilities (for details see https://github.com/videojs/video.js/issues/435 )
+Updated VideoJS library and style sheet to V4.0
 
 = 0.97 =
 Added support for Amazon S3 prefixes allowing faster traversal of buckets containing alot of files
