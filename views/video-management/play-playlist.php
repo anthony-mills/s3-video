@@ -18,7 +18,7 @@ if (!$playlistVideos) {
 	jQuery(function() {
 		
 		// setup player normally
-		$f("player{playerId}", "<?php echo WP_PLUGIN_URL;?>/s3-video/misc/flowplayer-3.2.11.swf", {
+		$f("player{playerId}", "<?php echo WP_PLUGIN_URL;?>/s3-video/misc/flowplayer-3.2.16.swf", {
 		
 			// clip properties common to all playlist entries
 			clip: {

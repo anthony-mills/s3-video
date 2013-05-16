@@ -494,7 +494,7 @@ function s3_video_configure_player()
 	$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-flowplayer.php');
 	// $playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
 
-	$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.15.swf';		
+	$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.16.swf';		
 	$playerContent = str_replace('{flowplayerLocation}', $flowplayerLocation, $playerContent);
 	$playerContent = str_replace('{playerId}', s3_plugin_player_id(), $playerContent);
 	$pluginSettings = s3_video_check_plugin_settings();
@@ -618,7 +618,7 @@ function s3_video_load_player_js()
 	
 	$pluginSettings = s3_video_check_plugin_settings();
 	if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
-		wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.11.js', array('jquery'), '1.0');
+		wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.12.js', array('jquery'), '1.0');
 		wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');	
 	} else {
 		wp_enqueue_script('videoJS', WP_PLUGIN_URL . '/s3-video/js/video.min.js');

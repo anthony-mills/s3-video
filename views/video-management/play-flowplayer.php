@@ -5,8 +5,7 @@
 		clip:  {
 			autoBuffering: {videoAutoBuffer},
 			autoPlay: {videoAutoPlay},
-			bufferLength: 5,	
-			scaling: fit			
+			bufferLength: 5			
 		},
 		{videoPlaylist}
 	});
