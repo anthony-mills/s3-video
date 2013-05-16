@@ -41,6 +41,7 @@ To define the player as 640 pixels wide by 380 pixels high
 
 = 0.98 =
 Updated the videoJS swf player file to fix security vulnerabilities (for details see https://github.com/videojs/video.js/issues/435 )
+Updated VideoJS library and style sheet to V4.0
 
 = 0.97 =
 Added support for Amazon S3 prefixes allowing faster traversal of buckets containing alot of files
