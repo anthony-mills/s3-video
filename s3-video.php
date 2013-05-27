@@ -368,7 +368,8 @@ function s3_video_embed_video($embedDetails)
 
 		// Set up the flowplayer for video playback
 		if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
-			$playerContent = s3_video_configure_player();
+			$playerContent = s3_video_configure_player($embedDetails);
+						
 			$playerContent = str_replace('{videoFile}', $videoFile, $playerContent);
 
 			// Define the playlist to support a video still
@@ -409,7 +410,7 @@ function s3_video_embed_video($embedDetails)
 			$playerContent = str_replace('{swfFile}', $swfFile, $playerContent);	
 
 			$playerContent = str_replace('{playerId}', s3_plugin_player_id(), $playerContent);
-			
+		
 			// Set the player dimensions
 			if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
 				$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
@@ -489,7 +490,7 @@ function s3_video_embed_playlist($embedDetails)
 /*
  * Configure the player for play back with flowplay and playlist functionality
  */
-function s3_video_configure_player() 
+function s3_video_configure_player($embedDetails) 
 {
 	$playerContent = file_get_contents( dirname(__FILE__) .'/views/video-management/play-flowplayer.php');
 	// $playerContent = str_replace('{videoFile}', $videoFile, $playerContent);	
