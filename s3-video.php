@@ -141,16 +141,22 @@ function s3_video_plugin_settings()
 			register_setting( 'amazon_s3_video', 'amazon_prefix' );			
 			register_setting( 's3-video-results-limit', 's3_video_page_result_limit' );
 			
-			register_setting( 'amazon_s3_video_autoplay', 'video_autoplay' );
+			register_setting( 'amazon_s3_video_autoplay', 'video_autoplay' );							
 			register_setting( 'amazon_s3_video_autobuffer', 'video_autobuffer' );
 			register_setting( 'amazon_s3_playlist_autoplay', 'playlist_autoplay' );
-			register_setting( 'amazon_s3_playlist_autobuffer', 'playlist_autobuffer' );	
-			register_setting( 'amazon_s3_video_player', 'video_player' );		
+			register_setting( 'amazon_s3_playlist_autobuffer', 'playlist_autobuffer' );
+				
+			register_setting( 'amazon_s3_video_player', 'video_player' );	
+			register_setting( 'amazon_s3_video_playerwidth', 'video_playerwidth' );
+			register_setting( 'amazon_s3_video_playerheight', 'video_playerheight' );				
 
 			update_option( 'amazon_access_key', trim($_POST['amazon_access_key'] ));
 			update_option( 'amazon_secret_access_key', trim($_POST['amazon_secret_access_key'] ));
 			update_option( 'amazon_video_bucket', trim($_POST['amazon_video_bucket'] ));
+			
 			update_option( 'amazon_s3_video_player', trim($_POST['video_player'] ));
+			update_option( 'amazon_s3_video_playerwidth', trim($_POST['video_playerwidth'] ));
+			update_option( 'amazon_s3_video_playerheight', trim($_POST['video_playerheight'] ));						
 						
 			update_option( 'amazon_s3_video_autoplay', $_POST['video_autoplay'] );
 			update_option( 'amazon_s3_video_autobuffer', $_POST['video_autobuffer'] );
@@ -413,11 +419,11 @@ function s3_video_embed_video($embedDetails)
 		
 			// Set the player dimensions
 			if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
+				$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 				
 				$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
-				$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 
 			} else {
-				$playerContent = str_replace('{videoHeight}', 360, $playerContent);
-				$playerContent = str_replace('{videoWidth}', 640, $playerContent); 
+				$playerContent = str_replace('{videoWidth}', $pluginSettings['amazon_s3_video_playerwidth'], $playerContent); 		
+				$playerContent = str_replace('{videoHeight}', $pluginSettings['amazon_s3_video_playerheight'], $playerContent);
 			}	
 
 			// Define the buffering settings
@@ -502,11 +508,11 @@ function s3_video_configure_player($embedDetails)
 
 	// Set the player dimensions
 	if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
+		$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 		
 		$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
-		$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 
 	} else {
-		$playerContent = str_replace('{videoHeight}', 330, $playerContent);
-		$playerContent = str_replace('{videoWidth}', 520, $playerContent); 
+		$playerContent = str_replace('{videoWidth}', $pluginSettings['amazon_s3_video_playerwidth'], $playerContent); 		
+		$playerContent = str_replace('{videoHeight}', $pluginSettings['amazon_s3_video_playerheight'], $playerContent);
 	}
 
 	// Define the buffering settings
@@ -548,7 +554,9 @@ function s3_video_check_plugin_settings($redirect = TRUE)
 							'amazon_url' => get_option('amazon_url'),
 							'amazon_prefix' => get_option('amazon_prefix'),
 							'amazon_video_bucket' => get_option('amazon_video_bucket'),
-							'amazon_s3_video_player' => get_option('amazon_s3_video_player'),								
+							'amazon_s3_video_player' => get_option('amazon_s3_video_player'),
+							'amazon_s3_video_playerwidth' => get_option('amazon_s3_video_playerwidth'),	
+							'amazon_s3_video_playerheight' => get_option('amazon_s3_video_playerheight'),															
 							's3_video_page_result_limit' => get_option('s3_video_page_result_limit'),
 							'amazon_s3_video_autoplay' => get_option('amazon_s3_video_autoplay'),
 							'amazon_s3_video_autobuffer' => get_option('amazon_s3_video_autobuffer'),

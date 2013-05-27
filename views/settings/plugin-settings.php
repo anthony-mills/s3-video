@@ -137,12 +137,31 @@
 				<td>
 					<?php if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) { ?>
 							<input type="radio" name="video_player" value="flowplayer" checked> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
-							<br>
+							<br />
 							<input type="radio" name="video_player" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
 					<?php } else { ?>	
 							<input type="radio" name="video_player" value="flowplayer"> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
-							<br>
+							<br />
 							<input type="radio" name="video_player" value="videojs" checked> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
+					<?php } ?>		
+				</td>
+			</tr>			
+
+			<tr>
+
+				<td class="heading">
+					Default Player Size: 
+				</td>
+
+				<td>
+					<?php if ((empty($pluginSettings['amazon_s3_video_playerwidth'])) || (empty($pluginSettings['amazon_s3_video_playerheight']))) { ?>
+							Width: <input type="text" name="video_playerwidth" value="530" size="4"> px
+							<br />
+							Height: <input type="text" name="video_playerheight" value="330" size="4"> px
+					<?php } else { ?>
+							Width: <input type="text" name="video_playerwidth" value="<?php echo $pluginSettings['amazon_s3_video_playerwidth']; ?>" size="4"> px
+							<br />
+							Height: <input type="text" name="video_playerheight" value="<?php echo $pluginSettings['amazon_s3_video_playerheight']; ?>" size="4"> px							
 					<?php } ?>		
 				</td>
 			</tr>			

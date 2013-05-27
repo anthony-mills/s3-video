@@ -53,6 +53,7 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 Updated the videoJS swf player file to fix security vulnerabilities (for details see https://github.com/videojs/video.js/issues/435 )
 Updated VideoJS library and style sheet to V4.0
 Fixed bug, stopping the successful resizing of videos when the dimensions are added inline to the video embed shortcode
+Ability to define a custom default player size in the plugin settings page
 
 = 0.97 =
 Added support for Amazon S3 prefixes allowing faster traversal of buckets containing alot of files
