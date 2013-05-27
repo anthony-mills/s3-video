@@ -83,7 +83,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 										Preview
 									</a>
 									 - 
-									<a href="admin.php?page=s3-video&delete=<?= $existingVideo['name']; ?>">
+									<a href="admin.php?page=s3-video&delete=<?php echo $existingVideo['name']; ?>">
 										Delete
 									</a>	
 									 -

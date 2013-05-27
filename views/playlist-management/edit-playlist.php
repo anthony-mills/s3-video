@@ -1,8 +1,8 @@
 <script type="text/javascript">
 	jQuery(function() {
-	  var awsBucket = '<?= $pluginSettings['amazon_video_bucket']; ?>';
+	  var awsBucket = '<?php echo $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#playListTable").tablesorter();
-	  jQuery("#playlistListTable").paginateTable({ rowsPerPage: <?= $pluginSettings['s3_video_page_result_limit']; ?>});	
+	  jQuery("#playlistListTable").paginateTable({ rowsPerPage: <?php echo $pluginSettings['s3_video_page_result_limit']; ?>});	
 	  jQuery(".chzn-select").chosen();   
 	  <?php if (!empty($playlistUpdated)) { ?>
   		 jQuery("#successMsg").fadeTo("slow", 1).animate({opacity: 1.0}, 1000).fadeTo("slow", 0);
@@ -16,7 +16,7 @@
 
 <?php if (!empty($successMsg)) { ?>
 	<div id="successMsg">
-		<?= $successMsg; ?>
+		<?php echo $successMsg; ?>
 	</div>
 <?php } ?>
 
@@ -40,14 +40,14 @@
 				<select data-placeholder="Videos in playlist" style="width:350px;" multiple class="chzn-select" name="playlist_contents[]" tabindex="8">
 				    <option value=""></option>
 				   	<?php foreach ($existingVideos as $video) { ?>
-						       <option value="<?= $video['video_file']; ?>" selected>
-						          <?= $video['video_file']; ?>
+						       <option value="<?php echo $video['video_file']; ?>" selected>
+						          <?php echo $video['video_file']; ?>
 						       </option>
 				    <?php } ?>
 				    
 				   <?php foreach ($s3Videos as $s3Video) { ?>
-						       <option value="<?= $s3Video['name']; ?>">
-						          <?= $s3Video['name']; ?>
+						       <option value="<?php echo $s3Video['name']; ?>">
+						          <?php echo $s3Video['name']; ?>
 						       </option>				   		
 				   <?php  }	?>				    
 				</select>
