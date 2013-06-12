@@ -49,6 +49,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.982 =
+* Renamed view files to create uniform naming sructure across the plugin views
+
 = 0.981 =
 * Improved formatting of change log
 

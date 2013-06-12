@@ -30,7 +30,7 @@ function s3_video_create_playlist()
 		}  
 	}
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/create-playlist.php');	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/create_playlist.php');	
 }
  
 /*
@@ -59,14 +59,14 @@ function s3_video_show_playlists()
 			} 
 			$existingVideos = $playlistManagement->getPlaylistVideos($playlistId);	
 			$s3Videos = s3_video_get_all_existing_video($pluginSettings);
-					
-			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/edit-playlist.php');
+		
+			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/edit_playlist.php');
 		} 
 		
 		if (!empty($_GET['reorder'])) {
 			$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['reorder']);
 			$playlistVideos = $playlistManagement->getPlaylistVideos($playlistId);
-			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/reorder-playlist.php');	
+			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/reorder_playlist.php');	
 		} 	
 		
 	} else {
@@ -74,7 +74,7 @@ function s3_video_show_playlists()
 		 * If we don't have a playlist to display a list of them all  
 		 */
 		$existingPlaylists = $playlistManagement->getAllPlaylists();	
-		require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/playlist-management.php');
+		require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/playlist_management.php');
 	}
 	
 }

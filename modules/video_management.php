@@ -40,7 +40,7 @@ function s3_video()
 
 	$existingVideos= s3_video_get_all_existing_video($pluginSettings);		
 	
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/existing-videos.php');		
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/existing_videos.php');		
 }
 
 /*
@@ -83,7 +83,7 @@ function s3_video_upload_video()
     		$errorMsg = 'There was an error uploading the video';
 		}
 	}
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/upload-video.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/upload_video.php');
 }
 
 /**
@@ -148,7 +148,7 @@ function s3_video_meta_data()
 		$videoStill = 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' . urlencode($videoStill);
 	}
 	
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/meta-data.php');	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/meta_data.php');	
 		
 } 
 

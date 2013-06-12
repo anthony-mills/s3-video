@@ -50,7 +50,28 @@ function s3_video_check_plugin_settings($redirect = TRUE)
 	}
 
 } 
-  
+
+/**
+ * 
+ * Add a tab to the Wordpress media manager
+ */  
+function s3_video_add_media_tabs($mediaTabs)
+{
+	$mediaTabs['s3video_media_manager']='S3 Video';
+	return $mediaTabs;
+}  
+
+/**
+ * 
+ * Page content for the media manager tab
+ * 
+ */
+function s3video_media_manager()
+{
+	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/existing_videos.php');
+} 
+ 
 /**
  * 
  * Define the plugin menu in the Wordpress backend
@@ -131,7 +152,7 @@ function s3_video_plugin_settings()
 		$pluginSettings = s3_video_check_plugin_settings(FALSE);
 	}
 
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/plugin-settings.php');
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/plugin_settings.php');
 }
 
 /*

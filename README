@@ -39,6 +39,9 @@ To define the player as 640 pixels wide by 380 pixels high
 
 == Changelog ==
 
+= 0.982 =
+* Renamed view files to create uniform naming sructure across the plugin views
+
 = 0.981 =
 * Improved formatting of change log
 

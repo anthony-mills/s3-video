@@ -3,7 +3,7 @@
 Plugin Name: S3 Video Plugin
 Plugin URI: https://github.com/anthony-mills/s3-video
 Description: Upload and embed videos using your Amazon S3 account
-Version: 0.981
+Version: 0.982
 Author: Anthony Mills
 Author URI: http://www.development-cycle.com
 */
@@ -35,6 +35,9 @@ add_action('wp_ajax_remove_video_still', 's3_video_remove_video_still');
 add_shortcode( 'S3_embed_video', 's3_video_embed_video' );
 add_shortcode( 'S3_embed_playlist', 's3_video_embed_playlist' );
 
+// Add functionality for integration with the media manager
+add_filter('media_upload_tabs', 's3_video_add_media_tabs');
+add_action('media_upload_s3video_media_manager', 's3video_media_manager');
 
 // Add deactivation hook
 register_deactivation_hook( __FILE__, 's3_video_deactivate');
