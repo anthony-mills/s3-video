@@ -51,6 +51,7 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 = 0.982 =
 * Renamed view files to create uniform naming sructure across the plugin views
+* Shortcodes for video and playlist can now be inserted directly into the post / page editor from the media manager 
 
 = 0.981 =
 * Improved formatting of change log
