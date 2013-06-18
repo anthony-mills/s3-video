@@ -13,7 +13,9 @@ if ('s3-video.php' == basename($_SERVER['SCRIPT_FILENAME'])){
 }
 
 // Load required modules
+require_once(WP_PLUGIN_DIR . '/s3-video/modules/video_management.php');
 require_once(WP_PLUGIN_DIR . '/s3-video/modules/player_management.php');
+require_once(WP_PLUGIN_DIR . '/s3-video/modules/playlist_management.php');
 require_once(WP_PLUGIN_DIR . '/s3-video/modules/plugin_functionality.php');
 
 // Load other required libraries
@@ -37,7 +39,8 @@ add_shortcode( 'S3_embed_playlist', 's3_video_embed_playlist' );
 
 // Add functionality for integration with the media manager
 add_filter('media_upload_tabs', 's3_video_add_media_tabs');
-add_action('media_upload_s3video_media_manager', 's3video_media_manager');
+add_action('media_upload_s3video_video_media_manager', 's3video_video_media_manager');
+add_action('media_upload_s3video_playlist_media_manager', 's3video_playlist_media_manager');
 
 // Add deactivation hook
 register_deactivation_hook( __FILE__, 's3_video_deactivate');

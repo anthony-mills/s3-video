@@ -78,3 +78,27 @@ function s3_video_show_playlists()
 	}
 	
 }
+
+/**
+ * 
+ * Insert a playlist into the editor for a page or post through the media manager
+ * 
+ */
+function s3video_playlist_media_manager()
+{
+	if ((isset($_POST['insertPlaylistId'])) && (!empty($_POST['insertPlaylistId']))) {
+		$insertHtml = "[S3_embed_playlist id='" . $_POST['insertPlaylistId'] . "']";
+		media_send_to_editor($insertHtml);
+		die();
+	}
+		
+	$pluginSettings = s3_video_check_plugin_settings();
+	
+	// Load playlist management class
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
+	$playlistManagement = new s3_playlist_management();
+
+	// Load all of the existing playlists
+	$existingPlaylists = $playlistManagement->getAllPlaylists();	
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/media_manager_show_playlists.php');	
+} 

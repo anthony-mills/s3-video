@@ -1,34 +1,35 @@
+<link rel="stylesheet" href="<?php echo get_bloginfo('url'); ?>/wp-content/plugins/s3-video/css/style.css?ver=3.5.1" type="text/css" media="all" />
+
+<script type="text/javascript" src="<?php echo get_bloginfo('url'); ?>/wp-admin/load-scripts.php?c=0&amp;load%5B%5D=jquery,utils&amp;ver=3.5.1"></script>
+<script type='text/javascript' src="<?php echo get_bloginfo('url'); ?>/wp-content/plugins/s3-video/js/jquery.tablesorter.js?ver=1.0"></script>
+<script type='text/javascript' src="<?php echo get_bloginfo('url'); ?>/wp-content/plugins/s3-video/js/jquery.paginator.js?ver=1.0"></script>
+
 <script type="text/javascript">
 	jQuery(function() {
 	  var awsBucket = '<?php echo $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#playListTable").tablesorter();
 	  jQuery("#playlistListTable").paginateTable({ rowsPerPage: <?php echo  $pluginSettings['s3_video_page_result_limit']; ?>});	  
+	  
+	  jQuery(".insertPlaylist").click(function() {
+			var videoName = jQuery(this).attr("title");
+			jQuery("#insertPlaylistId").val(videoName);
+			jQuery("#insertPlaylistForm").submit();
+	  });	  
 	});
 </script>
 
 <div class="wrap">
 	
-	<h2>Playlist Management</h2>
-	
-	<?php if (!empty($successMsg)) { ?>
-		<div id="successMsg">
-			<?php echo  $successMsg; ?>
-		</div>
-	<?php } ?>
-	
-	<p>
-		<a href="admin.php?page=s3_video_create_playlist">Create new playlist</a>
-	</p>
-	
+	<strong>Insert Playlist</strong>
+
 	<?php
 		if ((!empty($existingPlaylists)) && (count($existingPlaylists) > 0)) {
 	?>
 			<table id="playListTable" class="tablesorter" cellspacing="0" >
 				<thead>
 					<tr>
-						<th>Playlist</th>
-						<th>Created</th>
-						<th>Wordpress Shortcode</th>									
+						<th>Playlist Name</th>
+						<th>Created</th>								
 						<th>Actions</th>								
 					</tr>
 				</thead>
@@ -45,22 +46,10 @@
 							<td>
 								<?php echo  date('j/n/Y', $existingPlaylist['created']); ?>
 							</td>
-							
-							<td>
-								[S3_embed_playlist id="<?php echo  $existingPlaylist['id']; ?>"]
-							</td>
 												
 							<td>
-								<a href="admin.php?page=s3_video_show_playlist&delete=<?php echo  $existingPlaylist['id']; ?>">
-									Delete
-								</a>
-								 - 
-								<a href="admin.php?page=s3_video_show_playlist&edit=<?php echo  $existingPlaylist['id']; ?>">
-									Add / Remove Videos
-								</a>	
-								 - 
-								<a href="admin.php?page=s3_video_show_playlist&reorder=<?php echo  $existingPlaylist['id']; ?>">
-									Reorder Playlist Videos
+								<a href="#" title="<?php echo  $existingPlaylist['id']; ?>" class="insertPlaylist">
+									Insert
 								</a>		
 							</td>
 						</tr>
@@ -80,9 +69,6 @@
 					   		</div>
 						</div>
 			<?php } ?>
-			<div style='display:none'>
-				<div id='videoInfo' style='padding:10px;'></div>
-			</div>
 	<?php 	
 		} else {
 	?>
@@ -90,5 +76,7 @@
 	<?php		
 		}
 	?>
-
+	<form method="POST" id="insertPlaylistForm">
+		<input type="hidden" name="insertPlaylistId" id="insertPlaylistId" value="" />
+	</form>
 </div>

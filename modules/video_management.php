@@ -128,7 +128,15 @@ function s3_video_meta_data()
 								$successMsg = 'The image has successfully been uploaded to your S3 account';					
 								
 								// Save the image to the database
-								$videoManagement->deleteVideoStill($videoName);
+						/**
+ * 
+ * Insert a playlist into the editor for a page or post through the media manager
+ * 
+ */
+function s3video_playlist_media_manager()
+{
+	echo 'hello';
+} 		$videoManagement->deleteVideoStill($videoName);
 								$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
 								$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);
 								
@@ -172,3 +180,20 @@ function s3_video_remove_video_still()
 	}
 	die();
 }
+
+/**
+ * 
+ * Post / Page Video insertion functionality for the media manager
+ * 
+ */
+function s3video_video_media_manager()
+{
+	$pluginSettings = s3_video_check_plugin_settings();
+	$existingVideos = s3_video_get_all_existing_video($pluginSettings);	
+	if ((isset($_POST['insertVideoName'])) && (!empty($_POST['insertVideoName']))) {
+		$insertHtml = "[S3_embed_video file='" . $_POST['insertVideoName'] . "']";
+		media_send_to_editor($insertHtml);
+		die();
+	}
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/media_manager_insert_video.php');
+} 
