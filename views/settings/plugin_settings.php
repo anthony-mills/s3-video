@@ -142,6 +142,7 @@
 							- <a href="http://flowplayer.org/" target="_blank">Player Website</a>
 							<br />
 							<input type="radio" name="video_player" value="videojs"> VideoJS 
+							- <a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/videojs_info.html" class="jTip" id="videojsTip">More Info?</a>							
 							- <a href="http://videojs.com/" target="_blank">Player Website</a>
 					<?php } else { ?>	
 							<input type="radio" name="video_player" value="flowplayer"> Flowplayer 
@@ -149,6 +150,7 @@
 							- <a href="http://flowplayer.org/" target="_blank">Player Website</a>
 							<br />
 							<input type="radio" name="video_player" value="videojs" checked> VideoJS 
+							- <a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/videojs_info.html" class="jTip" id="videojsTip">More Info?</a>							
 							- <a href="http://videojs.com/" target="_blank">Player Website</a>
 					<?php } ?>		
 				</td>
