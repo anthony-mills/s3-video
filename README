@@ -42,6 +42,7 @@ To define the player as 640 pixels wide by 380 pixels high
 = 0.982 =
 * Renamed view files to create uniform naming sructure across the plugin views
 * Shortcodes for video and playlist can now be inserted directly into the post / page editor from the media manager 
+* Added more too tips explaining the configuration options on the plugin settings page
 
 = 0.981 =
 * Improved formatting of change log
