@@ -86,7 +86,8 @@
                 </td>
 
                 <td>
-                    <input type="text" name="amazon_prefix" placeholder="Prefix"  value="<?php echo $pluginSettings['amazon_prefix']; ?>"> <a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/s3_prefix.html" class="jTip" id="three">Whats this?</a>
+                    <input type="text" name="amazon_prefix" placeholder="Prefix"  value="<?php echo $pluginSettings['amazon_prefix']; ?>"> 
+                    - <a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/s3_prefix.html" class="jTip" id="fetchPrefixTip">More Info?</a>
                 </td>
             </tr>
             
@@ -155,11 +156,12 @@
 
 				<td>
 					<?php if ((empty($pluginSettings['amazon_s3_video_playerwidth'])) || (empty($pluginSettings['amazon_s3_video_playerheight']))) { ?>
-							Width: <input type="text" name="video_playerwidth" value="530" size="4"> px
+							Width: <input type="text" name="video_playerwidth" value="530" size="4"> px <a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/player_dimensions.html" class="playerDimensionsTip" id="three">More Info?</a>
 							<br />
 							Height: <input type="text" name="video_playerheight" value="330" size="4"> px
 					<?php } else { ?>
-							Width: <input type="text" name="video_playerwidth" value="<?php echo $pluginSettings['amazon_s3_video_playerwidth']; ?>" size="4"> px
+							Width: <input type="text" name="video_playerwidth" value="<?php echo $pluginSettings['amazon_s3_video_playerwidth']; ?>" size="4"> px -
+							<a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/player_dimensions.html" class="jTip" id="playerDimensionsTip">More Info?</a>
 							<br />
 							Height: <input type="text" name="video_playerheight" value="<?php echo $pluginSettings['amazon_s3_video_playerheight']; ?>" size="4"> px							
 					<?php } ?>		
