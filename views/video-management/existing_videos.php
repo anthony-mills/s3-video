@@ -25,7 +25,8 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 						'<param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" />' +
 						'<param name="flashvars" value=\'config={"clip":{"url":"http://' + awsBucket + '.s3.amazonaws.com/' + videoFile + '", <?php echo $flashVars; ?>},"canvas":{"backgroundColor":"#112233"}}}\' />' +
 						'</object>';
-		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode" readonly="readonly">' + embedCode + '</textarea></p>';
+		var copyEmbedCode = '<p><textarea style="width: 600px; height: 300px;" name="embedCode" readonly="readonly">' + embedCode + '</textarea></p>' +
+							'<p><strong>PLEASE NOTE:</strong> The code from here is intended for use outside of Wordpress i.e other sites and test pages. It is best to use a Wordpress shortlink when embedding a video into your pages and posts.</p>';
 		jQuery("#videoInfo").html(linkText + copyEmbedCode + '<br>');
 		jQuery().colorbox({width:"50%", inline:true, href:"#videoInfo"});
 	  });
