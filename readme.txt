@@ -46,6 +46,8 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 1. A video playing from S3 embedded into a test page
 2. Plugin menu options
 3. Drag and drop ordering of videos in a playlist
+4. Plugin settings page
+5. Inserting a video into a post via the wordpress media manager
 
 == Changelog ==
 
