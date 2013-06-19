@@ -137,13 +137,19 @@
 
 				<td>
 					<?php if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) { ?>
-							<input type="radio" name="video_player" value="flowplayer" checked> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="flowplayer" checked> Flowplayer 
+							- <a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/flowplayer_info.html" class="jTip" id="flowplayerTip">More Info?</a> 							
+							- <a href="http://flowplayer.org/" target="_blank">Player Website</a>
 							<br />
-							<input type="radio" name="video_player" value="videojs"> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="videojs"> VideoJS 
+							- <a href="http://videojs.com/" target="_blank">Player Website</a>
 					<?php } else { ?>	
-							<input type="radio" name="video_player" value="flowplayer"> Flowplayer - <a href="http://flowplayer.org/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="flowplayer"> Flowplayer 
+							- <a href="<?php echo WP_PLUGIN_URL; ?>/s3-video/views/tips/flowplayer_info.html" class="jTip" id="flowplayerTip">More Info?</a>							
+							- <a href="http://flowplayer.org/" target="_blank">Player Website</a>
 							<br />
-							<input type="radio" name="video_player" value="videojs" checked> VideoJS - <a href="http://videojs.com/" target="_blank">More info</a>
+							<input type="radio" name="video_player" value="videojs" checked> VideoJS 
+							- <a href="http://videojs.com/" target="_blank">Player Website</a>
 					<?php } ?>		
 				</td>
 			</tr>			
