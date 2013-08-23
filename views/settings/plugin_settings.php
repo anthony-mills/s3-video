@@ -80,6 +80,16 @@
 				</td>
 			</tr>
 			
+			<tr>
+				<td class="heading">
+					Video Folder Location (whithin the bucket): 
+				</td>
+
+				<td>
+					<input type="text" name="amazon_video_folder"  maxlength="50" placeholder="Amazon Video Folder" value="<?php echo $pluginSettings['amazon_video_folder']; ?>">
+				</td>
+			</tr>
+			
             <tr>
                 <td class="heading">
                    Fetch prefix:

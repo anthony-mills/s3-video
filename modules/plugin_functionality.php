@@ -29,6 +29,7 @@ function s3_video_check_plugin_settings($redirect = TRUE)
 							'amazon_url' => get_option('amazon_url'),
 							'amazon_prefix' => get_option('amazon_prefix'),
 							'amazon_video_bucket' => get_option('amazon_video_bucket'),
+							'amazon_video_folder' => get_option('amazon_video_folder'),
 							'amazon_s3_video_player' => get_option('amazon_s3_video_player'),
 							'amazon_s3_video_playerwidth' => get_option('amazon_s3_video_playerwidth'),	
 							'amazon_s3_video_playerheight' => get_option('amazon_s3_video_playerheight'),															
@@ -110,6 +111,7 @@ function s3_video_plugin_settings()
 			update_option( 'amazon_access_key', trim($_POST['amazon_access_key'] ));
 			update_option( 'amazon_secret_access_key', trim($_POST['amazon_secret_access_key'] ));
 			update_option( 'amazon_video_bucket', trim($_POST['amazon_video_bucket'] ));
+			update_option( 'amazon_video_folder', trim($_POST['amazon_video_folder'] ));
 			
 			update_option( 'amazon_s3_video_player', trim($_POST['video_player'] ));
 			update_option( 'amazon_s3_video_playerwidth', trim($_POST['video_playerwidth'] ));
