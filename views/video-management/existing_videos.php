@@ -63,7 +63,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 				<?php
 					foreach($existingVideos as $existingVideo) {
 						$fileExtension = strtolower(pathinfo($existingVideo['name'], PATHINFO_EXTENSION));
-						$videoExtensions = array('mp4', 'mov', 'avi', 'flv', 'mpeg', 'mpg', 'wmv', '3gp', 'ogm', 'mkv');
+						$videoExtensions = array('mp4', 'mov', 'avi', 'flv', 'mpeg', 'mpg', 'wmv', '3gp', 'ogm', 'mkv', 'm4v');
 						if (in_array($fileExtension, $videoExtensions)) {
 				?>
 							<tr>
