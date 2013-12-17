@@ -2,7 +2,7 @@
 Contributors: Anthony.Mills
 Plugin URI: https://github.com/anthony-mills/S3-Video
 Author URI: http://www.development-cycle.com
-Tested up to: 3.51
+Tested up to: 3.8
 Tags: S3, Video, Embed, Streaming, Playlists
 
 The S3 Video Plugin video allows the embedding and streaming of video files stored on Amazons's S3 storage service. Either as individual videos within pages and posts or playlists created from the plugin.
@@ -50,6 +50,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 5. Inserting a video into a post via the wordpress media manager
 
 == Changelog ==
+
+= 0.983 = 
+* Fixed XSS scripting vulnerability in video preview script
 
 = 0.982 =
 * Renamed view files to create uniform naming sructure across the plugin views
