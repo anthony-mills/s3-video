@@ -51,6 +51,9 @@ The decision to use Flowplayer basically boiled down to its feature list and its
 
 == Changelog ==
 
+= 0.984 =
+* s3_video_stills database table now remove when plugin is deactivated
+
 = 0.983 = 
 * Fixed XSS scripting vulnerability in video preview script
 
