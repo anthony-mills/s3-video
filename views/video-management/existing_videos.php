@@ -6,7 +6,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 	jQuery(function() {
 	  var awsBucket = '<?php echo $pluginSettings['amazon_video_bucket']; ?>';
 	  jQuery("#videoListTable").tablesorter();
-	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?echo $pluginSettings['s3_video_page_result_limit']; ?>});	  
+	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?php echo $pluginSettings['s3_video_page_result_limit']; ?>});	  
 	  jQuery(".colorBox").colorbox({width:"700", height:"480"});
 	  	  
 	  jQuery("a#getShortLink").click(function() {
