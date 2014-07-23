@@ -12,7 +12,6 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 	  jQuery(".getShortLink").on("click", function() {
 	  	jQuery( "#videoInfoParent" ).prepend( '<div id="videoInfo"></div>' );
 		var videoFile = jQuery(this).attr("title"); 
-		alert(videoFile);
 		var linkText = '<h2>Wordpress Shortcode</h2><p>Copy and paste the following shortcode into the page or post where you would like to embed your video: </p><br>';
 		var shortLink = '<p><input type=\"text\" readonly=\"readonly\" name=\"shortlink\" value=\"[S3_embed_video file=\'' + videoFile + '\']\" style=\"width: 450px;\"></p>';
 		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
