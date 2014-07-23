@@ -9,8 +9,10 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 	  jQuery("#videoListTable").paginateTable({ rowsPerPage: <?php echo $pluginSettings['s3_video_page_result_limit']; ?>});	  
 	  jQuery(".colorBox").colorbox({width:"700", height:"480"});
 	  	  
-	  jQuery("a#getShortLink").click(function() {
+	  jQuery(".getShortLink").on("click", function() {
+	  	jQuery( "#videoInfoParent" ).prepend( '<div id="videoInfo"></div>' );
 		var videoFile = jQuery(this).attr("title"); 
+		alert(videoFile);
 		var linkText = '<h2>Wordpress Shortcode</h2><p>Copy and paste the following shortcode into the page or post where you would like to embed your video: </p><br>';
 		var shortLink = '<p><input type=\"text\" readonly=\"readonly\" name=\"shortlink\" value=\"[S3_embed_video file=\'' + videoFile + '\']\" style=\"width: 450px;\"></p>';
 		jQuery("#videoInfo").html(linkText + shortLink + '<br>');
@@ -18,6 +20,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 	  });
 	  
 	  jQuery("a#getEmbedCode").click(function() {
+	  	jQuery( "#videoInfoParent" ).prepend( '<div id="videoInfo"></div>' );	  	
 		var videoFile = jQuery(this).attr("title"); 
 		var linkText = '<h2>Video Embed Code</h2><p>Copy and paste the following code to embed the video in pages outside of wordpress: </p><br>';
 		var embedCode = '<object width="640" height="380" id="s3EmbedVideo" name="s3EmbedVideo" data="http://releases.flowplayer.org/swf/flowplayer-3.2.11.swf" type="application/x-shockwave-flash">' +
@@ -88,7 +91,7 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 										Delete
 									</a>	
 									 -
-									<a href="#" title="<?php echo $existingVideo['name']; ?>" id="getShortLink">
+									<a href="#" title="<?php echo $existingVideo['name']; ?>" class="getShortLink">
 										Get Shortlink
 									</a>
 									 -
@@ -109,19 +112,17 @@ $flashVars = '"autoPlay":'.$pluginSettings['amazon_s3_video_autoplay'].',"autoBu
 		</table>
 		<?php if (count($existingVideos) > $pluginSettings['s3_video_page_result_limit']) { ?>
         		<div align="center">
-        			<div class='pager'>
-        		        <a href='#' alt='Previous' class='prevPage'>Prev</a> - 
-        		         Page <span class='currentPage'></span> of <span class='totalPages'></span>
-        		         - <a href='#' alt='Next' class='nextPage'>Next</a>
+        			<div class="pager">
+        		        <a href="#" alt="Previous" class="prevPage">Prev</a> - 
+        		         Page <span class="currentPage"></span> of <span class="totalPages"></span>
+        		         - <a href="#" alt="Next" class="nextPage">Next</a>
         		        <br>
-        		       	<span class='pageNumbers'></span>
+        		       	<span class="pageNumbers"></span>
         	   		</div>
         		</div>
     <?php } ?>
 		
-		<div style='display:none'>
-			<div id='videoInfo' style='padding:10px;'></div>
-		</div>
+		<div id="videoInfoParent" style="display:none"></div>
 <?php 	
 	} else {
 ?>
