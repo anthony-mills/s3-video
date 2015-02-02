@@ -142,15 +142,8 @@ function s3_video_meta_data()
 								$successMsg = 'The image has successfully been uploaded to your S3 account';					
 								
 								// Save the image to the database
-						/**
- * 
- * Insert a playlist into the editor for a page or post through the media manager
- * 
- */
-function s3video_playlist_media_manager()
-{
-	echo 'hello';
-} 		$videoManagement->deleteVideoStill($videoName);
+					
+								$videoManagement->deleteVideoStill($videoName);
 								$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
 								$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);
 								
