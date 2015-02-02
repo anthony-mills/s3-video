@@ -50,11 +50,14 @@ function s3_video_upload_video()
 {
 	s3_video_check_user_access(); 
 	$pluginSettings = s3_video_check_plugin_settings();
+
 	$tmpDirectory = s3_video_check_upload_directory();
+
 	$fileTypes = array('video/x-flv', 'video/x-msvideo', 'video/mp4', 'application/octet-stream', 'video/avi', 'video/x-msvideo', 
 						'video/mpeg');
-	
+
 	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {
+
 			if ((!in_array($_FILES['upload_video']['type'], $fileTypes)) && ($_FILES['upload_video']['type'] !='application/octet-stream')) {					
 					$errorMsg = 'You need to provide an .flv or .mp4 file';
 			} else {
@@ -86,8 +89,12 @@ function s3_video_upload_video()
         }
 			}
 	} else {
-		if (!empty($_POST)) {
+		if ((!empty($_POST)) || (!empty($_FILES)))  {
+
     		$errorMsg = 'There was an error uploading the video';
+    		$errorMsg .= '<ul><li>Check the upload directory exists and is writable</li>' .
+    					 '<li>Ensure the upload_max_filesize and post_max_size parameters ' .
+    					 'are large enough to accomodate the size of the video.</li></ul>';
 		}
 	}
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/upload_video.php');
