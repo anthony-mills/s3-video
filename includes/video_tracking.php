@@ -8,8 +8,8 @@ require_once('shared.php');
 $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 $clientip = getClientIp();
-$video = $_GET['video'];
-$action = $_GET['action'];
+$video = filter_input(INPUT_GET, 'video');
+$action = filter_input(INPUT_GET, 'action');
 
 if ((!$video) && (!$action)) {
 	exit;

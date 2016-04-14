@@ -91,7 +91,10 @@ function s3_video_plugin_menu()
 function s3_video_plugin_settings()
 {
 	if (!empty($_POST)) {
-		if ((!empty($_POST['amazon_access_key'])) && (!empty($_POST['amazon_secret_access_key'])) && (!empty($_POST['amazon_video_bucket']))) {
+
+		if ((!empty(filter_input(INPUT_POST, 'amazon_access_key'))) && 
+			(!empty(filter_input(INPUT_POST, 'amazon_secret_access_key')) && 
+			(!empty(filter_input(INPUT_POST, 'amazon_video_bucket'))) {
 			register_setting( 'amazon_s3_video', 'amazon_access_key' );
 			register_setting( 'amazon_s3_video', 'amazon_secret_access_key' );
 			register_setting( 'amazon_s3_video', 'amazon_video_bucket' );
@@ -108,10 +111,10 @@ function s3_video_plugin_settings()
 			register_setting( 'amazon_s3_video_playerwidth', 'video_playerwidth' );
 			register_setting( 'amazon_s3_video_playerheight', 'video_playerheight' );				
 
-			update_option( 'amazon_access_key', trim($_POST['amazon_access_key'] ));
+			update_option( 'amazon_access_key', trim( filter_input(INPUT_POST, 'amazon_access_key') ));
 			update_option( 'amazon_secret_access_key', trim($_POST['amazon_secret_access_key'] ));
-			update_option( 'amazon_video_bucket', trim($_POST['amazon_video_bucket'] ));
-			update_option( 'amazon_video_folder', trim($_POST['amazon_video_folder'] ));
+			update_option( 'amazon_video_bucket', trim( filter_input(INPUT_POST, 'amazon_video_bucket') ));
+			update_option( 'amazon_video_folder', trim(  filter_input(INPUT_POST, 'amazon_video_folder')));
 			
 			update_option( 'amazon_s3_video_player', trim($_POST['video_player'] ));
 			update_option( 'amazon_s3_video_playerwidth', trim($_POST['video_playerwidth'] ));

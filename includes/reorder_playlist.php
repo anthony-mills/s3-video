@@ -2,8 +2,9 @@
 ini_set('display_errors', 0);
 error_reporting(0);
 
-$playlistId = $_GET['playlist'];
-$playlistContents = $_GET['playlistVideos'];
+$playlistId = filter_input(INPUT_GET, 'playlist');
+
+$playlistContents = filter_input(INPUT_GET, 'playlistVideos');
 
 if (empty($playlistContents)) {
 	echo 'Play list order unable to be updated';

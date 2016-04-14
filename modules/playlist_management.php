@@ -12,14 +12,14 @@ function s3_video_create_playlist()
 {
 	$pluginSettings = s3_video_check_plugin_settings();	
 		
-	if ((!empty($_POST['playlist_contents'])) && (!empty($_POST['playlist_name']))) {
+	if ((!empty( filter_input(INPUT_POST, 'playlist_contents') )) && (!empty(  filter_input(INPUT_POST, 'playlist_name') ))) {
 		require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
 		$playlistManagement = new s3_playlist_management();
 		
-		$playlistName = sanitize_title($_POST['playlist_name']);
+		$playlistName = sanitize_title( filter_input(INPUT_POST, 'playlist_name') );
 		$playlistExists = $playlistManagement->getPlaylistsByTitle($playlistName);
 		if (!$playlistExists) {
-			$playlistResult = $playlistManagement->createPlaylist($playlistName, $_POST['playlist_contents']);
+			$playlistResult = $playlistManagement->createPlaylist($playlistName, filter_input(INPUT_POST, 'playlist_contents') );
 			if (!$playlistResult) {
 	    		$errorMsg = 'An error occurred whilst creating the play list.';			
 			} else {
@@ -43,18 +43,21 @@ function s3_video_show_playlists()
 	$playlistManagement = new s3_playlist_management();
 	
 	if (!empty($_GET['delete'])) {
-		$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['delete']);
+		$playlistId = preg_replace('/[^0-9]/Uis', '', filter_input(INPUT_GET, 'delete') );
 		$playlistManagement->deletePlaylist($playlistId);
 	}
 	
-	if (((!empty($_GET['edit'])) && (is_numeric($_GET['edit']))) || ((!empty($_GET['reorder'])) && (is_numeric($_GET['reorder'])))) {
+	if ((!empty(filter_input(INPUT_GET, 'edit'))) && 
+		(is_numeric(filter_input(INPUT_GET, 'edit'))) || 
+		(!empty(filter_input(INPUT_GET, 'reorder'))) && 
+		(is_numeric(filter_input(INPUT_GET, 'reorder')))) {
 		
-		if (!empty($_GET['edit'])) {
-			$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['edit']);
+		if (!empty(filter_input(INPUT_GET, 'edit'))) {
+			$playlistId = preg_replace('/[^0-9]/Uis', '', filter_input(INPUT_GET 'edit'));
 			
 			if (!empty($_POST['playlist_contents'])) {
 				$playlistManagement->deletePlaylistVideos($playlistId);
-				$playlistManagement->updatePlaylistVideos($playlistId, $_POST['playlist_contents']);	
+				$playlistManagement->updatePlaylistVideos($playlistId, filter_input(INPUT_POST, 'playlist_contents'));	
 				$playlistUpdated = 1;
 			} 
 			$existingVideos = $playlistManagement->getPlaylistVideos($playlistId);	
@@ -64,7 +67,7 @@ function s3_video_show_playlists()
 		} 
 		
 		if (!empty($_GET['reorder'])) {
-			$playlistId = preg_replace('/[^0-9]/Uis', '', $_GET['reorder']);
+			$playlistId = preg_replace('/[^0-9]/Uis', '', filter_input(INPUT_GET, 'reorder'));
 			$playlistVideos = $playlistManagement->getPlaylistVideos($playlistId);
 			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/reorder_playlist.php');	
 		} 	
@@ -86,8 +89,8 @@ function s3_video_show_playlists()
  */
 function s3video_playlist_media_manager()
 {
-	if ((isset($_POST['insertPlaylistId'])) && (!empty($_POST['insertPlaylistId']))) {
-		$insertHtml = "[S3_embed_playlist id='" . $_POST['insertPlaylistId'] . "']";
+	if ((isset(filter_input(INPUT_POST, 'insertPlaylistId'))) && (!empty(filter_input(INPUT_POST, 'insertPlaylistId')))) {
+		$insertHtml = "[S3_embed_playlist id='" . filter_input(INPUT_POST, 'insertPlaylistId') . "']";
 		media_send_to_editor($insertHtml);
 		die();
 	}

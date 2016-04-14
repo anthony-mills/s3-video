@@ -147,8 +147,7 @@ function s3_video_embed_playlist($embedDetails)
 	}
 	$playlistHtml = substr($playlistHtml, 0, -1);
 	$playerContent = str_replace('{videoPlaylist}', $playlistHtml . ']', $playerContent);
- 	print_r($playerContent);
-	exit;		
+	
 	return $playerContent;
 } 
 
@@ -196,9 +195,11 @@ function s3_video_configure_player($embedDetails = NULL)
 function s3_video_preview_media() 
 {
 	$pluginSettings = s3_video_check_plugin_settings();
-	if ($_GET['media']) {
-		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . $_GET['media'];	
+
+	if ( filter_input(INPUT_GET, 'media') ) {
+		$videoFile =  'http://' . $pluginSettings['amazon_url'] . '/' . $pluginSettings['amazon_video_bucket'] . filter_input(INPUT_GET, 'media');	
 	}	
+
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/preview_video.php');	
 } 
 

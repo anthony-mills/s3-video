@@ -1,11 +1,10 @@
 <?php
 /**
- * 
  * Functions for the management of video media
  * 
  */
  
- 
+
 /*
  *  Default plugin page displaying existing media files
  */
@@ -14,10 +13,12 @@ function s3_video()
 	s3_video_check_user_access();
 	$pluginSettings = s3_video_check_plugin_settings();
 
-	if ((isset($_GET['delete'])) && (!empty($_GET['delete']))) {
-		$videoName = $_GET['delete'];
+	$videoName = filter_input(INPUT_GET, 'delete');
+
+	if ((isset($videoName)) && (!empty($videoName))) {
 		
-		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);		
+		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);	
+
 		require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
 		$videoManagement = new s3_video_management();
 
@@ -34,7 +35,7 @@ function s3_video()
 		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $videoName);			
 	
 		if ($result) {
-			$successMsg = $_GET['delete'] . ' was successfully deleted.';
+			$successMsg = $videoName . ' was successfully deleted.';
 		}
 	}
 
@@ -66,13 +67,27 @@ function s3_video_upload_video()
 				
 				$videoLocation = $tmpDirectory . $fileName;
 				if(move_uploaded_file($_FILES['upload_video']['tmp_name'], $videoLocation)) {
+
 					//Check if the plugin config indicates that the file must be uploaded into a certain folder location on S3
 					//This is because some administrators don't always give you access to write into the bucket but in a particular folder or folders instead 
 					if (!empty($pluginSettings['amazon_video_folder'])) {
 						$fileName =  $pluginSettings['amazon_video_folder'] . '/'. $fileName;
 					}
-					$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
-					$s3Result = $s3Access->putObjectFile($videoLocation, $pluginSettings['amazon_video_bucket'], $fileName, S3::ACL_PUBLIC_READ);
+
+					$s3Access = new S3(
+										$pluginSettings['amazon_access_key'], 
+										$pluginSettings['amazon_secret_access_key'], 
+										NULL, 
+										$pluginSettings['amazon_url']
+									);
+
+					$s3Result = $s3Access->putObjectFile(
+															$videoLocation, 
+															$pluginSettings['amazon_video_bucket'], 
+															$fileName, 
+															S3::ACL_PUBLIC_READ
+														);
+
 					switch ($s3Result) {
 		
 						case 0:
@@ -106,7 +121,8 @@ function s3_video_upload_video()
 function s3_video_meta_data()
 {
 	$pluginSettings = s3_video_check_plugin_settings();
-	$videoName = urldecode($_GET['video']);
+	$videoName = urldecode(filter_input(INPUT_GET, 'video'));
+
 	if (empty($videoName)) {
 		die('Video not found..');
 	}
@@ -130,9 +146,12 @@ function s3_video_meta_data()
 					$fileName = time() . '_' . basename($_FILES['upload_still']['name']);
 					$fileName = preg_replace('/[^A-Za-z0-9_.]+/', '', $fileName);
 					$imageLocation = $tmpDirectory . $fileName;
+
 					if(move_uploaded_file($_FILES['upload_still']['tmp_name'], $imageLocation)) {
+
 						$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
 						$s3Result = $s3Access->putObjectFile($imageLocation, $pluginSettings['amazon_video_bucket'], $fileName, S3::ACL_PUBLIC_READ);
+
 						switch ($s3Result) {
 							case 0:
 								$errorMsg = 'Request unsucessful check your S3 access credentials';
@@ -145,7 +164,7 @@ function s3_video_meta_data()
 					
 								$videoManagement->deleteVideoStill($videoName);
 								$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
-								$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);
+								$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], filter_input(INPUT_POST, 'image_name'));
 								
 								$videoManagement->createVideoStill($fileName, $videoName);
 							break;
@@ -158,6 +177,7 @@ function s3_video_meta_data()
 	// Check and see if there is a still in the database for this video
 	$videoStill = $videoManagement->getVideoStillByVideoName($videoName);
 	$stillFile = '';
+
 	if (!empty($videoStill)) {
 		$stillFile = $videoStill;
 		$videoStill = 'http://' . $pluginSettings['amazon_video_bucket'] .'.'.$pluginSettings['amazon_url'] . '/' . urlencode($videoStill);
@@ -174,16 +194,25 @@ function s3_video_meta_data()
  */
 function s3_video_remove_video_still()
 {
-	if ((!empty($_POST)) && (!empty($_POST['image_name'])) && (!empty($_POST['video_name']))) {
+	if ((!empty($_POST)) && (!empty(filter_input(INPUT_POST, 'image_name'))) && (!empty(filter_input(INPUT_POST, 'video_name')))) {
 		$pluginSettings = s3_video_check_plugin_settings();	
 		
 		require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
 		$videoManagement = new s3_video_management();
 		
-		$videoManagement->deleteVideoStill($_POST['video_name']);	
+		$videoManagement->deleteVideoStill(filter_input(INPUT_POST, 'video_name'));	
 		
-		$s3Access = new S3($pluginSettings['amazon_access_key'], $pluginSettings['amazon_secret_access_key'], NULL, $pluginSettings['amazon_url']);
-		$result = $s3Access->deleteObject($pluginSettings['amazon_video_bucket'], $_POST['image_name']);					
+		$s3Access = new S3(
+							$pluginSettings['amazon_access_key'], 
+							$pluginSettings['amazon_secret_access_key'], 
+							NULL, 
+							$pluginSettings['amazon_url']
+						);
+
+		$result = $s3Access->deleteObject(
+											$pluginSettings['amazon_video_bucket'], 
+											filter_input(INPUT_POST, 'image_name')
+										 );					
 	}
 	die();
 }
@@ -196,11 +225,13 @@ function s3_video_remove_video_still()
 function s3video_video_media_manager()
 {
 	$pluginSettings = s3_video_check_plugin_settings();
-	$existingVideos = s3_video_get_all_existing_video($pluginSettings);	
-	if ((isset($_POST['insertVideoName'])) && (!empty($_POST['insertVideoName']))) {
-		$insertHtml = "[S3_embed_video file='" . $_POST['insertVideoName'] . "']";
+	$existingVideos = s3_video_get_all_existing_video($pluginSettings);
+
+	if ((isset(filter_input(INPUT_POST, 'insertVideoName'))) && (!empty(filter_input(INPUT_POST, 'insertVideoName')))) {
+		$insertHtml = "[S3_embed_video file='" . filter_input(INPUT_POST, 'insertVideoName') . "']";
 		media_send_to_editor($insertHtml);
 		die();
 	}
+
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/video-management/media_manager_insert_video.php');
 } 
