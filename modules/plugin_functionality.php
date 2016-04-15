@@ -91,10 +91,12 @@ function s3_video_plugin_menu()
 function s3_video_plugin_settings()
 {
 	if (!empty($_POST)) {
+		$amazonAccessKey = filter_input(INPUT_POST, 'amazon_access_key');
+		$amazonSecretAccessKey = filter_input(INPUT_POST, 'amazon_secret_access_key');
+		$amazonVideoBucket = filter_input(INPUT_POST, 'amazon_video_bucket');
 
-		if ((!empty(filter_input(INPUT_POST, 'amazon_access_key'))) && 
-			(!empty(filter_input(INPUT_POST, 'amazon_secret_access_key')) && 
-			(!empty(filter_input(INPUT_POST, 'amazon_video_bucket'))) {
+		if ((!empty($amazonAccessKey)) && (!empty($amazonSecretAccessKey) && (!empty($amazonVideoBucket)) {
+
 			register_setting( 'amazon_s3_video', 'amazon_access_key' );
 			register_setting( 'amazon_s3_video', 'amazon_secret_access_key' );
 			register_setting( 'amazon_s3_video', 'amazon_video_bucket' );
@@ -111,31 +113,33 @@ function s3_video_plugin_settings()
 			register_setting( 'amazon_s3_video_playerwidth', 'video_playerwidth' );
 			register_setting( 'amazon_s3_video_playerheight', 'video_playerheight' );				
 
-			update_option( 'amazon_access_key', trim( filter_input(INPUT_POST, 'amazon_access_key') ));
-			update_option( 'amazon_secret_access_key', trim($_POST['amazon_secret_access_key'] ));
-			update_option( 'amazon_video_bucket', trim( filter_input(INPUT_POST, 'amazon_video_bucket') ));
+			// Amazon AWS S3 related options
+			update_option( 'amazon_access_key', trim( $amazonAccessKey ));
+			update_option( 'amazon_secret_access_key', trim( $amazonSecretAccessKey ));
+			update_option( 'amazon_video_bucket', trim( $amazonVideoBucket ));
 			update_option( 'amazon_video_folder', trim(  filter_input(INPUT_POST, 'amazon_video_folder')));
 			
-			update_option( 'amazon_s3_video_player', trim($_POST['video_player'] ));
-			update_option( 'amazon_s3_video_playerwidth', trim($_POST['video_playerwidth'] ));
-			update_option( 'amazon_s3_video_playerheight', trim($_POST['video_playerheight'] ));						
+			// Video player and playback options
+			update_option( 'amazon_s3_video_player', trim( filter_input(INPUT_POST, 'video_player') ));
+			update_option( 'amazon_s3_video_playerwidth', trim( filter_input(INPUT_POST, 'video_playerwidth') ));
+			update_option( 'amazon_s3_video_playerheight', trim( filter_input(INPUT_POST, 'video_playerheight') ));						
 						
-			update_option( 'amazon_s3_video_autoplay', $_POST['video_autoplay'] );
-			update_option( 'amazon_s3_video_autobuffer', $_POST['video_autobuffer'] );
+			update_option( 'amazon_s3_video_autoplay',  filter_input(INPUT_POST, 'video_autoplay') );
+			update_option( 'amazon_s3_video_autobuffer',  filter_input(INPUT_POST, 'video_autobuffer') );
 			
-			update_option( 'amazon_s3_playlist_autoplay', $_POST['playlist_autoplay'] );
-			update_option( 'amazon_s3_playlist_autobuffer', $_POST['playlist_autobuffer'] );
-			update_option( 'amazon_prefix', trim($_POST['amazon_prefix'] ));
-			update_option( 'amazon_s3_video_player', $_POST['video_player'] );					
+			update_option( 'amazon_s3_playlist_autoplay',  filter_input(INPUT_POST, 'playlist_autoplay') );
+			update_option( 'amazon_s3_playlist_autobuffer',  filter_input(INPUT_POST, 'playlist_autobuffer') );
+			update_option( 'amazon_prefix', trim( filter_input(INPUT_POST, 'amazon_prefix') ));
+			update_option( 'amazon_s3_video_player',  filter_input(INPUT_POST, 'video_player') );					
 			
-			if (!empty($_POST['amazon_url'])) {
-				update_option( 'amazon_url', $_POST['amazon_url']);
+			if (!empty(filter_input(INPUT_POST, 'amazon_url'))) {
+				update_option( 'amazon_url',  filter_input(INPUT_POST, 'amazon_url']));
 			} else {
 				update_option( 'amazon_url', 's3.amazonaws.com');
 			}
 			
-			if (!empty($_POST['page_result_limit'])) {
-				update_option( 's3_video_page_result_limit', $_POST['page_result_limit']);
+			if (!empty(filter_input(INPUT_POST, 'page_result_limit'))) {
+				update_option( 's3_video_page_result_limit',  filter_input(INPUT_POST, 'page_result_limit'));
 			} else {
 				update_option( 's3_video_page_result_limit', 15);
 			}
@@ -168,6 +172,7 @@ function s3_video_deactivate()
 function s3_plugin_activate()
 {
 	require_once(WP_PLUGIN_DIR . '/s3-video/includes/plugin_setup.php');
+
 	$pluginSetup = new s3_video_plugin_setup();
 	$dbVersion = $pluginSetup->activate_plugin();
 	
@@ -182,6 +187,7 @@ function s3_plugin_activate()
 function s3_plugin_deactivate()
 {
 	require_once(WP_PLUGIN_DIR . '/s3-video/includes/plugin_setup.php');	
+	
 	$pluginSetup = new s3_video_plugin_setup();
 	$pluginSetup->deactivate_plugin();
 }	
