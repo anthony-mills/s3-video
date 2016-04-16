@@ -5,9 +5,11 @@
  */
 require_once('../../../../wp-config.php');
 require_once('shared.php');
+
 $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 $clientip = getClientIp();
+
 $video = filter_input(INPUT_GET, 'video');
 $action = filter_input(INPUT_GET, 'action');
 

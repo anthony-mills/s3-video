@@ -4,6 +4,7 @@ class s3_video_management {
 	public function createVideoStill($imageName, $videoName)
 	{
 		global $wpdb;
+
 		$time = time();
 		$wpdb->insert('s3_video_stills', array('video_file' => $videoName, 'image_file' => $imageName, 'created' => time()));
 	
@@ -20,6 +21,7 @@ class s3_video_management {
 	public function getVideoStillByVideoName($videoName)
 	{		
 		global $wpdb;
+
 		$videoRow = $wpdb->get_row("SELECT image_file FROM s3_video_stills WHERE video_file = '$videoName' LIMIT 1");
 				
 		if (!empty($videoRow)) {
@@ -37,6 +39,7 @@ class s3_video_management {
 	 public function getVideoStillByImageName($imageName)
 	 {
 		global $wpdb;
+
 		$videoStill = $wpdb->get_row("SELECT * FROM s3_video_stills WHERE image_file = '$imageName'");
 
 		if (!empty($videoStill)) {
@@ -56,6 +59,7 @@ class s3_video_management {
 	  public function deleteVideoStill($videoName)
 	  {
 		global $wpdb;
+
 		$wpdb->query($wpdb->prepare("DELETE FROM s3_video_stills WHERE video_file = '$videoName'"));	  	
 	  }
 
@@ -68,6 +72,7 @@ class s3_video_management {
 	 public function removeVideoFromPlaylists($videoName)
 	 {
 		global $wpdb;
+		
 		$wpdb->query($wpdb->query($wpdb->prepare("DELETE FROM s3_video_playlist_videos WHERE video_file = '$videoName'")));	 
 	 }
 	 

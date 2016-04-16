@@ -16,6 +16,7 @@ function s3_video_check_upload_directory()
 			}
 		}
 		mkdir(WP_CONTENT_DIR . '/uploads/s3_videos/', 0755);
+
 		if ((is_dir(WP_CONTENT_DIR . '/uploads/s3_videos/')) && (is_writable(WP_CONTENT_DIR . '/uploads/s3_videos/'))) {
 			return WP_CONTENT_DIR . '/uploads/s3_videos/';
 		}
@@ -51,7 +52,7 @@ function s3_humanReadableBytes($bytes)
     for ($i = 0, $size =$bytes; $size>1024; $size=$size/1024)
     $i++;
     return number_format($size, 2) . ' '  . $units[min($i, count($units) -1 )];
-		}
+}
 
 function getClientIp()
 {

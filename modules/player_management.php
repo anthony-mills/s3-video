@@ -11,6 +11,7 @@
 function s3_video_embed_video($embedDetails) 
 {	
 	$pluginSettings = s3_video_check_plugin_settings();
+
 	if ($embedDetails['file']) {
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
 	} else {
@@ -19,8 +20,10 @@ function s3_video_embed_video($embedDetails)
 	
 	// See if the video has an associated still image
 	require_once(WP_PLUGIN_DIR . '/s3-video/includes/video_management.php');
+
 	$videoManagement = new s3_video_management();	
 	$videoStill = $videoManagement->getVideoStillByVideoName($embedDetails['file']);
+
 	if (!empty($videoStill)) {
 		$videoStill =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $videoStill;			
 	}
@@ -43,26 +46,34 @@ function s3_video_embed_video($embedDetails)
             				autoPlay: true
         				},'  . "\r\n";
 			} else {
+
 				if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
 					$playerContent = str_replace('{videoAutoPlay}', 'false', $playerContent); 
 				} else {
 					$playerContent = str_replace('{videoAutoPlay}', 'true', $playerContent); 
-				}			
+				}		
+
 			}
 
 			if ((!empty($videoStill)) && ($pluginSettings['amazon_s3_video_autoplay'] == 0)) {
+
 							$playlistHtml .= '{
 								url: "' . $videoFile . '",
 								title: "' . $videoFile . '",
 								autoPlay: false
 							}' . "\r\n";
+
 			} else {					
+
 							$playlistHtml .= '{
 								url: "' . $videoFile . '",
 								title: "' . $videoFile . '"
         					}' . "\r\n";
+
 			}	
+
 			$playerContent = str_replace('{videoPlaylist}', $playlistHtml . ']', $playerContent); 			
+
 			return $playerContent;
 		} else {
 			// prepare a videoJS player for video playback
@@ -101,12 +112,15 @@ function s3_video_embed_video($embedDetails)
 			}	
 	
 			$fileType = substr($videoFile, -3);
+
 			if ($fileType == 'flv') {
 				 $videoTag = '<source src="' . $videoFile . '" type="video/x-flv">';
 			} else {
 				 $videoTag = '<source src="' . $videoFile . '" type="video/mp4">';				
 			}
+
 			$playerContent = str_replace('{videoFile}', $videoTag, $playerContent);
+
 			return $playerContent;			
 		}
 	}
@@ -119,7 +133,9 @@ function s3_video_embed_playlist($embedDetails)
 {			
 	// Load the required modules
 	require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
+
 	$playlistManagement = new s3_playlist_management();
+
 	$playlistVideos = $playlistManagement->getPlaylistVideos($embedDetails['id']);	
 	$pluginSettings = s3_video_check_plugin_settings();
 	$playerContent = s3_video_configure_player();
@@ -145,6 +161,7 @@ function s3_video_embed_playlist($embedDetails)
 		}
         $playlistHtml .= '},' . "\r\n";
 	}
+
 	$playlistHtml = substr($playlistHtml, 0, -1);
 	$playerContent = str_replace('{videoPlaylist}', $playlistHtml . ']', $playerContent);
 	
@@ -213,6 +230,7 @@ function s3_video_load_player_js()
 	wp_enqueue_script('swfobject');
 	
 	$pluginSettings = s3_video_check_plugin_settings();
+	
 	if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
 		wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.12.js', array('jquery'), '1.0');
 		wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');	
