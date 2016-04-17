@@ -60,6 +60,7 @@ function s3_video_add_media_tabs($mediaTabs)
 {
 	$mediaTabs['s3video_video_media_manager']='S3 Video';
 	$mediaTabs['s3video_playlist_media_manager']='S3 Playlists';
+	
 	return $mediaTabs;
 } 
 
