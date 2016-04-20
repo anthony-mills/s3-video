@@ -13,9 +13,13 @@ function s3_video_embed_video($embedDetails)
 	$pluginSettings = s3_video_check_plugin_settings();
 
 	if ($embedDetails['file']) {
+
 		$videoFile =  'http://' . $pluginSettings['amazon_video_bucket']  . '.' .  $pluginSettings['amazon_url'] . '/' . $embedDetails['file'];	
+
 	} else {
+
 		return;
+
 	}
 	
 	// See if the video has an associated still image
@@ -75,9 +79,12 @@ function s3_video_embed_video($embedDetails)
 			$playerContent = str_replace('{videoPlaylist}', $playlistHtml . ']', $playerContent); 			
 
 			return $playerContent;
+
 		} else {
+
 			// prepare a videoJS player for video playback
-			$playerContent = file_get_contents( WP_PLUGIN_DIR . '/s3-video/views/video-management/play_videoJS.php');
+			$playerContent = file_get_contents( WP_PLUGIN_DIR . '/s3-video/views/video-management/play_videoJS.php')
+			;
 			$swfFile = WP_PLUGIN_URL . '/s3-video/misc/video-js.swf';
 			$playerContent = str_replace('{swfFile}', $swfFile, $playerContent);	
 
@@ -85,18 +92,26 @@ function s3_video_embed_video($embedDetails)
 		
 			// Set the player dimensions
 			if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
+
 				$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 				
 				$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
+
 			} else {
+
 				$playerContent = str_replace('{videoWidth}', $pluginSettings['amazon_s3_video_playerwidth'], $playerContent); 		
 				$playerContent = str_replace('{videoHeight}', $pluginSettings['amazon_s3_video_playerheight'], $playerContent);
+
 			}	
 
 			// Define the buffering settings
 			if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
-				$playerContent = str_replace('{videoBuffer}', 'none', $playerContent); 
+
+				$playerContent = str_replace('{videoBuffer}', 'none', $playerContent);
+
 			} else {
+
 				$playerContent = str_replace('{videoBuffer}', 'auto', $playerContent); 
+
 			}
 
 			if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
@@ -148,17 +163,23 @@ function s3_video_embed_playlist($embedDetails)
 	$playlistHtml = 'playlist: [' . "\r\n";
 
 	$x = 0;
-	foreach($playlistVideos as $playlistVideo) {					
-		$playlistHtml .= '{
-					url: "' . $baseUrl . $playlistVideo['video_file'] . '", ' . "\r\n" .
-					'title: "' . $playlistVideo['video_file'] . '",' . "\r\n";
+	foreach($playlistVideos as $playlistVideo) {			
+
+		$playlistHtml .= '{url: "' . $baseUrl . $playlistVideo['video_file'] . '", ' . "\r\n" .
+						 'title: "' . $playlistVideo['video_file'] . '",' . "\r\n";
+
 		if (($x == 0) && ($pluginSettings['amazon_s3_video_autoplay'] == 0)) {
+
 			$playlistHtml .= 'autoPlay: false' . "\r\n";
-			$playerContent = str_replace('{videoFile}', $baseUrl . $playlistVideo['video_file'], $playerContent);				
+			$playerContent = str_replace('{videoFile}', $baseUrl . $playlistVideo['video_file'], $playerContent);
+
 		} else {
+
 			$x++;
 			$playlistHtml .= 'autoPlay: true'. "\r\n";
+
 		}
+
         $playlistHtml .= '},' . "\r\n";
 	}
 
@@ -175,32 +196,45 @@ function s3_video_configure_player($embedDetails = NULL)
 {
 	$playerContent = file_get_contents( WP_PLUGIN_DIR  . '/s3-video/views/video-management/play_flowplayer.php');
 
-	$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.16.swf';		
+	$flowplayerLocation = WP_PLUGIN_URL . '/s3-video/misc/flowplayer-3.2.16.swf';
+
 	$playerContent = str_replace('{flowplayerLocation}', $flowplayerLocation, $playerContent);
 	$playerContent = str_replace('{playerId}', s3_plugin_player_id(), $playerContent);
 	$pluginSettings = s3_video_check_plugin_settings();
 
 	// Set the player dimensions
 	if ((!empty($embedDetails['width'])) && ($embedDetails['height'])) {
+
 		$playerContent = str_replace('{videoWidth}', $embedDetails['width'], $playerContent); 		
 		$playerContent = str_replace('{videoHeight}', $embedDetails['height'], $playerContent);
+
 	} else {
+
 		$playerContent = str_replace('{videoWidth}', $pluginSettings['amazon_s3_video_playerwidth'], $playerContent); 		
 		$playerContent = str_replace('{videoHeight}', $pluginSettings['amazon_s3_video_playerheight'], $playerContent);
+
 	}
 
 	// Define the buffering settings
 	if ($pluginSettings['amazon_s3_video_autoplay'] == 0) {
-		$playerContent = str_replace('{videoAutoPlay}', 'false', $playerContent); 
+
+		$playerContent = str_replace('{videoAutoPlay}', 'false', $playerContent);
+
 	} else {
-		$playerContent = str_replace('{videoAutoPlay}', 'true', $playerContent); 
+
+		$playerContent = str_replace('{videoAutoPlay}', 'true', $playerContent);
+
 	}
 
 	// Define the buffering settings
 	if ($pluginSettings['amazon_s3_video_autobuffer'] == 0) {
+
 		$playerContent = str_replace('{videoAutoBuffer}', '"none"', $playerContent); 
+
 	} else {
+
 		$playerContent = str_replace('{videoAutoBuffer}', '"auto"', $playerContent); 
+
 	}	
 
 	return $playerContent;
@@ -232,8 +266,10 @@ function s3_video_load_player_js()
 	$pluginSettings = s3_video_check_plugin_settings();
 	
 	if ((empty($pluginSettings['amazon_s3_video_player'])) || ($pluginSettings['amazon_s3_video_player'] == 'flowplayer')) {
+
 		wp_enqueue_script('flowPlayer', WP_PLUGIN_URL . '/s3-video/js/flowplayer-3.2.12.js', array('jquery'), '1.0');
 		wp_enqueue_script('flowPlayerPlaylist', WP_PLUGIN_URL . '/s3-video/js/jquery.playlist.js', array('jquery'), '1.0');	
+
 	} else {
 		// If any playlists exist load both players
 		require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
@@ -256,5 +292,4 @@ function s3_video_load_player_js()
 function s3_plugin_player_id()
 {
 	return sha1(rand(1, 9999999) . microtime(true));
-}
- 
+} 
