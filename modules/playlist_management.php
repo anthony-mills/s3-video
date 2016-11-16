@@ -104,7 +104,8 @@ function s3_video_show_playlists()
  */
 function s3video_playlist_media_manager()
 {
-	if ((isset(filter_input(INPUT_POST, 'insertPlaylistId'))) && (!empty(filter_input(INPUT_POST, 'insertPlaylistId')))) {
+	$playlistId = filter_input(INPUT_POST, 'insertPlaylistId');
+	if ((isset($playlistId)) && (!empty($playlistId))) {
 		
 		$insertHtml = "[S3_embed_playlist id='" . filter_input(INPUT_POST, 'insertPlaylistId') . "']";
 		media_send_to_editor($insertHtml);
