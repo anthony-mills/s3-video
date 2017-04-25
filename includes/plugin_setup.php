@@ -29,9 +29,11 @@ class s3_video_plugin_setup {
 	}
 
 	function deactivate_plugin() {
-		mysql_query("DROP TABLE IF EXISTS `s3_video_playlists`") or die(mysql_error());
-		mysql_query("DROP TABLE IF EXISTS `s3_video_playlist_videos`") or die(mysql_error());
-		mysql_query("DROP TABLE IF EXISTS `s3_video_analytics`") or die(mysql_error());
-		mysql_query("DROP TABLE IF EXISTS `s3_video_stills`") or die(mysql_error());
+		global $wpdb;
+
+		$wpdb->query("DROP TABLE IF EXISTS `s3_video_playlists`");
+		$wpdb->query("DROP TABLE IF EXISTS `s3_video_playlist_videos`");
+		$wpdb->query("DROP TABLE IF EXISTS `s3_video_analytics`");
+		$wpdb->query("DROP TABLE IF EXISTS `s3_video_stills`");
 	}
 }

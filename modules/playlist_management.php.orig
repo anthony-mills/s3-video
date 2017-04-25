@@ -187,7 +187,19 @@ function s3_plugin_activate()
  */
 function s3_plugin_deactivate()
 {
+<<<<<<< HEAD
 	require_once(WP_PLUGIN_DIR . '/s3-video/includes/plugin_setup.php');	
+=======
+	$playlistId = filter_input(INPUT_POST, 'insertPlaylistId');
+	if ((isset($playlistId)) && (!empty($playlistId))) {
+		
+		$insertHtml = "[S3_embed_playlist id='" . filter_input(INPUT_POST, 'insertPlaylistId') . "']";
+		media_send_to_editor($insertHtml);
+		die();
+	}
+		
+	$pluginSettings = s3_video_check_plugin_settings();
+>>>>>>> 1edd54c2b535362e41be7e8fc432c3bcbb5b0876
 	
 	$pluginSetup = new s3_video_plugin_setup();
 	$pluginSetup->deactivate_plugin();
