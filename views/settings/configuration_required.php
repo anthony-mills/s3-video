@@ -8,7 +8,7 @@
 
 	<div class="wrap">
 		<h2>Configuration Required</h2>
-		<p>This plugin requires configuration before use, please configure this plugin using the <a href="admin.php?page=s3_video_plugin_settings">settings page</a>.</p>
+		<p>This plugin requires configuration before use, please configure this plugin using the <a href="<?php echo admin_url('admin.php?page=s3_video_plugin_settings'); ?>">settings page</a>.</p>
 	</div>
       
 </body>  

@@ -1,123 +1,224 @@
 <?php
 /**
  * 
- * Functionality relating to video playlists
+ * Functions providing general plugin functionality, plugin pages etc
  * 
  */
- 
- /*
- * Create a new playlist and add videos
+
+/**
+ * 
+ * Check if the user can access the page
+ * 
  */
-function s3_video_create_playlist()
+function s3_video_check_user_access()
 {
-	$pluginSettings = s3_video_check_plugin_settings();	
-		
-	if ((!empty( filter_input(INPUT_POST, 'playlist_contents') )) && (!empty(  filter_input(INPUT_POST, 'playlist_name') ))) {
-
-		require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
-		
-		$playlistManagement = new s3_playlist_management();
-		
-		$playlistName = sanitize_title( filter_input(INPUT_POST, 'playlist_name') );
-		$playlistExists = $playlistManagement->getPlaylistsByTitle($playlistName);
-
-		if (!$playlistExists) {
-
-			$playlistResult = $playlistManagement->createPlaylist($playlistName, filter_input(INPUT_POST, 'playlist_contents') );
-
-			if (!$playlistResult) {
-	    		$errorMsg = 'An error occurred whilst creating the play list.';			
-			} else {
-				$successMsg = 'New playlist saved successfully.';			
-			} 
-
-		} else {
-	    		$errorMsg = 'A playlist with this name already exists.';					
-		}  
-	}
-	$existingVideos= s3_video_get_all_existing_video($pluginSettings);
-
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/create_playlist.php');	
-}
- 
-/*
- *	Manage existing playlists of S3 based media 
- */
-function s3_video_show_playlists()
-{
-	$pluginSettings = s3_video_check_plugin_settings();			
-
-	require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
-	
-	$playlistManagement = new s3_playlist_management();
-	
-	if (!empty($_GET['delete'])) {
-		$playlistId = preg_replace('/[^0-9]/Uis', '', filter_input(INPUT_GET, 'delete') );
-
-		$playlistManagement->deletePlaylist($playlistId);
-	}
-
-	$editValue = filter_input(INPUT_GET, 'edit');
-	$reorderValue = filter_input(INPUT_GET, 'reorder');
-
-	if ((!empty($editValue)) && (is_numeric($editValue)) || (!empty($reorderValue)) && (is_numeric($reorderValue))) {
-		
-		if (!empty($editValue)) {
-			$playlistId = preg_replace('/[^0-9]/Uis', '', $editValue);
-			 
-			$playlistContents = filter_input(INPUT_POST, 'playlist_contents');
-
-			if (!empty( $playlistContents )) {
-				$playlistManagement->deletePlaylistVideos($playlistId);
-				$playlistManagement->updatePlaylistVideos($playlistId, $playlistContents );	
-				$playlistUpdated = 1;
-			} 
-
-			$existingVideos = $playlistManagement->getPlaylistVideos($playlistId);	
-			$s3Videos = s3_video_get_all_existing_video($pluginSettings);
-		
-			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/edit_playlist.php');
-		} 
-		
-		if (!empty($reorderValue)) {
-			$playlistId = preg_replace('/[^0-9]/Uis', '', $reorderValue);
-			$playlistVideos = $playlistManagement->getPlaylistVideos($playlistId);
-
-			require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/reorder_playlist.php');	
-		} 	
-		
-	} else {
-		/*
-		 * If we don't have a playlist to display a list of them all  
-		 */
-		$existingPlaylists = $playlistManagement->getAllPlaylists();	
-
-		require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/playlist_management.php');
-	}
-	
+	if( !current_user_can( 'manage_options' ) ) {
+        	wp_die( 'You do not have sufficient permissions to access this page' );
+   	}
 }
 
 /**
  * 
- * Insert a playlist into the editor for a page or post through the media manager
+ * Check if the user has configured the plugin and if so load them
  * 
  */
-function s3video_playlist_media_manager()
+function s3_video_check_plugin_settings($redirect = TRUE)
 {
-	if ((isset(filter_input(INPUT_POST, 'insertPlaylistId'))) && (!empty(filter_input(INPUT_POST, 'insertPlaylistId')))) {
+	$pluginSettings = array('amazon_access_key' => get_option('amazon_access_key'),
+							'amazon_secret_access_key' => get_option('amazon_secret_access_key'),
+							'amazon_url' => get_option('amazon_url'),
+							'amazon_prefix' => get_option('amazon_prefix'),
+							'amazon_video_bucket' => get_option('amazon_video_bucket'),
+							'amazon_video_folder' => get_option('amazon_video_folder'),
+							'amazon_s3_video_player' => get_option('amazon_s3_video_player'),
+							'amazon_s3_video_playerwidth' => get_option('amazon_s3_video_playerwidth'),	
+							'amazon_s3_video_playerheight' => get_option('amazon_s3_video_playerheight'),															
+							's3_video_page_result_limit' => get_option('s3_video_page_result_limit'),
+							'amazon_s3_video_autoplay' => get_option('amazon_s3_video_autoplay'),
+							'amazon_s3_video_autobuffer' => get_option('amazon_s3_video_autobuffer'),
+							'amazon_s3_playlist_autoplay' => get_option('amazon_s3_playlist_autoplay'),
+							'amazon_s3_playlist_autobuffer' => get_option('amazon_s3_playlist_autobuffer'));		
 		
-		$insertHtml = "[S3_embed_playlist id='" . filter_input(INPUT_POST, 'insertPlaylistId') . "']";
-		media_send_to_editor($insertHtml);
-		die();
+	if ((empty($pluginSettings['amazon_access_key'])) || (empty($pluginSettings['amazon_secret_access_key'])) || (empty($pluginSettings['amazon_secret_access_key']))) {
+		if ($redirect) { 
+			require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/configuration_required.php');
+			exit;
+		} else {
+			return FALSE;	
+		}	
+	} else {
+		return $pluginSettings;
 	}
-		
-	$pluginSettings = s3_video_check_plugin_settings();
-	
-	// Load playlist management class
-	require_once(WP_PLUGIN_DIR . '/s3-video/includes/playlist_management.php');
-	$playlistManagement = new s3_playlist_management();
 
-	// Load all of the existing playlists
-	$existingPlaylists = $playlistManagement->getAllPlaylists();	
-	require_once(WP_PLUGIN_DIR . '/s3-video/views/playlist-management/media_manager_show_playlists.php');	
 } 
+
+/**
+ * 
+ * Add a tab to the Wordpress media manager
+ */  
+function s3_video_add_media_tabs($mediaTabs)
+{
+	$mediaTabs['s3video_video_media_manager']='S3 Video';
+	$mediaTabs['s3video_playlist_media_manager']='S3 Playlists';
+	
+	return $mediaTabs;
+} 
+
+/**
+ * 
+ * Define the plugin menu in the Wordpress backend
+ * 
+ */ 
+function s3_video_plugin_menu() 
+{
+	// Main side bar entry
+	add_menu_page('S3 Video', 'S3 Video', 'manage_options', 's3-video', 's3_video');
+
+	// S3 sidebar child pages
+	add_submenu_page('s3-video', __('Upload Video','upload-video'), __('Upload Video','upload-video'), 'manage_options', 's3_video_upload_video', 's3_video_upload_video');		
+	add_submenu_page('s3-video', __('Playlist Management','show-playlists'), __('Playlist Management','show_playlists'), 'manage_options', 's3_video_show_playlist', 's3_video_show_playlists');
+	add_submenu_page('s3-video', __('Create Playlist','create-playlist'), __('Create Playlist','create_playlist'), 'manage_options', 's3_video_create_playlist', 's3_video_create_playlist');
+	add_submenu_page('s3-video', __('Plugin Settings','plugin-settings'), __('Plugin Settings','plugin-settings'), 'manage_options', 's3_video_plugin_settings', 's3_video_plugin_settings');  		
+
+	// Add page with no parent
+	add_submenu_page(NULL, __('Video Meta','video-meta'), __('Video Meta','video-meta'), 'manage_options', 's3_video_meta_data', 's3_video_meta_data');  		 		
+}
+  
+/**
+ * 
+ * Page to configure plugin settings i.e Amazon access keys etc
+ * 
+ */
+function s3_video_plugin_settings()
+{
+	if (!empty($_POST)) {
+		$amazonAccessKey = filter_input(INPUT_POST, 'amazon_access_key');
+		$amazonSecretAccessKey = filter_input(INPUT_POST, 'amazon_secret_access_key');
+		$amazonVideoBucket = filter_input(INPUT_POST, 'amazon_video_bucket');
+
+		if ((!empty($amazonAccessKey)) && (!empty($amazonSecretAccessKey)) && (!empty($amazonVideoBucket))) {
+
+			register_setting( 'amazon_s3_video', 'amazon_access_key' );
+			register_setting( 'amazon_s3_video', 'amazon_secret_access_key' );
+			register_setting( 'amazon_s3_video', 'amazon_video_bucket' );
+			register_setting( 'amazon_s3_video', 'amazon_url' );
+			register_setting( 'amazon_s3_video', 'amazon_prefix' );			
+			register_setting( 's3-video-results-limit', 's3_video_page_result_limit' );
+			
+			register_setting( 'amazon_s3_video_autoplay', 'video_autoplay' );							
+			register_setting( 'amazon_s3_video_autobuffer', 'video_autobuffer' );
+			register_setting( 'amazon_s3_playlist_autoplay', 'playlist_autoplay' );
+			register_setting( 'amazon_s3_playlist_autobuffer', 'playlist_autobuffer' );
+				
+			register_setting( 'amazon_s3_video_player', 'video_player' );	
+			register_setting( 'amazon_s3_video_playerwidth', 'video_playerwidth' );
+			register_setting( 'amazon_s3_video_playerheight', 'video_playerheight' );				
+
+			// Amazon AWS S3 related options
+			update_option( 'amazon_access_key', trim( $amazonAccessKey ));
+			update_option( 'amazon_secret_access_key', trim( $amazonSecretAccessKey ));
+			update_option( 'amazon_video_bucket', trim( $amazonVideoBucket ));
+			update_option( 'amazon_video_folder', trim(  filter_input(INPUT_POST, 'amazon_video_folder')));
+			
+			// Video player and playback options
+			update_option( 'amazon_s3_video_player', trim( filter_input(INPUT_POST, 'video_player') ));
+			update_option( 'amazon_s3_video_playerwidth', trim( filter_input(INPUT_POST, 'video_playerwidth') ));
+			update_option( 'amazon_s3_video_playerheight', trim( filter_input(INPUT_POST, 'video_playerheight') ));						
+						
+			update_option( 'amazon_s3_video_autoplay',  filter_input(INPUT_POST, 'video_autoplay') );
+			update_option( 'amazon_s3_video_autobuffer',  filter_input(INPUT_POST, 'video_autobuffer') );
+			
+			update_option( 'amazon_s3_playlist_autoplay',  filter_input(INPUT_POST, 'playlist_autoplay') );
+			update_option( 'amazon_s3_playlist_autobuffer',  filter_input(INPUT_POST, 'playlist_autobuffer') );
+			update_option( 'amazon_prefix', trim( filter_input(INPUT_POST, 'amazon_prefix') ));
+			update_option( 'amazon_s3_video_player',  filter_input(INPUT_POST, 'video_player') );					
+			
+			if (!empty(filter_input(INPUT_POST, 'amazon_url'))) {
+				update_option( 'amazon_url',  filter_input(INPUT_POST, 'amazon_url'));
+			} else {
+				update_option( 'amazon_url', 's3.amazonaws.com');
+			}
+			
+			if (!empty(filter_input(INPUT_POST, 'page_result_limit'))) {
+				update_option( 's3_video_page_result_limit',  filter_input(INPUT_POST, 'page_result_limit'));
+			} else {
+				update_option( 's3_video_page_result_limit', 15);
+			}
+			
+			$successMsg = 'Plugin settings saved successfully.';
+			$pluginSettings = s3_video_check_plugin_settings();
+		}
+	} else {
+		$pluginSettings = s3_video_check_plugin_settings(FALSE);
+	}
+
+	require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/plugin_settings.php');
+}
+
+/*
+ * Clear the saved plugin settings on deactivation
+ */
+function s3_video_deactivate()
+{
+	delete_option('amazon_access_key');
+	delete_option('amazon_secret_access_key');	
+	delete_option('amazon_video_bucket');	
+	delete_option('amazon_url');
+	delete_option('s3_video_page_result_limit');			
+}
+
+/*
+ * Install the required database tables for the plugin on activation 
+ */
+function s3_plugin_activate()
+{
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/plugin_setup.php');
+
+	$pluginSetup = new s3_video_plugin_setup();
+	$dbVersion = $pluginSetup->activate_plugin();
+	
+	if (!empty($dbVersion))  {
+		add_option("s3_plugin_db_version", $dbVersion);
+	}			
+}
+
+/*
+ * Deactivate the plugin and remove all associate database tables
+ */
+function s3_plugin_deactivate()
+{
+	require_once(WP_PLUGIN_DIR . '/s3-video/includes/plugin_setup.php');	
+	
+	$pluginSetup = new s3_video_plugin_setup();
+	$pluginSetup->deactivate_plugin();
+}	
+
+/*
+ * Load the custom style sheets for the admin pages
+ */
+function s3_video_load_css()
+{
+	wp_register_style('s3_video_default', WP_PLUGIN_URL . '/s3-video/css/style.css');
+	wp_enqueue_style('s3_video_default');
+	
+	wp_register_style('s3_video_colorbox', WP_PLUGIN_URL . '/s3-video/css/colorbox.css');
+	wp_enqueue_style('s3_video_colorbox');	
+	
+	wp_register_style('multiselect_css', WP_PLUGIN_URL . '/s3-video/css/chosen.css');
+	wp_enqueue_style('multiselect_css');			
+}
+
+/*
+ * Load javascript required by the backend administration pages
+ */
+function s3_video_load_js()
+{	
+	wp_enqueue_script('validateJSs', WP_PLUGIN_URL . '/s3-video/js/jquery.validate.js', array('jquery'), '1.0');
+	wp_enqueue_script('placeholdersJS', WP_PLUGIN_URL . '/s3-video/js/jquery.placeholders.js', array('jquery'), '1.0');
+	wp_enqueue_script('colorBox', WP_PLUGIN_URL . '/s3-video/js/jquery.colorbox.js', array('jquery'), '1.0');
+	wp_enqueue_script('tableSorter', WP_PLUGIN_URL . '/s3-video/js/jquery.tablesorter.js', array('jquery'), '1.0');	
+	wp_enqueue_script('tablePaginator', WP_PLUGIN_URL . '/s3-video/js/jquery.paginator.js', array('jquery'), '1.0');	
+	wp_enqueue_script('multiSelect', WP_PLUGIN_URL . '/s3-video/js/jquery.multiselect.js', array('jquery'), '1.0');		
+	wp_enqueue_script('dragDropTable', WP_PLUGIN_URL . '/s3-video/js/jquery.tablednd.js', array('jquery'), '1.0');		
+	wp_enqueue_script('jTip', WP_PLUGIN_URL . '/s3-video/js/jtip.js', array('jquery'), '1.0');				
+}

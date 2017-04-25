@@ -3,8 +3,6 @@
  * Deal with the activation and deactivation processes needed by the S3 video plugin
  *
  */
-namespace TWA;
-
 class s3_video_plugin_setup {
 	protected $_databaseDebug = FALSE;
 	protected $_databaseDump = 's3_video.sql';

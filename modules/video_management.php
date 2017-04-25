@@ -285,8 +285,9 @@ function s3video_video_media_manager()
 {
 	$pluginSettings = s3_video_check_plugin_settings();
 	$existingVideos = s3_video_get_all_existing_video($pluginSettings);
+	$videoName = filter_input(INPUT_POST, 'insertVideoName');
 
-	if ((isset(filter_input(INPUT_POST, 'insertVideoName'))) && (!empty(filter_input(INPUT_POST, 'insertVideoName')))) {
+	if ((isset($videoName)) && (!empty($videoName))) {
 
 		$insertHtml = "[S3_embed_video file='" . filter_input(INPUT_POST, 'insertVideoName') . "']";
 		media_send_to_editor($insertHtml);
