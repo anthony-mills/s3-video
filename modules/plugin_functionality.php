@@ -22,8 +22,13 @@ function s3_video_check_user_access()
  * Check if the user has configured the plugin and if so load them
  * 
  */
-function s3_video_check_plugin_settings($redirect = TRUE)
+function s3_video_check_plugin_settings()
 {
+	if( !current_user_can( 'manage_options' ) ) {
+		$redirect = false;
+	} else {
+		$redirect = true;
+	}
 	$pluginSettings = array('amazon_access_key' => get_option('amazon_access_key'),
 							'amazon_secret_access_key' => get_option('amazon_secret_access_key'),
 							'amazon_url' => get_option('amazon_url'),
@@ -96,7 +101,7 @@ function s3_video_plugin_settings()
 		$amazonSecretAccessKey = filter_input(INPUT_POST, 'amazon_secret_access_key');
 		$amazonVideoBucket = filter_input(INPUT_POST, 'amazon_video_bucket');
 
-		if ((!empty($amazonAccessKey)) && (!empty($amazonSecretAccessKey) && (!empty($amazonVideoBucket)) {
+		if ((!empty($amazonAccessKey)) && (!empty($amazonSecretAccessKey)) && (!empty($amazonVideoBucket))) {
 
 			register_setting( 'amazon_s3_video', 'amazon_access_key' );
 			register_setting( 'amazon_s3_video', 'amazon_secret_access_key' );
@@ -134,7 +139,7 @@ function s3_video_plugin_settings()
 			update_option( 'amazon_s3_video_player',  filter_input(INPUT_POST, 'video_player') );					
 			
 			if (!empty(filter_input(INPUT_POST, 'amazon_url'))) {
-				update_option( 'amazon_url',  filter_input(INPUT_POST, 'amazon_url']));
+				update_option( 'amazon_url',  filter_input(INPUT_POST, 'amazon_url'));
 			} else {
 				update_option( 'amazon_url', 's3.amazonaws.com');
 			}
