@@ -13,14 +13,14 @@ if ('s3-video.php' == basename($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 // Load required modules
-require_once WP_PLUGIN_DIR . '/s3-video/modules/video_management.php';
-require_once WP_PLUGIN_DIR . '/s3-video/modules/player_management.php';
-require_once WP_PLUGIN_DIR . '/s3-video/modules/playlist_management.php';
-require_once WP_PLUGIN_DIR . '/s3-video/modules/plugin_functionality.php';
+require_once plugin_dir_path( __FILE__ ) . '/s3-video/modules/video_management.php';
+require_once plugin_dir_path( __FILE__ ) . '/s3-video/modules/player_management.php';
+require_once plugin_dir_path( __FILE__ ) . '/s3-video/modules/playlist_management.php';
+require_once plugin_dir_path( __FILE__ ) . '/s3-video/modules/plugin_functionality.php';
 
 // Load other required libraries
-require_once WP_PLUGIN_DIR . '/s3-video/includes/shared.php';
-require_once WP_PLUGIN_DIR . '/s3-video/includes/s3.php';
+require_once plugin_dir_path( __FILE__ ) . '/s3-video/includes/shared.php';
+require_once plugin_dir_path( __FILE__ ) . '/s3-video/includes/s3.php';
 
 register_activation_hook(__FILE__, 'S3_plugin_activate');
 register_deactivation_hook(__FILE__, 'S3_plugin_deactivate');
