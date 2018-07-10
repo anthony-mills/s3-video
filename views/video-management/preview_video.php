@@ -6,7 +6,7 @@ $mediaFile = filter_input(INPUT_GET, 'media');
 ?> 
 <html>
 <head>
-	<?php if ((empty($videoPlayer) || ($videoPlayer == 'flowplayer')) { ?>
+	<?php if ((empty($videoPlayer) || ($videoPlayer == 'flowplayer'))) { ?>
 			<?php $player = 'flowplayer'; ?>
     		<script type="text/javascript" src="<?php echo $baseDir; ?>js/flowplayer-3.2.12.js"></script>
 	<?php } else { ?>

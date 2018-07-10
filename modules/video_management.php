@@ -78,6 +78,8 @@ function s3_video_upload_video()
 						'video/mpeg'
 					);
 
+	//print_r($_FILES);
+	//exit;
 	if ((!empty($_FILES)) && ($_FILES['upload_video']['size'] > 0)) {
 
 			if ((!in_array($_FILES['upload_video']['type'], $fileTypes)) && ($_FILES['upload_video']['type'] !='application/octet-stream')) {	

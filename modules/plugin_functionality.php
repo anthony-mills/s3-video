@@ -154,7 +154,8 @@ function s3_video_plugin_settings()
 			$pluginSettings = s3_video_check_plugin_settings();
 		}
 	} else {
-		$pluginSettings = s3_video_check_plugin_settings(FALSE);
+		require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/plugin_settings.php');
+		return;
 	}
 
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/plugin_settings.php');
