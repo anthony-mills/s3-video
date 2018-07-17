@@ -70,7 +70,7 @@ class s3_playlist_management
 	 */
 	public function deletePlaylist($playlistId)
 	{
-		mysql_query("DELETE FROM s3_video_playlists WHERE id = '$playlistId'");
+		mysqli_query("DELETE FROM s3_video_playlists WHERE id = '$playlistId'");
 		$this->deletePlaylistVideos($playlistId);
 	}
 	
@@ -82,7 +82,7 @@ class s3_playlist_management
 	 */
 	public function deletePlaylistVideos($playlistId)
 	{
-		mysql_query("DELETE FROM s3_video_playlist_videos WHERE video_playlist = '$playlistId'")  or die(mysql_error());			
+		mysqli_query("DELETE FROM s3_video_playlist_videos WHERE video_playlist = '$playlistId'")  or die(mysql_error());			
 	}
 	
 	/**
@@ -93,10 +93,10 @@ class s3_playlist_management
 	 */
 	public function getAllPlaylists() 
 	{
-		$playlists = mysql_query("SELECT * FROM s3_video_playlists");
+		$playlists = mysqli_query("SELECT * FROM s3_video_playlists");
 		
 		$existingPlaylists = array();
-		while($playlist = mysql_fetch_assoc($playlists)) {
+		while($playlist = mysqli_fetch_assoc($playlists)) {
 			$existingPlaylists[] = $playlist;	
 		}
 		
@@ -112,9 +112,9 @@ class s3_playlist_management
 	 */
 	public function getPlaylistsByTitle($playlistName) 
 	{
-		$playlists = mysql_query("SELECT * FROM s3_video_playlists WHERE playlist_name LIKE '$playlistName'");
+		$playlists = mysqli_query("SELECT * FROM s3_video_playlists WHERE playlist_name LIKE '$playlistName'");
 		$existingPlaylists = array();
-		while($playlist = mysql_fetch_assoc($playlists)) {
+		while($playlist = mysqli_fetch_assoc($playlists)) {
 			$existingPlaylists[] = $playlist;	
 		}
 		
@@ -131,9 +131,9 @@ class s3_playlist_management
 	 */	
 	public function getPlaylistVideos($playlistId)
 	{
-		$videos = mysql_query("SELECT * FROM s3_video_playlist_videos WHERE video_playlist LIKE '$playlistId' ORDER BY video_weight ASC");
+		$videos = mysqli_query("SELECT * FROM s3_video_playlist_videos WHERE video_playlist LIKE '$playlistId' ORDER BY video_weight ASC");
 		$playlistVideos = array();
-		while($video = mysql_fetch_assoc($videos)) {
+		while($video = mysqli_fetch_assoc($videos)) {
 			$playlistVideos[] = $video;	
 		}
 		
@@ -149,7 +149,7 @@ class s3_playlist_management
 	protected function _savePlaylistName($playlistName) 
 	{
 		$time = time();
-		mysql_query("INSERT INTO s3_video_playlists (playlist_name,created) VALUES ('$playlistName', '$time')") or die(mysql_error());	
+		mysqli_query("INSERT INTO s3_video_playlists (playlist_name,created) VALUES ('$playlistName', '$time')") or die(mysql_error());	
 		return mysql_insert_id();
 	}
 	
@@ -164,7 +164,7 @@ class s3_playlist_management
 	 * @return integer
 	 */
 	protected function _addVideoToPlaylist($fileName, $playlistId, $weight = 1) {
-		mysql_query("INSERT INTO s3_video_playlist_videos (video_file, video_playlist, video_weight) VALUES ('$fileName', '$playlistId', '$weight')");		
+		mysqli_query("INSERT INTO s3_video_playlist_videos (video_file, video_playlist, video_weight) VALUES ('$fileName', '$playlistId', '$weight')");		
 		return mysql_insert_id();		
 	}
 }

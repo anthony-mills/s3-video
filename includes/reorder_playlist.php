@@ -24,7 +24,7 @@ if (mysqli_connect_errno()){
 $x = 1;
 foreach ($playlistContents as $video) {
 	$data = array('video_weight' => $x);
-	mysql_query("UPDATE s3_video_playlist_videos SET  video_weight = '$x' WHERE id = '$video' AND video_playlist = '$playlistId'");	
+	mysqli_query("UPDATE s3_video_playlist_videos SET  video_weight = '$x' WHERE id = '$video' AND video_playlist = '$playlistId'");	
 	$x++;
 }
 unset($db);
