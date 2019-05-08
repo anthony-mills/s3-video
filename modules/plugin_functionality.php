@@ -153,9 +153,15 @@ function s3_video_plugin_settings()
 			$successMsg = 'Plugin settings saved successfully.';
 			$pluginSettings = s3_video_check_plugin_settings();
 		}
-	} else {
+	} 
+	/*there is no check required for the setup screen because if 
+	you check there is setup done before at this point it always
+	going to say false and hence user won't be able to access the
+	setup screen even at the initial setup
+	*/
+	/*else {
 		$pluginSettings = s3_video_check_plugin_settings();
-	}
+	}*/
 
 	require_once(WP_PLUGIN_DIR . '/s3-video/views/settings/plugin_settings.php');
 }
